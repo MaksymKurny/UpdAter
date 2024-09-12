@@ -21,9 +21,8 @@ namespace UpdAter
                 UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
                 if (uaBlock != null)
                 {
-                    ProgressBar progressBar = uaBlock.GetProgressBar();
                     uaBlock.enabledButtons(false);
-                    downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, progressBar));
+                    downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
                 }
             }
 
@@ -38,7 +37,7 @@ namespace UpdAter
             }
         }
 
-        public async Task DownloadFileAsync(string url, string path, ProgressBar progressBar)
+        public async Task DownloadFileAsync(string url, string path, (ProgressBar progressBar, Label percentLabel) block)
         {
             try
             {
@@ -104,7 +103,9 @@ namespace UpdAter
                                 if (totalBytes != -1)
                                 {
                                     var progress = (int)((totalRead * 1.0 / totalBytes) * 100);
-                                    progressBar.Value = progress;
+                                    block.progressBar.Value = progress;
+                                    block.percentLabel.Visible = true;
+                                    block.percentLabel.Text = progress.ToString() + '%';
                                 }
                             }
                         }

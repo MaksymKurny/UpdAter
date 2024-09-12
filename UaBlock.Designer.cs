@@ -30,70 +30,88 @@ namespace UpdAter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UaBlock));
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDell = new System.Windows.Forms.Button();
-            this.txtTitle = new System.Windows.Forms.GroupBox();
-            this.gameIcon = new System.Windows.Forms.PictureBox();
+            this.btnEdit = new UpdAter.FlatNoBorder();
+            this.btnDell = new UpdAter.FlatNoBorder();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.btnUpdate = new System.Windows.Forms.Button();
-            this.txtTitle.SuspendLayout();
+            this.btnUpdate = new UpdAter.FlatNoBorder();
+            this.txtTitle = new System.Windows.Forms.Label();
+            this.gameIcon = new System.Windows.Forms.PictureBox();
+            this.txtPercent = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.gameIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // btnEdit
             // 
             resources.ApplyResources(this.btnEdit, "btnEdit");
+            this.btnEdit.BackColor = System.Drawing.Color.White;
+            this.btnEdit.BorderRadius = 4;
+            this.btnEdit.FlatAppearance.BorderSize = 0;
             this.btnEdit.Name = "btnEdit";
-            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.UseVisualStyleBackColor = false;
             this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnDell
             // 
             resources.ApplyResources(this.btnDell, "btnDell");
+            this.btnDell.BackColor = System.Drawing.Color.White;
+            this.btnDell.BorderRadius = 4;
+            this.btnDell.FlatAppearance.BorderSize = 0;
             this.btnDell.ForeColor = System.Drawing.Color.Red;
             this.btnDell.Name = "btnDell";
-            this.btnDell.UseVisualStyleBackColor = true;
+            this.btnDell.UseVisualStyleBackColor = false;
             this.btnDell.Click += new System.EventHandler(this.btnDell_Click);
-            // 
-            // txtTitle
-            // 
-            resources.ApplyResources(this.txtTitle, "txtTitle");
-            this.txtTitle.Controls.Add(this.gameIcon);
-            this.txtTitle.Controls.Add(this.progressBar);
-            this.txtTitle.Controls.Add(this.btnEdit);
-            this.txtTitle.Controls.Add(this.btnUpdate);
-            this.txtTitle.Controls.Add(this.btnDell);
-            this.txtTitle.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.TabStop = false;
-            // 
-            // gameIcon
-            // 
-            resources.ApplyResources(this.gameIcon, "gameIcon");
-            this.gameIcon.Name = "gameIcon";
-            this.gameIcon.TabStop = false;
             // 
             // progressBar
             // 
-            this.progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
             resources.ApplyResources(this.progressBar, "progressBar");
+            this.progressBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
             this.progressBar.Name = "progressBar";
             this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             // 
             // btnUpdate
             // 
             resources.ApplyResources(this.btnUpdate, "btnUpdate");
+            this.btnUpdate.BackColor = System.Drawing.Color.White;
+            this.btnUpdate.BorderRadius = 4;
+            this.btnUpdate.FlatAppearance.BorderSize = 0;
             this.btnUpdate.Name = "btnUpdate";
-            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            // 
+            // txtTitle
+            // 
+            resources.ApplyResources(this.txtTitle, "txtTitle");
+            this.txtTitle.BackColor = System.Drawing.Color.Transparent;
+            this.txtTitle.ForeColor = System.Drawing.SystemColors.Control;
+            this.txtTitle.Name = "txtTitle";
+            // 
+            // gameIcon
+            // 
+            this.gameIcon.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.gameIcon, "gameIcon");
+            this.gameIcon.Name = "gameIcon";
+            this.gameIcon.TabStop = false;
+            // 
+            // txtPercent
+            // 
+            resources.ApplyResources(this.txtPercent, "txtPercent");
+            this.txtPercent.BackColor = System.Drawing.Color.Transparent;
+            this.txtPercent.ForeColor = System.Drawing.Color.White;
+            this.txtPercent.Name = "txtPercent";
             // 
             // UaBlock
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(110)))));
+            this.Controls.Add(this.txtPercent);
             this.Controls.Add(this.txtTitle);
+            this.Controls.Add(this.gameIcon);
+            this.Controls.Add(this.progressBar);
+            this.Controls.Add(this.btnEdit);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnDell);
             this.Name = "UaBlock";
-            this.txtTitle.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gameIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -101,11 +119,12 @@ namespace UpdAter
         }
 
         #endregion
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnDell;
-        private System.Windows.Forms.GroupBox txtTitle;
-        private System.Windows.Forms.Button btnUpdate;
+        private UpdAter.FlatNoBorder btnEdit;
+        private UpdAter.FlatNoBorder btnDell;
+        private UpdAter.FlatNoBorder btnUpdate;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.PictureBox gameIcon;
+        private System.Windows.Forms.Label txtTitle;
+        private System.Windows.Forms.Label txtPercent;
     }
 }

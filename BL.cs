@@ -64,12 +64,9 @@ namespace UpdAter.BL
             List = new List<Ukrainizer>();
         }
 
-        public void UpdateUkrainizer(int index, string title, string path, string url, string icon)
+        public void UpdateUkrainizer(int index, (string title, string path, string url, string icon, string banner) data)
         {
-            List[index].Title = title;
-            List[index].Path = path;
-            List[index].Url = url;
-            List[index].Icon = icon;
+            List[index].SetData(data);
         }
         public void DellUkrainizer(string title, string url)
         {
@@ -81,25 +78,26 @@ namespace UpdAter.BL
     public class Ukrainizer
     {
         public string Title { get; set; }
-        public string Icon { get; set; }
-        public string Path { get; set; }
         public string Url { get; set; }
+        public string Path { get; set; }
+        public string Icon { get; set; }
+        public string Banner { get; set; }
         public string MetaInfo { get; set; }
         public DateTime LastUpdate { get; set; }
 
-        public Ukrainizer()
+        public Ukrainizer(){}
+
+        public void SetData((string title, string path, string url, string icon, string banner) data)
         {
-            Title = "";
-            Icon = "";
-            Path = "";
-            Url = "";
-            MetaInfo = "";
+            Title = data.title;
+            Path = data.path;
+            Url = data.url;
+            Icon = data.icon;
+            Banner = data.banner;
         }
-        public Ukrainizer(string title, string path, string url)
+        public (string, string, string, string, string) GetData()
         {
-            Title = title;
-            Path = path;
-            Url = url;
+            return (Title, Url, Path, Icon, Banner);
         }
     }
 }

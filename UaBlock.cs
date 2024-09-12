@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Resources;
 using System.Windows.Forms;
@@ -14,50 +15,104 @@ namespace UpdAter
         private ResourceManager resources;
         private string path;
         private string iconPath;
+        private string bannerPath;
         private string url;
+        private Image bannerImage;
         public UaBlock()
         {
             InitializeComponent();
+            this.Paint += new PaintEventHandler(MainForm_Paint);
             resources = new ResourceManager(typeof(UaBlock));
         }
-
-        // Метод для встановлення тексту блоку
-        public void SetInfo(string title, string _url, string _path, string _iconPath)
-        {
-            txtTitle.Text = title;
-            path = _path;
-            url = _url;
-            if (File.Exists(_iconPath))
-            {
-                iconPath = _iconPath;
-                gameIcon.Image = Icon.ExtractAssociatedIcon(_iconPath).ToBitmap();
-            }
-        }
-
         public string GetTitle()
         {
             return txtTitle.Text;
         }
-
         public string GetUrl()
         {
             return url;
         }
-
         public string GetPath()
         {
             return path;
         }
-
+        public string GetBanner()
+        {
+            return bannerPath;
+        }
         public string GetIcon()
         {
             return iconPath;
         }
-
-        public ProgressBar GetProgressBar()
+        public (ProgressBar, Label) GetProgressBar()
         {
-            return progressBar;
+            return (progressBar, txtPercent);
         }
+
+        // Метод для встановлення тексту блоку
+        public void SetData((string title, string url, string path, string icon, string banner) data)
+        {
+            txtTitle.Text = data.title;
+            path = data.path;
+            url = data.url;
+            iconPath = data.icon;
+            bannerPath = data.banner;
+            if (File.Exists(iconPath))
+            {
+                gameIcon.Image = Icon.ExtractAssociatedIcon(iconPath).ToBitmap();
+            }
+            else
+            {
+                gameIcon.Image = null;
+            }
+            if (File.Exists(bannerPath))
+            {
+                bannerImage = Image.FromFile(bannerPath);
+                this.Invalidate(); // Викликає перерисовку контролю
+            }
+            else
+            {
+                this.BackgroundImage = null;
+            }
+        }
+
+        private void MainForm_Paint(object sender, PaintEventArgs e)
+        {
+            if (bannerImage != null)
+            {
+                // Налаштування банера
+                float scaleFactor = Math.Min((float)this.ClientSize.Width / bannerImage.Width, (float)this.ClientSize.Height / bannerImage.Height);
+                int scaledWidth = (int)(bannerImage.Width * scaleFactor);
+                int scaledHeight = (int)(bannerImage.Height * scaleFactor);
+
+                e.Graphics.DrawImage(bannerImage, new Rectangle(0, 0, scaledWidth, scaledHeight));
+
+                // Налаштування градієнту
+                int gradientWidth = 100;
+                Rectangle gradientRect = new Rectangle(this.ClientSize.Width - 50 - gradientWidth, 0, gradientWidth, this.ClientSize.Height);
+
+                using (LinearGradientBrush brush = new LinearGradientBrush(
+                    gradientRect,
+                    Color.Transparent,
+                    this.BackColor,
+                    LinearGradientMode.Horizontal))
+                {
+                    Blend blend = new Blend();
+                    blend.Positions = new float[] { 0f, 0.75f, 1f };
+                    blend.Factors = new float[] { 0f, 1f, 1f };
+
+                    brush.Blend = blend;
+
+                    e.Graphics.FillRectangle(brush, gradientRect);
+                }
+            }
+        }
+
+        public (string, string, string, string, string) GetData()
+        {
+            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner());
+        }
+
 
         public void enabledButtons(bool status)
         {
@@ -76,19 +131,13 @@ namespace UpdAter
         public void btnEdit_Click(object sender, EventArgs e)
         {
             // Створення нової форми для редагування
-            UaForm editForm = new UaForm(txtTitle.Text, path, url, iconPath);
+            UaForm editForm = new UaForm(GetData());
 
             // Показати форму редагування модально
             if (editForm.ShowDialog() == DialogResult.OK)
             {
-                // Отримати оновлені дані з форми редагування
-                string updatedTitle = editForm.GetTitle();
-                string updatedUrl = editForm.GetUrl();
-                string updatedPath = editForm.GetPath();
-                string updatedIcon = editForm.GetIcon();
-
                 // Оновити нотатку в NoteBlock
-                this.SetInfo(updatedTitle, updatedUrl, updatedPath, updatedIcon);
+                this.SetData(editForm.GetData());
                 blockChanged?.Invoke(this, EventArgs.Empty);
             }
         }

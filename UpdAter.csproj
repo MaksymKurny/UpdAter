@@ -48,7 +48,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>11519067.ico</ApplicationIcon>
+    <ApplicationIcon>updater_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -81,6 +81,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomBlocks.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomBlocks.Designer.cs">
+      <DependentUpon>CustomBlocks.cs</DependentUpon>
     </Compile>
     <Compile Include="UaBlock.cs">
       <SubType>UserControl</SubType>
@@ -145,6 +151,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="11519067.ico" />
+    <Content Include="icon %281%29.ico" />
+    <Content Include="updater_icon.ico" />
+    <None Include="Resources\bg.ico" />
+    <None Include="Resources\gradient-black-background-with-wavy-lines_23-2149146010 1.png" />
+    <None Include="Resources\275850_library_hero.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

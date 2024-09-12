@@ -39,6 +39,8 @@ namespace UpdAter
             this.urlTextBox = new System.Windows.Forms.TextBox();
             this.iconTextBox = new System.Windows.Forms.TextBox();
             this.btnIcon = new System.Windows.Forms.Button();
+            this.btnBaner = new System.Windows.Forms.Button();
+            this.bannerTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // titleTextBox
@@ -64,6 +66,7 @@ namespace UpdAter
             // 
             resources.ApplyResources(this.gamePathTextBox, "gamePathTextBox");
             this.gamePathTextBox.Name = "gamePathTextBox";
+            this.gamePathTextBox.TextChanged += new System.EventHandler(this.gamePathTextBox_TextChanged);
             // 
             // btnPath
             // 
@@ -89,12 +92,26 @@ namespace UpdAter
             this.btnIcon.UseVisualStyleBackColor = true;
             this.btnIcon.Click += new System.EventHandler(this.btnIcon_Click);
             // 
+            // btnBaner
+            // 
+            resources.ApplyResources(this.btnBaner, "btnBaner");
+            this.btnBaner.Name = "btnBaner";
+            this.btnBaner.UseVisualStyleBackColor = true;
+            this.btnBaner.Click += new System.EventHandler(this.btnBaner_Click);
+            // 
+            // bannerTextBox
+            // 
+            resources.ApplyResources(this.bannerTextBox, "bannerTextBox");
+            this.bannerTextBox.Name = "bannerTextBox";
+            // 
             // UaForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
             this.ControlBox = false;
+            this.Controls.Add(this.btnBaner);
+            this.Controls.Add(this.bannerTextBox);
             this.Controls.Add(this.btnIcon);
             this.Controls.Add(this.iconTextBox);
             this.Controls.Add(this.urlTextBox);
@@ -121,5 +138,7 @@ namespace UpdAter
         private System.Windows.Forms.TextBox urlTextBox;
         private System.Windows.Forms.TextBox iconTextBox;
         private System.Windows.Forms.Button btnIcon;
+        private System.Windows.Forms.Button btnBaner;
+        private System.Windows.Forms.TextBox bannerTextBox;
     }
 }

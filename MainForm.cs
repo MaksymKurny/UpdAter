@@ -30,6 +30,10 @@ namespace UpdAter
         public MainForm()
         {
             InitializeComponent();
+
+            this.DoubleBuffered = true; // Увімкнути DoubleBuffering для форми
+            SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            UpdateStyles();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -48,7 +52,7 @@ namespace UpdAter
         private void AddNewBlock(Ukrainizer block, bool newBlock = true)
         {
             UaBlock uaBlock = new UaBlock();
-            uaBlock.SetInfo(block.Title, block.Url, block.Path, block.Icon);
+            uaBlock.SetData(block.GetData());
             uaBlock.Dock = DockStyle.Top;
             uaBlock.blockDeleted += blockDeleted;
             uaBlock.needUpdate += blockUpdate;
@@ -59,7 +63,7 @@ namespace UpdAter
             if (newBlock)
             {
                 uaList.Controls.SetChildIndex(uaBlock, 0);
-                BL.ukrainizers.List.Insert(0, new Ukrainizer(uaBlock.GetTitle(), uaBlock.GetPath(), uaBlock.GetUrl()));
+                BL.ukrainizers.List.Insert(0, block);
                 uaBlock.btnEdit_Click(this, EventArgs.Empty);
             }
         }
@@ -80,7 +84,7 @@ namespace UpdAter
             {
                 int index = uaList.Controls.IndexOf(uaBlock);
                 if (index == -1) return;
-                BL.ukrainizers.UpdateUkrainizer(index, uaBlock.GetTitle(), uaBlock.GetPath(), uaBlock.GetUrl(), uaBlock.GetIcon());
+                BL.ukrainizers.UpdateUkrainizer(index, uaBlock.GetData());
             }
 
             BL.saveSettings();

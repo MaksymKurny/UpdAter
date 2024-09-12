@@ -29,38 +29,17 @@ namespace UpdAter
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.iconList = new System.Windows.Forms.ImageList(this.components);
-            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.uaList = new System.Windows.Forms.TableLayoutPanel();
-            this.addNew = new System.Windows.Forms.Button();
+            this.addNew = new UpdAter.FlatNoBorder();
             this.controlPanel = new System.Windows.Forms.Panel();
-            this.updateAll = new System.Windows.Forms.Button();
+            this.updateAll = new UpdAter.FlatNoBorder();
+            this.credits = new UpdAter.FlatNoBorder();
             this.exitButton = new System.Windows.Forms.Button();
-            this.listPanel = new System.Windows.Forms.Panel();
+            this.listPanel = new UpdAter.ImagePanel();
             this.controlPanel.SuspendLayout();
             this.listPanel.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // iconList
-            // 
-            this.iconList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("iconList.ImageStream")));
-            this.iconList.TransparentColor = System.Drawing.Color.Transparent;
-            this.iconList.Images.SetKeyName(0, "icon-calendar-clock.png");
-            this.iconList.Images.SetKeyName(1, "icon-coins.png");
-            this.iconList.Images.SetKeyName(2, "icon-info.png");
-            this.iconList.Images.SetKeyName(3, "icon-list.png");
-            this.iconList.Images.SetKeyName(4, "icon-list-check.png");
-            this.iconList.Images.SetKeyName(5, "icon-pencil.png");
-            this.iconList.Images.SetKeyName(6, "icon-settings-sliders.png");
-            this.iconList.Images.SetKeyName(7, "icon-star.png");
-            this.iconList.Images.SetKeyName(8, "icon-trash.png");
-            // 
-            // notifyIcon
-            // 
-            this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            resources.ApplyResources(this.notifyIcon, "notifyIcon");
             // 
             // uaList
             // 
@@ -69,18 +48,22 @@ namespace UpdAter
             // 
             // addNew
             // 
+            this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.addNew.BorderRadius = 4;
             this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
+            this.addNew.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.addNew, "addNew");
             this.addNew.Name = "addNew";
-            this.addNew.UseVisualStyleBackColor = true;
+            this.addNew.UseVisualStyleBackColor = false;
             this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
             // 
             // controlPanel
             // 
-            this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(30)))), ((int)(((byte)(54)))));
+            this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(110)))));
             this.controlPanel.Controls.Add(this.updateAll);
-            this.controlPanel.Controls.Add(this.exitButton);
             this.controlPanel.Controls.Add(this.addNew);
+            this.controlPanel.Controls.Add(this.credits);
+            this.controlPanel.Controls.Add(this.exitButton);
             this.controlPanel.Cursor = System.Windows.Forms.Cursors.SizeAll;
             resources.ApplyResources(this.controlPanel, "controlPanel");
             this.controlPanel.Name = "controlPanel";
@@ -88,10 +71,23 @@ namespace UpdAter
             // 
             // updateAll
             // 
+            this.updateAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.updateAll.BorderRadius = 4;
             this.updateAll.Cursor = System.Windows.Forms.Cursors.Default;
+            this.updateAll.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.updateAll, "updateAll");
             this.updateAll.Name = "updateAll";
-            this.updateAll.UseVisualStyleBackColor = true;
+            this.updateAll.UseVisualStyleBackColor = false;
+            // 
+            // credits
+            // 
+            this.credits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.credits.BorderRadius = 4;
+            this.credits.Cursor = System.Windows.Forms.Cursors.Default;
+            this.credits.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.credits, "credits");
+            this.credits.Name = "credits";
+            this.credits.UseVisualStyleBackColor = false;
             // 
             // exitButton
             // 
@@ -107,6 +103,7 @@ namespace UpdAter
             // listPanel
             // 
             resources.ApplyResources(this.listPanel, "listPanel");
+            this.listPanel.BackColor = System.Drawing.Color.Transparent;
             this.listPanel.Controls.Add(this.uaList);
             this.listPanel.Name = "listPanel";
             // 
@@ -119,6 +116,7 @@ namespace UpdAter
             this.Controls.Add(this.controlPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainForm";
+            this.Opacity = 0.95D;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.controlPanel.ResumeLayout(false);
             this.listPanel.ResumeLayout(false);
@@ -128,56 +126,13 @@ namespace UpdAter
         }
 
         #endregion
-        private System.Windows.Forms.ImageList iconList;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Panel panel37;
-        private System.Windows.Forms.Panel panel31;
-        private System.Windows.Forms.Panel panel12;
-        private System.Windows.Forms.Panel panel38;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Panel panel25;
-        private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.Panel panel39;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel32;
-        private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.Panel panel40;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel19;
-        private System.Windows.Forms.Panel panel18;
-        private System.Windows.Forms.Panel panel41;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.Panel panel33;
-        private System.Windows.Forms.Panel panel17;
-        private System.Windows.Forms.Panel panel42;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel26;
-        private System.Windows.Forms.Panel panel16;
-        private System.Windows.Forms.Panel panel34;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Panel panel13;
-        private System.Windows.Forms.Panel panel24;
-        private System.Windows.Forms.Panel panel35;
-        private System.Windows.Forms.Panel panel15;
-        private System.Windows.Forms.Panel panel27;
-        private System.Windows.Forms.Panel panel23;
-        private System.Windows.Forms.Panel panel36;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Panel panel20;
-        private System.Windows.Forms.Panel panel22;
-        private System.Windows.Forms.Panel panel28;
-        private System.Windows.Forms.Panel panel14;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel30;
-        private System.Windows.Forms.Panel panel29;
-        private System.Windows.Forms.Panel panel21;
-        private System.Windows.Forms.NotifyIcon notifyIcon;
         private System.Windows.Forms.TableLayoutPanel uaList;
-        private System.Windows.Forms.Button addNew;
+        private UpdAter.FlatNoBorder addNew;
         private System.Windows.Forms.Panel controlPanel;
         private System.Windows.Forms.Button exitButton;
-        private System.Windows.Forms.Button updateAll;
-        private System.Windows.Forms.Panel listPanel;
+        private UpdAter.FlatNoBorder updateAll;
+        private UpdAter.ImagePanel listPanel;
+        private UpdAter.FlatNoBorder credits;
     }
 }
 
