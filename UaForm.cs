@@ -51,34 +51,26 @@ namespace UpdAter
             string steamAppsPath = GetSteamAppsPath(basePath, "steamapps");
             string gameFolderName = GetSteamAppsPath(basePath, "common", true);
 
-            (string name, string banner) appInfo = GetAppInfoFromACFFile(steamAppsPath, gameFolderName);
-            if (appInfo.name != null)
+            (string name, string banner, string icon) = GetAppInfoFromACFFile(steamAppsPath, gameFolderName);
+            if (name != null)
             {
-                titleTextBox.Text = appInfo.name;
-                bannerTextBox.Text = appInfo.banner;
-            }
-            else
-            {
-                MessageBox.Show("Не вдалося знайти відповідний файл .acf", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (titleTextBox.Text == "") titleTextBox.Text = name;
+                if (bannerTextBox.Text == "") bannerTextBox.Text = banner;
+                if (iconTextBox.Text == "") iconTextBox.Text = icon;
             }
         }
 
-        private string GetMedia(string basePath, string id)
+        private (string, string) GetMedia(string basePath, string id)
         {
-            string bannerName = id + "_library_hero.jpg";
-            string bannerPath = basePath + $"\\appcache\\librarycache\\{bannerName}";
+            string bannerPath = basePath + $"\\appcache\\librarycache\\{id}_library_hero.jpg";
+            string iconPath = basePath + $"\\appcache\\librarycache\\{id}_icon.jpg";
             if (!bannerPath.Contains(@":\"))
             {
                 bannerPath = bannerPath.Replace(":", @":\");
+                iconPath = iconPath.Replace(":", @":\");
             }
-            if (File.Exists(bannerPath))
-            {
-                return bannerPath;
-            } else
-            {
-                return "";
-            }
-            
+            return (File.Exists(bannerPath) ? bannerPath : null,
+                File.Exists(iconPath) ? iconPath : null);
         }
 
         private string GetSteamAppsPath(string currentPath, string searchDirectory, bool nextFolderName = false)
@@ -99,43 +91,42 @@ namespace UpdAter
                 } else
                 {
                     return Path.Combine(pathParts.Take(index + 1).ToArray());
-                }
-                
+                } 
             }
-            else
-            {
-                throw new DirectoryNotFoundException("Папка не знайдена в заданому шляху.");
-            }
+            return "";
         }
 
-        private (string, string) GetAppInfoFromACFFile(string directoryPath, string targetInstalldir)
+        private (string, string, string) GetAppInfoFromACFFile(string directoryPath, string targetInstalldir)
         {
-            // Рекурсивно проходимо всі файли в директорії
-            foreach (string filePath in Directory.GetFiles(directoryPath, "*.acf", SearchOption.AllDirectories))
+            if (directoryPath != "")
             {
-                string fileContent = File.ReadAllText(filePath);
-
-                // Шукаємо `appid` і `name` в секції "AppState"
-                var appidMatch = Regex.Match(fileContent, @"\""appid\""[\s\t]*\""(\d+)\""", RegexOptions.Singleline);
-                var nameMatch = Regex.Match(fileContent, @"\""name\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
-                var installdirMatch = Regex.Match(fileContent, @"\""installdir\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
-                var steamFolder = Regex.Match(fileContent, @"\""LauncherPath\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
-
-                if (installdirMatch.Success && nameMatch.Success && appidMatch.Success)
+                // Рекурсивно проходимо всі файли в директорії
+                foreach (string filePath in Directory.GetFiles(directoryPath, "*.acf", SearchOption.AllDirectories))
                 {
-                    string installdir = installdirMatch.Groups[1].Value;
-                    if (installdir.Equals(targetInstalldir, StringComparison.OrdinalIgnoreCase))
+                    string fileContent = File.ReadAllText(filePath);
+
+                    // Шукаємо `appid` і `name` в секції "AppState"
+                    var appidMatch = Regex.Match(fileContent, @"\""appid\""[\s\t]*\""(\d+)\""", RegexOptions.Singleline);
+                    var nameMatch = Regex.Match(fileContent, @"\""name\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
+                    var installdirMatch = Regex.Match(fileContent, @"\""installdir\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
+                    var steamFolder = Regex.Match(fileContent, @"\""LauncherPath\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
+
+                    if (installdirMatch.Success && nameMatch.Success && appidMatch.Success)
                     {
-                        string appid = appidMatch.Groups[1].Value;
-                        string name = nameMatch.Groups[1].Value;
-                        string steam = GetMedia(GetSteamAppsPath(steamFolder.Groups[1].Value, "Steam"), appidMatch.Groups[1].Value);
+                        string installdir = installdirMatch.Groups[1].Value;
+                        if (installdir.Equals(targetInstalldir, StringComparison.OrdinalIgnoreCase))
+                        {
+                            string appid = appidMatch.Groups[1].Value;
+                            string name = nameMatch.Groups[1].Value;
+                            (string banner, string icon) = GetMedia(GetSteamAppsPath(steamFolder.Groups[1].Value, "Steam"), appidMatch.Groups[1].Value);
 
-
-                        return (name, steam);
+                            return (name, banner, icon);
+                        }
                     }
                 }
             }
-            return (null, null);
+            
+            return (null, null, null);
         }
 
         private void btnIcon_Click(object sender, EventArgs e)

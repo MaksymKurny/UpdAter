@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -9,19 +10,20 @@ namespace UpdAter
 {
     public partial class UaBlock : UserControl
     {
-        public event EventHandler blockDeleted;
-        public event EventHandler blockChanged;
-        public event EventHandler needUpdate;
+        public event EventHandler blockDeleted, blockChanged, needUpdate;
         private ResourceManager resources;
-        private string path;
-        private string iconPath;
-        private string bannerPath;
-        private string url;
-        private Image bannerImage;
-        public UaBlock()
+        private string path, iconPath, bannerPath, url;
+        private Image deffBannerImage = null;
+        private int borderRadius = 10;
+
+        public UaBlock((string title, string url, string path, string icon, string banner) data)
         {
             InitializeComponent();
-            this.Paint += new PaintEventHandler(MainForm_Paint);
+            SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint, true);
+            UpdateStyles();
+            deffBannerImage = this.BackgroundImage;
+            SetData(data);
+
             resources = new ResourceManager(typeof(UaBlock));
         }
         public string GetTitle()
@@ -57,54 +59,97 @@ namespace UpdAter
             url = data.url;
             iconPath = data.icon;
             bannerPath = data.banner;
+            if (File.Exists(bannerPath))
+            {
+                if (this.BackgroundImage != Image.FromFile(bannerPath))
+                {
+                    this.BackgroundImage = Image.FromFile(bannerPath);
+                    txtTitle.BackgroundColor = Color.FromArgb(89, 0, 0, 0);
+                    txtLastUpd.BackgroundColor = Color.FromArgb(89, 0, 0, 0);
+                    this.Invalidate();
+                }
+            }
+            else
+            {
+                txtTitle.BackgroundColor = Color.Transparent;
+                txtLastUpd.BackgroundColor = Color.Transparent;
+                this.BackgroundImage = deffBannerImage;
+                this.Invalidate();
+            }
             if (File.Exists(iconPath))
             {
-                gameIcon.Image = Icon.ExtractAssociatedIcon(iconPath).ToBitmap();
+                string extension = Path.GetExtension(iconPath).ToLower();
+                if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
+                {
+                    gameIcon.Image = Image.FromFile(iconPath);
+                }
+                else
+                {
+                    gameIcon.Image = Icon.ExtractAssociatedIcon(iconPath).ToBitmap();
+                }
+                gameIcon.Visible = true;
+                txtTitle.Location = new Point(gameIcon.Right + 10, 12);
             }
             else
             {
                 gameIcon.Image = null;
-            }
-            if (File.Exists(bannerPath))
-            {
-                bannerImage = Image.FromFile(bannerPath);
-                this.Invalidate(); // Викликає перерисовку контролю
-            }
-            else
-            {
-                this.BackgroundImage = null;
+                gameIcon.Visible = false;
+                if (this.BackgroundImage == null)
+                {
+                    txtTitle.Location = new Point(12, 12);
+                } else
+                {
+                    txtTitle.Location = new Point(17, 12);
+                }
+                
             }
         }
 
-        private void MainForm_Paint(object sender, PaintEventArgs e)
+        protected override void OnPaintBackground(PaintEventArgs pevent)
         {
-            if (bannerImage != null)
+            Graphics g = pevent.Graphics;
+            g.FillRectangle(new SolidBrush(Color.FromArgb(27, 40, 56)), this.ClientRectangle);
+
+            // Налаштування прямокутника для фону
+            using (GraphicsPath path = g.GenerateRoundedRectangle(this.ClientRectangle, borderRadius))
             {
-                // Налаштування банера
-                float scaleFactor = Math.Min((float)this.ClientSize.Width / bannerImage.Width, (float)this.ClientSize.Height / bannerImage.Height);
-                int scaledWidth = (int)(bannerImage.Width * scaleFactor);
-                int scaledHeight = (int)(bannerImage.Height * scaleFactor);
-
-                e.Graphics.DrawImage(bannerImage, new Rectangle(0, 0, scaledWidth, scaledHeight));
-
-                // Налаштування градієнту
-                int gradientWidth = 100;
-                Rectangle gradientRect = new Rectangle(this.ClientSize.Width - 50 - gradientWidth, 0, gradientWidth, this.ClientSize.Height);
-
-                using (LinearGradientBrush brush = new LinearGradientBrush(
-                    gradientRect,
-                    Color.Transparent,
-                    this.BackColor,
-                    LinearGradientMode.Horizontal))
+                using (SolidBrush brush = new SolidBrush(this.BackColor))
                 {
-                    Blend blend = new Blend();
-                    blend.Positions = new float[] { 0f, 0.75f, 1f };
-                    blend.Factors = new float[] { 0f, 1f, 1f };
-
-                    brush.Blend = blend;
-
-                    e.Graphics.FillRectangle(brush, gradientRect);
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.FillRoundedRectangle(brush, 0, 0, this.Width, this.Height, borderRadius);
                 }
+
+                // Встановлюємо обрізку в межах заокругленого прямокутника
+                g.SetClip(path);
+                if (this.BackgroundImage != null)
+                {
+                    // Налаштування банера
+                    float scaleFactor = Math.Min((float)this.ClientSize.Width / this.BackgroundImage.Width, (float)this.ClientSize.Height / this.BackgroundImage.Height);
+                    int scaledWidth = (int)(this.BackgroundImage.Width * scaleFactor);
+                    int scaledHeight = (int)(this.BackgroundImage.Height * scaleFactor);
+                    g.DrawImage(this.BackgroundImage, new Rectangle(0, 1, scaledWidth, this.ClientSize.Height - 2 ));
+                    if (this.BackgroundImage != deffBannerImage)
+                    {
+                        // Налаштування градієнту
+                        int gradientWidth = 100;
+                        Rectangle gradientRect = new Rectangle(scaledWidth + 1 - gradientWidth, 0, gradientWidth, this.ClientSize.Height);
+
+                        using (LinearGradientBrush brush = new LinearGradientBrush(
+                            gradientRect,
+                            Color.Transparent,
+                            this.BackColor,
+                            LinearGradientMode.Horizontal))
+                        {
+                            Blend blend = new Blend();
+                            blend.Positions = new float[] { 0f, 0.75f, 1f };
+                            blend.Factors = new float[] { 0f, 1f, 1f };
+                            brush.Blend = blend;
+
+                            g.FillRectangle(brush, gradientRect);
+                        }
+                    }
+                }
+                g.DrawRoundedRectangle(new Pen(Color.FromArgb(43, 45, 86), 6), 0, 0, this.Width, this.Height, borderRadius);
             }
         }
 

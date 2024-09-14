@@ -41,6 +41,7 @@ namespace UpdAter
             this.btnIcon = new System.Windows.Forms.Button();
             this.btnBaner = new System.Windows.Forms.Button();
             this.bannerTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // titleTextBox
@@ -104,12 +105,19 @@ namespace UpdAter
             resources.ApplyResources(this.bannerTextBox, "bannerTextBox");
             this.bannerTextBox.Name = "bannerTextBox";
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1.Name = "label1";
+            // 
             // UaForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
             this.ControlBox = false;
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBaner);
             this.Controls.Add(this.bannerTextBox);
             this.Controls.Add(this.btnIcon);
@@ -140,5 +148,6 @@ namespace UpdAter
         private System.Windows.Forms.Button btnIcon;
         private System.Windows.Forms.Button btnBaner;
         private System.Windows.Forms.TextBox bannerTextBox;
+        private System.Windows.Forms.Label label1;
     }
 }

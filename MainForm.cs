@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using UpdAter.BL;
 
@@ -7,31 +9,39 @@ namespace UpdAter
     public partial class MainForm : Form
     {
         private Bl BL;
+        private int borderRadius = 8; // Рівень заокруглення
         private GDownloader GDownloader;
 
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-
+        //Пересування форми
         [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern bool ReleaseCapture();
-
         [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 ReleaseCapture();
-                SendMessage(this.Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+                SendMessage(this.Handle, 0x112, 0xf012, 0);
             }
         }
+
+        protected override void OnPaintBackground(PaintEventArgs pevent)
+        {
+            Graphics g = pevent.Graphics;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            using (GraphicsPath path = g.GenerateRoundedRectangle(this.ClientRectangle, borderRadius))
+            {
+                g.FillPath(new SolidBrush(this.BackColor), path);
+                this.Region = new Region(path);
+            }
+         }
 
         public MainForm()
         {
             InitializeComponent();
-
-            this.DoubleBuffered = true; // Увімкнути DoubleBuffering для форми
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
         }
@@ -51,8 +61,7 @@ namespace UpdAter
 
         private void AddNewBlock(Ukrainizer block, bool newBlock = true)
         {
-            UaBlock uaBlock = new UaBlock();
-            uaBlock.SetData(block.GetData());
+            UaBlock uaBlock = new UaBlock(block.GetData());
             uaBlock.Dock = DockStyle.Top;
             uaBlock.blockDeleted += blockDeleted;
             uaBlock.needUpdate += blockUpdate;
@@ -111,6 +120,12 @@ namespace UpdAter
         private void exitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void credits_Click(object sender, EventArgs e)
+        {
+            AboutBox aboutBox = new AboutBox();
+            aboutBox.ShowDialog();
         }
     }
 }

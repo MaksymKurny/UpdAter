@@ -30,36 +30,20 @@ namespace UpdAter
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.uaList = new System.Windows.Forms.TableLayoutPanel();
-            this.addNew = new UpdAter.FlatNoBorder();
             this.controlPanel = new System.Windows.Forms.Panel();
             this.updateAll = new UpdAter.FlatNoBorder();
+            this.addNew = new UpdAter.FlatNoBorder();
             this.credits = new UpdAter.FlatNoBorder();
             this.exitButton = new System.Windows.Forms.Button();
             this.listPanel = new UpdAter.ImagePanel();
+            this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.controlPanel.SuspendLayout();
             this.listPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // uaList
-            // 
-            resources.ApplyResources(this.uaList, "uaList");
-            this.uaList.Name = "uaList";
-            // 
-            // addNew
-            // 
-            this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.addNew.BorderRadius = 4;
-            this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
-            this.addNew.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.addNew, "addNew");
-            this.addNew.Name = "addNew";
-            this.addNew.UseVisualStyleBackColor = false;
-            this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
-            // 
             // controlPanel
             // 
-            this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(110)))));
+            this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
             this.controlPanel.Controls.Add(this.updateAll);
             this.controlPanel.Controls.Add(this.addNew);
             this.controlPanel.Controls.Add(this.credits);
@@ -79,6 +63,17 @@ namespace UpdAter
             this.updateAll.Name = "updateAll";
             this.updateAll.UseVisualStyleBackColor = false;
             // 
+            // addNew
+            // 
+            this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.addNew.BorderRadius = 4;
+            this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
+            this.addNew.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.addNew, "addNew");
+            this.addNew.Name = "addNew";
+            this.addNew.UseVisualStyleBackColor = false;
+            this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
+            // 
             // credits
             // 
             this.credits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
@@ -88,6 +83,7 @@ namespace UpdAter
             resources.ApplyResources(this.credits, "credits");
             this.credits.Name = "credits";
             this.credits.UseVisualStyleBackColor = false;
+            this.credits.Click += new System.EventHandler(this.credits_Click);
             // 
             // exitButton
             // 
@@ -107,16 +103,21 @@ namespace UpdAter
             this.listPanel.Controls.Add(this.uaList);
             this.listPanel.Name = "listPanel";
             // 
+            // uaList
+            // 
+            resources.ApplyResources(this.uaList, "uaList");
+            this.uaList.Name = "uaList";
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(40)))), ((int)(((byte)(56)))));
             this.Controls.Add(this.listPanel);
             this.Controls.Add(this.controlPanel);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "MainForm";
-            this.Opacity = 0.95D;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.controlPanel.ResumeLayout(false);
             this.listPanel.ResumeLayout(false);
