@@ -22,7 +22,6 @@ namespace UpdAter
 
         public TransparentLabel()
         {
-            // Переконайтеся, що Paint подія обробляється
         }
 
         // Властивість для радіусу
