@@ -28,7 +28,6 @@ namespace UpdAter
         /// </summary>
         private void InitializeComponent()
         {
-            this.okButton = new System.Windows.Forms.Button();
             this.linkLabelKuli = new System.Windows.Forms.LinkLabel();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
@@ -37,19 +36,9 @@ namespace UpdAter
             this.transparentLabel2 = new UpdAter.TransparentLabel();
             this.transparentLabel1 = new UpdAter.TransparentLabel();
             this.textBoxDescription = new UpdAter.TransparentLabel();
+            this.okButton = new UpdAter.FlatNoBorder();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // okButton
-            // 
-            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.okButton.Location = new System.Drawing.Point(478, 475);
-            this.okButton.Margin = new System.Windows.Forms.Padding(0);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(100, 27);
-            this.okButton.TabIndex = 24;
-            this.okButton.Text = "&OK";
             // 
             // linkLabelKuli
             // 
@@ -90,7 +79,7 @@ namespace UpdAter
             this.linkLabel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(248)))), ((int)(((byte)(232)))), ((int)(((byte)(199)))));
             this.linkLabel2.Font = new System.Drawing.Font("Inter", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.linkLabel2.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
-            this.linkLabel2.Location = new System.Drawing.Point(23, 204);
+            this.linkLabel2.Location = new System.Drawing.Point(23, 208);
             this.linkLabel2.Margin = new System.Windows.Forms.Padding(0);
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.Size = new System.Drawing.Size(279, 24);
@@ -126,7 +115,7 @@ namespace UpdAter
             this.panel1.Controls.Add(this.linkLabel2);
             this.panel1.Controls.Add(this.linkLabel1);
             this.panel1.Controls.Add(this.transparentLabel2);
-            this.panel1.Location = new System.Drawing.Point(20, 270);
+            this.panel1.Location = new System.Drawing.Point(20, 276);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(302, 251);
@@ -157,7 +146,7 @@ namespace UpdAter
             this.transparentLabel1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(248)))), ((int)(((byte)(232)))), ((int)(((byte)(199)))));
             this.transparentLabel1.BorderRadius = 12;
             this.transparentLabel1.Font = new System.Drawing.Font("Inter Medium", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.transparentLabel1.Location = new System.Drawing.Point(20, 185);
+            this.transparentLabel1.Location = new System.Drawing.Point(21, 190);
             this.transparentLabel1.Margin = new System.Windows.Forms.Padding(0, 0, 0, 15);
             this.transparentLabel1.Name = "transparentLabel1";
             this.transparentLabel1.Padding = new System.Windows.Forms.Padding(20, 7, 20, 7);
@@ -181,18 +170,32 @@ namespace UpdAter
             this.textBoxDescription.TabIndex = 25;
             this.textBoxDescription.Text = "Version: 1.4.2\r\nProgram creator: Godless\r\nDesigner, tester: ✙ Dragon Kreig ✙\r\n";
             // 
+            // okButton
+            // 
+            this.okButton.BackColor = System.Drawing.Color.White;
+            this.okButton.BorderRadius = 4;
+            this.okButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.okButton.FlatAppearance.BorderSize = 0;
+            this.okButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.okButton.Location = new System.Drawing.Point(511, 492);
+            this.okButton.Margin = new System.Windows.Forms.Padding(0);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(100, 35);
+            this.okButton.TabIndex = 33;
+            this.okButton.Text = "&OK";
+            this.okButton.UseVisualStyleBackColor = false;
+            // 
             // AboutBox
             // 
-            this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::UpdAter.Properties.Resources.about_bg;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(598, 522);
+            this.ClientSize = new System.Drawing.Size(631, 547);
+            this.Controls.Add(this.okButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.transparentLabel1);
             this.Controls.Add(this.textBoxDescription);
-            this.Controls.Add(this.okButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -212,7 +215,6 @@ namespace UpdAter
         }
 
         #endregion
-        private System.Windows.Forms.Button okButton;
         private TransparentLabel textBoxDescription;
         private TransparentLabel transparentLabel1;
         private TransparentLabel transparentLabel2;
@@ -221,5 +223,6 @@ namespace UpdAter
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.LinkLabel linkLabel3;
         private System.Windows.Forms.Panel panel1;
+        private FlatNoBorder okButton;
     }
 }

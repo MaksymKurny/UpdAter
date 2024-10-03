@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using UpdAter.BL;
 
@@ -39,19 +40,33 @@ namespace UpdAter
             }
          }
 
-        public MainForm()
+        public MainForm(string[] args)
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
             BL = new Bl();
             GDownloader = new GDownloader();
             UpdateList();
+            AutoUpdate(args);
             updateAll.Click += async (s, ev) => await GDownloader.DownloadFilesAsync(BL.ukrainizers.List, uaList);
+        }
+
+        private async void AutoUpdate(string[] args)
+        {
+            foreach (var arg in args)
+            {
+                if (arg.StartsWith("--game="))
+                {
+                    string gameTitles = arg.Substring(7).Trim('"');
+                    await GDownloader.AutoDownloadFilesAsync(BL.ukrainizers.List, uaList, gameTitles);
+                    if (this.ShowInTaskbar == false)
+                    {
+                        await Task.Delay(1000);
+                        Application.Exit();
+                    }
+                }
+            }
         }
 
         private void btn_addNew_Click(object sender, EventArgs e)

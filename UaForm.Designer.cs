@@ -42,11 +42,18 @@ namespace UpdAter
             this.btnBaner = new System.Windows.Forms.Button();
             this.bannerTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // titleTextBox
             // 
             resources.ApplyResources(this.titleTextBox, "titleTextBox");
+            this.titleTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(217)))), ((int)(((byte)(217)))));
+            this.titleTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.titleTextBox.ForeColor = System.Drawing.Color.Black;
             this.titleTextBox.Name = "titleTextBox";
             // 
             // btnOk
@@ -66,6 +73,9 @@ namespace UpdAter
             // gamePathTextBox
             // 
             resources.ApplyResources(this.gamePathTextBox, "gamePathTextBox");
+            this.gamePathTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(217)))), ((int)(((byte)(217)))));
+            this.gamePathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.gamePathTextBox.ForeColor = System.Drawing.Color.Black;
             this.gamePathTextBox.Name = "gamePathTextBox";
             this.gamePathTextBox.TextChanged += new System.EventHandler(this.gamePathTextBox_TextChanged);
             // 
@@ -79,11 +89,17 @@ namespace UpdAter
             // urlTextBox
             // 
             resources.ApplyResources(this.urlTextBox, "urlTextBox");
+            this.urlTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(217)))), ((int)(((byte)(217)))));
+            this.urlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.urlTextBox.ForeColor = System.Drawing.Color.Black;
             this.urlTextBox.Name = "urlTextBox";
             // 
             // iconTextBox
             // 
             resources.ApplyResources(this.iconTextBox, "iconTextBox");
+            this.iconTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(217)))), ((int)(((byte)(217)))));
+            this.iconTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.iconTextBox.ForeColor = System.Drawing.Color.Black;
             this.iconTextBox.Name = "iconTextBox";
             // 
             // btnIcon
@@ -103,20 +119,57 @@ namespace UpdAter
             // bannerTextBox
             // 
             resources.ApplyResources(this.bannerTextBox, "bannerTextBox");
+            this.bannerTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(217)))), ((int)(((byte)(217)))));
+            this.bannerTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.bannerTextBox.ForeColor = System.Drawing.Color.Black;
             this.bannerTextBox.Name = "bannerTextBox";
             // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Name = "label1";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Name = "label2";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Name = "label4";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.ForeColor = System.Drawing.Color.White;
+            this.label5.Name = "label5";
             // 
             // UaForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(51)))), ((int)(((byte)(73)))));
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = global::UpdAter.Properties.Resources.forn_bg;
             this.ControlBox = false;
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnBaner);
             this.Controls.Add(this.bannerTextBox);
@@ -128,6 +181,7 @@ namespace UpdAter
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.titleTextBox);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "UaForm";
             this.ShowInTaskbar = false;
@@ -149,5 +203,9 @@ namespace UpdAter
         private System.Windows.Forms.Button btnBaner;
         private System.Windows.Forms.TextBox bannerTextBox;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
     }
 }

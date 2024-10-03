@@ -116,7 +116,7 @@ namespace UpdAter
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(27)))), ((int)(((byte)(45)))));
-            this.BackgroundImage = global::UpdAter.Properties.Resources.background1;
+            this.BackgroundImage = global::UpdAter.Properties.Resources.background;
             this.Controls.Add(this.txtLastUpd);
             this.Controls.Add(this.txtPercent);
             this.Controls.Add(this.txtTitle);

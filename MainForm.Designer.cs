@@ -43,22 +43,22 @@ namespace UpdAter
             // 
             // controlPanel
             // 
-            resources.ApplyResources(this.controlPanel, "controlPanel");
             this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
             this.controlPanel.Controls.Add(this.updateAll);
             this.controlPanel.Controls.Add(this.addNew);
             this.controlPanel.Controls.Add(this.credits);
             this.controlPanel.Controls.Add(this.exitButton);
             this.controlPanel.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            resources.ApplyResources(this.controlPanel, "controlPanel");
             this.controlPanel.Name = "controlPanel";
             this.controlPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             // 
             // exitButton
             // 
-            resources.ApplyResources(this.exitButton, "exitButton");
             this.exitButton.Cursor = System.Windows.Forms.Cursors.Default;
             this.exitButton.FlatAppearance.BorderSize = 0;
             this.exitButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.exitButton, "exitButton");
             this.exitButton.ForeColor = System.Drawing.Color.White;
             this.exitButton.Name = "exitButton";
             this.exitButton.UseVisualStyleBackColor = true;
@@ -78,32 +78,32 @@ namespace UpdAter
             // 
             // updateAll
             // 
-            resources.ApplyResources(this.updateAll, "updateAll");
             this.updateAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
             this.updateAll.BorderRadius = 4;
             this.updateAll.Cursor = System.Windows.Forms.Cursors.Default;
             this.updateAll.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.updateAll, "updateAll");
             this.updateAll.Name = "updateAll";
             this.updateAll.UseVisualStyleBackColor = false;
             // 
             // addNew
             // 
-            resources.ApplyResources(this.addNew, "addNew");
             this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
             this.addNew.BorderRadius = 4;
             this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
             this.addNew.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.addNew, "addNew");
             this.addNew.Name = "addNew";
             this.addNew.UseVisualStyleBackColor = false;
             this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
             // 
             // credits
             // 
-            resources.ApplyResources(this.credits, "credits");
             this.credits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
             this.credits.BorderRadius = 4;
             this.credits.Cursor = System.Windows.Forms.Cursors.Default;
             this.credits.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.credits, "credits");
             this.credits.Name = "credits";
             this.credits.UseVisualStyleBackColor = false;
             this.credits.Click += new System.EventHandler(this.credits_Click);
@@ -117,8 +117,8 @@ namespace UpdAter
             this.Controls.Add(this.controlPanel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.controlPanel.ResumeLayout(false);
             this.listPanel.ResumeLayout(false);
             this.listPanel.PerformLayout();

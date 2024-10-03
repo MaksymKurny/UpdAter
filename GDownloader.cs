@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -30,6 +31,38 @@ namespace UpdAter
             {
                 await Task.WhenAll(downloadTasks);
                 MessageBox.Show("Всі файли успішно завантажено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка під час завантаження файлів: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        public async Task AutoDownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList, string gameNamesArray)
+        {
+            string[] gameNames = gameNamesArray.Split(';');
+            List<Task> downloadTasks = new List<Task>();
+            int index = 0;
+            foreach (var ukrainizer in ukrainizers)
+            {
+                if (gameNames.Contains(ukrainizer.Title))
+                {
+                    UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                    if (uaBlock != null)
+                    {
+                        uaBlock.enabledButtons(false);
+                        downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
+                    }
+                }
+                else
+                {
+                    index++;
+                }  
+            }
+
+            try
+            {
+                await Task.WhenAll(downloadTasks);
             }
             catch (Exception ex)
             {
@@ -159,7 +192,32 @@ namespace UpdAter
         {
             try
             {
-                ZipFile.ExtractToDirectory(zipFilePath, extractPath);
+                using (ZipArchive archive = ZipFile.OpenRead(zipFilePath))
+                {
+                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    {
+                        string destinationPath = Path.Combine(extractPath, entry.FullName);
+
+                        // Перевіряємо чи файл вже існує
+                        if (File.Exists(destinationPath))
+                        {
+                            File.Delete(destinationPath); // Видаляємо існуючий файл перед розпаковкою
+                        }
+
+                        // Якщо це директорія, то створюємо її, інакше - розпаковуємо файл
+                        if (entry.Name == "")
+                        {
+                            Directory.CreateDirectory(destinationPath);
+                        }
+                        else
+                        {
+                            // Створюємо директорію, якщо її ще немає
+                            Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
+
+                            entry.ExtractToFile(destinationPath);
+                        }
+                    }
+                }
                 File.Delete(zipFilePath);
             }
             catch (Exception ex)
