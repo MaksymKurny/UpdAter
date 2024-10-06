@@ -48,8 +48,22 @@ namespace UpdAter
             BL = new Bl();
             GDownloader = new GDownloader();
             UpdateList();
-            AutoUpdate(args);
-            updateAll.Click += async (s, ev) => await GDownloader.DownloadFilesAsync(BL.ukrainizers.List, uaList);
+            if( args.Length > 0)
+            {
+                AutoUpdate(args);
+            }
+        }
+
+        private async void AllUpdate(object sender, EventArgs e)
+        {
+            if (BL.ukrainizers.List.Count > 0)
+            {
+                await GDownloader.DownloadFilesAsync(BL.ukrainizers.List, uaList);
+            }
+            else
+            {
+                MessageBox.Show($"Немає чого оновлювати!", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private async void AutoUpdate(string[] args)
@@ -76,7 +90,7 @@ namespace UpdAter
 
         private void AddNewBlock(Ukrainizer block, bool newBlock = true)
         {
-            UaBlock uaBlock = new UaBlock(block.GetData());
+            UaBlock uaBlock = new UaBlock(block.GetData(), newBlock);
             uaBlock.Dock = DockStyle.Top;
             uaBlock.blockDeleted += blockDeleted;
             uaBlock.needUpdate += blockUpdate;
@@ -99,6 +113,7 @@ namespace UpdAter
                 uaBlock.enabledButtons(false);
                 await GDownloader.DownloadFileAsync(uaBlock.GetUrl(), uaBlock.GetPath(), uaBlock.GetProgressBar());
                 uaBlock.enabledButtons(true);
+                uaBlock.UpdateLastUpdate();
             }
         }
 
@@ -118,6 +133,10 @@ namespace UpdAter
         {
             if (sender is UaBlock uaBlock)
             {
+                if (uaBlock.IsNew())
+                {
+                    BL.ukrainizers.DellNewUkrainizer();
+                }
                 BL.ukrainizers.DellUkrainizer(uaBlock.GetTitle(), uaBlock.GetUrl());
                 uaList.Controls.Remove(uaBlock);
                 BL.saveSettings();

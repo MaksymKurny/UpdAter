@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
@@ -15,14 +16,19 @@ namespace UpdAter
         private string path, iconPath, bannerPath, url;
         private Image deffBannerImage = null;
         private int borderRadius = 10;
+        private DateTime LastUpdate;
+        private bool newBlock = true;
 
-        public UaBlock((string title, string url, string path, string icon, string banner) data)
+        public UaBlock((string title, string url, string path, string icon, string banner) data, bool noData)
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
             deffBannerImage = this.BackgroundImage;
-            SetData(data);
+            if (!noData)
+            {
+                SetData(data);
+            }
 
             resources = new ResourceManager(typeof(UaBlock));
         }
@@ -46,6 +52,10 @@ namespace UpdAter
         {
             return iconPath;
         }
+        public bool IsNew()
+        {
+            return newBlock;
+        }
         public (ProgressBar, Label) GetProgressBar()
         {
             return (progressBar, txtPercent);
@@ -59,6 +69,7 @@ namespace UpdAter
             url = data.url;
             iconPath = data.icon;
             bannerPath = data.banner;
+            newBlock = false;
             if (File.Exists(bannerPath))
             {
                 if (this.BackgroundImage != Image.FromFile(bannerPath))
@@ -141,8 +152,8 @@ namespace UpdAter
                             LinearGradientMode.Horizontal))
                         {
                             Blend blend = new Blend();
-                            blend.Positions = new float[] { 0f, 0.75f, 1f };
-                            blend.Factors = new float[] { 0f, 1f, 1f };
+                            blend.Positions = new float[] { 0f, 0.5f, 1f };
+                            blend.Factors = new float[] { 0f, 0.5f, 1f };
                             brush.Blend = blend;
 
                             g.FillRectangle(brush, gradientRect);
@@ -153,22 +164,37 @@ namespace UpdAter
             }
         }
 
+        private void btnMore_Click(object sender, EventArgs e)
+        {
+            moreMenu.Show(Cursor.Position);
+        }
+
+        private void menuOpen_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start("explorer.exe", path);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не вдалося відкрити папку: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         public (string, string, string, string, string) GetData()
         {
             return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner());
         }
 
-
         public void enabledButtons(bool status)
         {
-            btnEdit.Enabled = status;
+            btnMore.Enabled = status;
             btnUpdate.Enabled = status;
-            btnDell.Enabled = status;
         }
 
         private void btnDell_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(resources.GetString("btnDell.Message"), resources.GetString("btnDell.MessageTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(resources.GetString("menuDell.Message"), resources.GetString("menuDell.MessageTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
                 blockDeleted?.Invoke(this, EventArgs.Empty);
         }
@@ -179,12 +205,24 @@ namespace UpdAter
             UaForm editForm = new UaForm(GetData());
 
             // Показати форму редагування модально
-            if (editForm.ShowDialog() == DialogResult.OK)
+            DialogResult result = editForm.ShowDialog();
+            if (result == DialogResult.OK)
             {
                 // Оновити нотатку в NoteBlock
                 this.SetData(editForm.GetData());
                 blockChanged?.Invoke(this, EventArgs.Empty);
+            } else if (result == DialogResult.Cancel && newBlock)
+            {
+                blockDeleted?.Invoke(this, EventArgs.Empty);
             }
+        }
+
+        public void UpdateLastUpdate()
+        {
+            string date = DateTime.Now.ToString("dd.MM.yyyy");
+            string text = txtLastUpd.Text;
+            string prefix = text.Substring(0, text.IndexOf(':'));
+            txtLastUpd.Text = $"{prefix}: {date}";
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)

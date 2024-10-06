@@ -48,8 +48,8 @@ namespace UpdAter
 
         private void UpdateGameInfo(string basePath)
         {
-            string steamAppsPath = GetSteamAppsPath(basePath, "steamapps");
-            string gameFolderName = GetSteamAppsPath(basePath, "common", true);
+            (string steamAppsPath, string gameFolderName) = GetSteamAppsPath(basePath, "steamapps", "common");
+            if (steamAppsPath == string.Empty && gameFolderName == string.Empty) return;
 
             (string name, string banner, string icon) = GetAppInfoFromACFFile(steamAppsPath, gameFolderName);
             if (name != null)
@@ -60,10 +60,28 @@ namespace UpdAter
             }
         }
 
-        private (string, string) GetMedia(string basePath, string id)
+        private (string, string) GetSteamAppsPath(string currentPath, string searchDirectory, string parrentGameDirectory)
         {
-            string bannerPath = basePath + $"\\appcache\\librarycache\\{id}_library_hero.jpg";
-            string iconPath = basePath + $"\\appcache\\librarycache\\{id}_icon.jpg";
+            string[] pathParts = currentPath.Split(Path.DirectorySeparatorChar);
+            int index = Array.IndexOf(pathParts, searchDirectory);
+            int parrentIndex = Array.IndexOf(pathParts, parrentGameDirectory);
+
+            if (index == -1 || parrentIndex == -1 || parrentIndex + 1 >= pathParts.Length) {
+                return (string.Empty, string.Empty);
+            }
+            return (string.Join(Path.DirectorySeparatorChar.ToString(), pathParts.Take(index + 1)), pathParts[parrentIndex + 1]);
+        }
+
+        private (string, string) GetSteamMedia(string currentPath, string searchDirectory, string id)
+        {
+            string[] pathParts = currentPath.Split(Path.DirectorySeparatorChar);
+            int index = Array.IndexOf(pathParts, searchDirectory);
+
+            if (index == -1) return (null, null);
+            string libPath = string.Join(Path.DirectorySeparatorChar.ToString(), pathParts.Take(index + 1));
+            libPath += "\\appcache\\librarycache\\";
+            string bannerPath = libPath + $"{id}_library_hero.jpg";
+            string iconPath = libPath + $"{id}_icon.jpg";
             if (!bannerPath.Contains(@":\"))
             {
                 bannerPath = bannerPath.Replace(":", @":\");
@@ -73,30 +91,7 @@ namespace UpdAter
                 File.Exists(iconPath) ? iconPath : null);
         }
 
-        private string GetSteamAppsPath(string currentPath, string searchDirectory, bool nextFolderName = false)
-        {
-
-            // Розділяємо шлях на частини
-            string[] pathParts = currentPath.Split(Path.DirectorySeparatorChar);
-
-            // Знаходимо індекс папки steamapps
-            int index = Array.IndexOf(pathParts, searchDirectory);
-
-            if (index >= 0)
-            {
-                // Будуємо шлях до steamapps
-                if (nextFolderName && index + 2 <= pathParts.Length)
-                {
-                    return pathParts[index + 1];
-                } else
-                {
-                    return Path.Combine(pathParts.Take(index + 1).ToArray());
-                } 
-            }
-            return "";
-        }
-
-        private (string, string, string) GetAppInfoFromACFFile(string directoryPath, string targetInstalldir)
+        private (string, string, string) GetAppInfoFromACFFile(string directoryPath, string targetDir)
         {
             if (directoryPath != "")
             {
@@ -105,20 +100,19 @@ namespace UpdAter
                 {
                     string fileContent = File.ReadAllText(filePath);
 
-                    // Шукаємо `appid` і `name` в секції "AppState"
-                    var appidMatch = Regex.Match(fileContent, @"\""appid\""[\s\t]*\""(\d+)\""", RegexOptions.Singleline);
-                    var nameMatch = Regex.Match(fileContent, @"\""name\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
-                    var installdirMatch = Regex.Match(fileContent, @"\""installdir\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
-                    var steamFolder = Regex.Match(fileContent, @"\""LauncherPath\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
-
-                    if (installdirMatch.Success && nameMatch.Success && appidMatch.Success)
+                    var dirMatch = Regex.Match(fileContent, @"\""installdir\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
+                    if (dirMatch.Success && dirMatch.Groups[1].Value.Equals(targetDir, StringComparison.OrdinalIgnoreCase))
                     {
-                        string installdir = installdirMatch.Groups[1].Value;
-                        if (installdir.Equals(targetInstalldir, StringComparison.OrdinalIgnoreCase))
+                        // Шукаємо `appid` і `name` та інше в секції "AppState"
+                        var appidMatch = Regex.Match(fileContent, @"\""appid\""[\s\t]*\""(\d+)\""", RegexOptions.Singleline);
+                        var nameMatch = Regex.Match(fileContent, @"\""name\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
+                        var steamFolderMatch = Regex.Match(fileContent, @"\""LauncherPath\""[\s\t]*\""(.+?)\""", RegexOptions.Singleline);
+                        if (nameMatch.Success && appidMatch.Success && steamFolderMatch.Success)
                         {
-                            string appid = appidMatch.Groups[1].Value;
                             string name = nameMatch.Groups[1].Value;
-                            (string banner, string icon) = GetMedia(GetSteamAppsPath(steamFolder.Groups[1].Value, "Steam"), appidMatch.Groups[1].Value);
+                            string appid = appidMatch.Groups[1].Value;
+                            string steamFolder = steamFolderMatch.Groups[1].Value;
+                            (string banner, string icon) = GetSteamMedia(steamFolder, "Steam", appid);
 
                             return (name, banner, icon);
                         }
@@ -127,6 +121,15 @@ namespace UpdAter
             }
             
             return (null, null, null);
+        }
+
+        private void CheckFieldsFilled(object sender, EventArgs e)
+        {
+            bool allFieldsFilled = !string.IsNullOrWhiteSpace(urlTextBox.Text)
+                                && !string.IsNullOrWhiteSpace(gamePathTextBox.Text)
+                                && !string.IsNullOrWhiteSpace(titleTextBox.Text);
+
+            btnOk.Enabled = allFieldsFilled;
         }
 
         private void btnIcon_Click(object sender, EventArgs e)
@@ -155,6 +158,7 @@ namespace UpdAter
 
         private void gamePathTextBox_TextChanged(object sender, EventArgs e)
         {
+            CheckFieldsFilled(sender, e);
             if (gamePathTextBox.Text != "")
             {
                 UpdateGameInfo(gamePathTextBox.Text);

@@ -123,9 +123,45 @@
   <data name="btnCancel.Text" xml:space="preserve">
     <value>Скасувати</value>
   </data>
+  <data name="btnPath.Text" xml:space="preserve">
+    <value>Відкрити</value>
+  </data>
+  <data name="btnIcon.Text" xml:space="preserve">
+    <value>Відкрити</value>
+  </data>
+  <data name="btnBaner.Text" xml:space="preserve">
+    <value>Відкрити</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnSelectColor.Size" type="System.Drawing.Size, System.Drawing">
-    <value>62, 24</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>109, 28</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Назва гри</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>164, 28</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Шлях до іконки</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>355, 28</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Тека для завантаження перекладу</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 28</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Шлях до банера</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>315, 28</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Посилання на файл перекладу</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

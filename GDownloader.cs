@@ -30,11 +30,20 @@ namespace UpdAter
             try
             {
                 await Task.WhenAll(downloadTasks);
-                MessageBox.Show("Всі файли успішно завантажено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                index = 0;
+                foreach (var ukrainizer in ukrainizers)
+                {
+                    UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                    if (uaBlock != null)
+                    {
+                        uaBlock.enabledButtons(true);
+                    }
+                }
+                MessageBox.Show("Оновлення завершено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка під час завантаження файлів: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -63,10 +72,19 @@ namespace UpdAter
             try
             {
                 await Task.WhenAll(downloadTasks);
+                index = 0;
+                foreach (var ukrainizer in ukrainizers)
+                {
+                    UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                    if (uaBlock != null)
+                    {
+                        uaBlock.enabledButtons(true);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка під час завантаження файлів: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -153,7 +171,7 @@ namespace UpdAter
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка під час завантаження файлу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

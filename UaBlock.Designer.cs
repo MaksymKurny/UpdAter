@@ -29,16 +29,21 @@ namespace UpdAter
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UaBlock));
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.gameIcon = new System.Windows.Forms.PictureBox();
             this.txtPercent = new System.Windows.Forms.Label();
+            this.moreMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuDell = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnMore = new UpdAter.FlatNoBorder();
             this.txtLastUpd = new UpdAter.TransparentLabel();
             this.txtTitle = new UpdAter.TransparentLabel();
-            this.btnEdit = new UpdAter.FlatNoBorder();
             this.btnUpdate = new UpdAter.FlatNoBorder();
-            this.btnDell = new UpdAter.FlatNoBorder();
             ((System.ComponentModel.ISupportInitialize)(this.gameIcon)).BeginInit();
+            this.moreMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // progressBar
@@ -50,8 +55,8 @@ namespace UpdAter
             // 
             // gameIcon
             // 
-            this.gameIcon.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.gameIcon, "gameIcon");
+            this.gameIcon.BackColor = System.Drawing.Color.Transparent;
             this.gameIcon.Name = "gameIcon";
             this.gameIcon.TabStop = false;
             // 
@@ -61,6 +66,46 @@ namespace UpdAter
             this.txtPercent.BackColor = System.Drawing.Color.Transparent;
             this.txtPercent.ForeColor = System.Drawing.Color.White;
             this.txtPercent.Name = "txtPercent";
+            // 
+            // moreMenu
+            // 
+            resources.ApplyResources(this.moreMenu, "moreMenu");
+            this.moreMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.moreMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuEdit,
+            this.menuOpen,
+            this.menuDell});
+            this.moreMenu.Name = "moreMenu";
+            // 
+            // menuEdit
+            // 
+            resources.ApplyResources(this.menuEdit, "menuEdit");
+            this.menuEdit.Name = "menuEdit";
+            this.menuEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // menuOpen
+            // 
+            resources.ApplyResources(this.menuOpen, "menuOpen");
+            this.menuOpen.Name = "menuOpen";
+            this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
+            // 
+            // menuDell
+            // 
+            resources.ApplyResources(this.menuDell, "menuDell");
+            this.menuDell.BackColor = System.Drawing.SystemColors.Control;
+            this.menuDell.ForeColor = System.Drawing.Color.Red;
+            this.menuDell.Name = "menuDell";
+            this.menuDell.Click += new System.EventHandler(this.btnDell_Click);
+            // 
+            // btnMore
+            // 
+            resources.ApplyResources(this.btnMore, "btnMore");
+            this.btnMore.BackColor = System.Drawing.Color.White;
+            this.btnMore.BorderRadius = 4;
+            this.btnMore.FlatAppearance.BorderSize = 0;
+            this.btnMore.Name = "btnMore";
+            this.btnMore.UseVisualStyleBackColor = false;
+            this.btnMore.Click += new System.EventHandler(this.btnMore_Click);
             // 
             // txtLastUpd
             // 
@@ -80,16 +125,6 @@ namespace UpdAter
             this.txtTitle.ForeColor = System.Drawing.SystemColors.Control;
             this.txtTitle.Name = "txtTitle";
             // 
-            // btnEdit
-            // 
-            resources.ApplyResources(this.btnEdit, "btnEdit");
-            this.btnEdit.BackColor = System.Drawing.Color.White;
-            this.btnEdit.BorderRadius = 4;
-            this.btnEdit.FlatAppearance.BorderSize = 0;
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.UseVisualStyleBackColor = false;
-            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
-            // 
             // btnUpdate
             // 
             resources.ApplyResources(this.btnUpdate, "btnUpdate");
@@ -100,47 +135,39 @@ namespace UpdAter
             this.btnUpdate.UseVisualStyleBackColor = false;
             this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
             // 
-            // btnDell
-            // 
-            resources.ApplyResources(this.btnDell, "btnDell");
-            this.btnDell.BackColor = System.Drawing.Color.White;
-            this.btnDell.BorderRadius = 4;
-            this.btnDell.FlatAppearance.BorderSize = 0;
-            this.btnDell.ForeColor = System.Drawing.Color.Red;
-            this.btnDell.Name = "btnDell";
-            this.btnDell.UseVisualStyleBackColor = false;
-            this.btnDell.Click += new System.EventHandler(this.btnDell_Click);
-            // 
             // UaBlock
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(27)))), ((int)(((byte)(45)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
             this.BackgroundImage = global::UpdAter.Properties.Resources.background;
+            this.Controls.Add(this.btnMore);
             this.Controls.Add(this.txtLastUpd);
             this.Controls.Add(this.txtPercent);
             this.Controls.Add(this.txtTitle);
             this.Controls.Add(this.gameIcon);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.btnEdit);
             this.Controls.Add(this.btnUpdate);
-            this.Controls.Add(this.btnDell);
             this.DoubleBuffered = true;
             this.Name = "UaBlock";
             ((System.ComponentModel.ISupportInitialize)(this.gameIcon)).EndInit();
+            this.moreMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private UpdAter.FlatNoBorder btnEdit;
-        private UpdAter.FlatNoBorder btnDell;
         private UpdAter.FlatNoBorder btnUpdate;
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.PictureBox gameIcon;
         private UpdAter.TransparentLabel txtTitle;
         private System.Windows.Forms.Label txtPercent;
         private TransparentLabel txtLastUpd;
+        private System.Windows.Forms.ContextMenuStrip moreMenu;
+        private System.Windows.Forms.ToolStripMenuItem menuDell;
+        private System.Windows.Forms.ToolStripMenuItem menuOpen;
+        private System.Windows.Forms.ToolStripMenuItem menuEdit;
+        private FlatNoBorder btnMore;
     }
 }

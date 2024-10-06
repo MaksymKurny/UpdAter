@@ -68,6 +68,10 @@ namespace UpdAter.BL
         {
             List[index].SetData(data);
         }
+        public void DellNewUkrainizer()
+        {
+            List.Remove(List[0]);
+        }
         public void DellUkrainizer(string title, string url)
         {
             Ukrainizer uaToRemove = List.FirstOrDefault(n => n.Title == title && n.Url == url);

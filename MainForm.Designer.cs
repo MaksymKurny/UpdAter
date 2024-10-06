@@ -31,12 +31,12 @@ namespace UpdAter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPanel = new System.Windows.Forms.Panel();
-            this.exitButton = new System.Windows.Forms.Button();
-            this.listPanel = new UpdAter.ImagePanel();
-            this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.updateAll = new UpdAter.FlatNoBorder();
             this.addNew = new UpdAter.FlatNoBorder();
             this.credits = new UpdAter.FlatNoBorder();
+            this.exitButton = new System.Windows.Forms.Button();
+            this.listPanel = new UpdAter.ImagePanel();
+            this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.controlPanel.SuspendLayout();
             this.listPanel.SuspendLayout();
             this.SuspendLayout();
@@ -52,6 +52,39 @@ namespace UpdAter
             resources.ApplyResources(this.controlPanel, "controlPanel");
             this.controlPanel.Name = "controlPanel";
             this.controlPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
+            // 
+            // updateAll
+            // 
+            this.updateAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.updateAll.BorderRadius = 4;
+            this.updateAll.Cursor = System.Windows.Forms.Cursors.Default;
+            this.updateAll.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.updateAll, "updateAll");
+            this.updateAll.Name = "updateAll";
+            this.updateAll.UseVisualStyleBackColor = false;
+            this.updateAll.Click += new System.EventHandler(this.AllUpdate);
+            // 
+            // addNew
+            // 
+            this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.addNew.BorderRadius = 4;
+            this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
+            this.addNew.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.addNew, "addNew");
+            this.addNew.Name = "addNew";
+            this.addNew.UseVisualStyleBackColor = false;
+            this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
+            // 
+            // credits
+            // 
+            this.credits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.credits.BorderRadius = 4;
+            this.credits.Cursor = System.Windows.Forms.Cursors.Default;
+            this.credits.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.credits, "credits");
+            this.credits.Name = "credits";
+            this.credits.UseVisualStyleBackColor = false;
+            this.credits.Click += new System.EventHandler(this.credits_Click);
             // 
             // exitButton
             // 
@@ -75,38 +108,6 @@ namespace UpdAter
             // 
             resources.ApplyResources(this.uaList, "uaList");
             this.uaList.Name = "uaList";
-            // 
-            // updateAll
-            // 
-            this.updateAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.updateAll.BorderRadius = 4;
-            this.updateAll.Cursor = System.Windows.Forms.Cursors.Default;
-            this.updateAll.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.updateAll, "updateAll");
-            this.updateAll.Name = "updateAll";
-            this.updateAll.UseVisualStyleBackColor = false;
-            // 
-            // addNew
-            // 
-            this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.addNew.BorderRadius = 4;
-            this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
-            this.addNew.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.addNew, "addNew");
-            this.addNew.Name = "addNew";
-            this.addNew.UseVisualStyleBackColor = false;
-            this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
-            // 
-            // credits
-            // 
-            this.credits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.credits.BorderRadius = 4;
-            this.credits.Cursor = System.Windows.Forms.Cursors.Default;
-            this.credits.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.credits, "credits");
-            this.credits.Name = "credits";
-            this.credits.UseVisualStyleBackColor = false;
-            this.credits.Click += new System.EventHandler(this.credits_Click);
             // 
             // MainForm
             // 

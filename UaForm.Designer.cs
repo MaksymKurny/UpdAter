@@ -55,6 +55,7 @@ namespace UpdAter
             this.titleTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.titleTextBox.ForeColor = System.Drawing.Color.Black;
             this.titleTextBox.Name = "titleTextBox";
+            this.titleTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             // 
             // btnOk
             // 
@@ -93,6 +94,7 @@ namespace UpdAter
             this.urlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.urlTextBox.ForeColor = System.Drawing.Color.Black;
             this.urlTextBox.Name = "urlTextBox";
+            this.urlTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             // 
             // iconTextBox
             // 
