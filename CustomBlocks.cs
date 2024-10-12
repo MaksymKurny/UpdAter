@@ -15,6 +15,58 @@ namespace UpdAter
         }
     }
 
+    public class RoundedPanel : Panel
+    {
+        private int borderRadius = 10;
+        private Color backgroundColor = Color.FromArgb(89, 0, 0, 0);
+
+        public RoundedPanel()
+        {
+        }
+
+        // Властивість для радіусу
+        [Category("Appearance")]
+        public int BorderRadius
+        {
+            get => borderRadius;
+            set
+            {
+                borderRadius = value;
+                this.Invalidate(); // Оновити контроль
+            }
+        }
+
+        // Властивість для кольору фону
+        [Category("Appearance")]
+        public Color BackgroundColor
+        {
+            get => backgroundColor;
+            set
+            {
+                backgroundColor = value;
+                this.Invalidate(); // Оновити контроль
+            }
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs pevent)
+        {
+            base.OnPaintBackground(pevent);
+            Graphics g = pevent.Graphics;
+            using (SolidBrush brush = new SolidBrush(backgroundColor))
+            {
+                if (borderRadius > 0)
+                {
+                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.FillRoundedRectangle(brush, 0, 0, this.Width, this.Height, borderRadius);
+                }
+                else
+                {
+                    g.FillRectangle(brush, pevent.ClipRectangle);
+                }
+            }
+        }
+    }
+
     public class TransparentLabel : Label
     {
         private int borderRadius = 10;

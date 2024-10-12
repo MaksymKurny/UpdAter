@@ -19,6 +19,7 @@ namespace UpdAter
             urlTextBox.Text = data.url;
             iconTextBox.Text = data.iconPath;
             bannerTextBox.Text = data.bannerPath;
+            helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл");
         }
 
         public (string, string, string, string, string) GetData()
@@ -123,10 +124,21 @@ namespace UpdAter
             return (null, null, null);
         }
 
+
+        private bool IsValidUrl(string url)
+        {
+            return Uri.TryCreate(url, UriKind.Absolute, out _) && (url.StartsWith("http") || url.StartsWith("https"));
+        }
+
+        private bool IsValidPath(string path)
+        {
+            return Directory.Exists(path);
+        }
+
         private void CheckFieldsFilled(object sender, EventArgs e)
         {
-            bool allFieldsFilled = !string.IsNullOrWhiteSpace(urlTextBox.Text)
-                                && !string.IsNullOrWhiteSpace(gamePathTextBox.Text)
+            bool allFieldsFilled = IsValidUrl(urlTextBox.Text)
+                                && IsValidPath(gamePathTextBox.Text)
                                 && !string.IsNullOrWhiteSpace(titleTextBox.Text);
 
             btnOk.Enabled = allFieldsFilled;
@@ -136,7 +148,7 @@ namespace UpdAter
         {
             using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
-                fileDialog.Filter = "Exe files(*.exe)|*.exe|Ico files(*.ico)|*.ico|All files(*.*)|*.*";
+                fileDialog.Filter = "Image files(*.png *.jpg)|*.png; *.jpg|Exe files(*.exe)|*.exe|Ico files(*.ico)|*.ico|All files(*.*)|*.*";
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     iconTextBox.Text = fileDialog.FileName;

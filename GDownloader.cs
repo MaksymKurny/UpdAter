@@ -107,7 +107,6 @@ namespace UpdAter
                         if (content.Contains("uc-warning-caption"))
                         {
                             confirmLink = ExtractConfirmLink(content);
-
                         }
                         else if (content.Contains("property=\"og:url\""))
                         {
@@ -115,6 +114,7 @@ namespace UpdAter
                             confirmLink = ProcessGoogleDriveUrl(googleUrl);
                             url = confirmLink;
                         }
+
                         if (!string.IsNullOrEmpty(confirmLink))
                         {
                             // Завантажуємо з підтвердженням
@@ -122,7 +122,7 @@ namespace UpdAter
                         }
                         else
                         {
-                            throw new Exception("Не вдалося знайти посилання для підтвердження.");
+                            throw new Exception("Не вдалося знайти посилання для підтвердження або файл.");
                         }
                     }
 
@@ -171,7 +171,7 @@ namespace UpdAter
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка під час оновлення перекладу.\nПосилання: {url}\nПомилка: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

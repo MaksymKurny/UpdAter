@@ -29,6 +29,7 @@ namespace UpdAter
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UaForm));
             this.titleTextBox = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
@@ -46,6 +47,9 @@ namespace UpdAter
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.helpUrl = new System.Windows.Forms.Label();
+            this.helpToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.helpPath = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // titleTextBox
@@ -55,6 +59,7 @@ namespace UpdAter
             this.titleTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.titleTextBox.ForeColor = System.Drawing.Color.Black;
             this.titleTextBox.Name = "titleTextBox";
+            this.helpToolTip.SetToolTip(this.titleTextBox, resources.GetString("titleTextBox.ToolTip"));
             this.titleTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             // 
             // btnOk
@@ -62,6 +67,7 @@ namespace UpdAter
             resources.ApplyResources(this.btnOk, "btnOk");
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.btnOk.Name = "btnOk";
+            this.helpToolTip.SetToolTip(this.btnOk, resources.GetString("btnOk.ToolTip"));
             this.btnOk.UseVisualStyleBackColor = true;
             // 
             // btnCancel
@@ -69,6 +75,7 @@ namespace UpdAter
             resources.ApplyResources(this.btnCancel, "btnCancel");
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Name = "btnCancel";
+            this.helpToolTip.SetToolTip(this.btnCancel, resources.GetString("btnCancel.ToolTip"));
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // gamePathTextBox
@@ -78,12 +85,14 @@ namespace UpdAter
             this.gamePathTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.gamePathTextBox.ForeColor = System.Drawing.Color.Black;
             this.gamePathTextBox.Name = "gamePathTextBox";
+            this.helpToolTip.SetToolTip(this.gamePathTextBox, resources.GetString("gamePathTextBox.ToolTip"));
             this.gamePathTextBox.TextChanged += new System.EventHandler(this.gamePathTextBox_TextChanged);
             // 
             // btnPath
             // 
             resources.ApplyResources(this.btnPath, "btnPath");
             this.btnPath.Name = "btnPath";
+            this.helpToolTip.SetToolTip(this.btnPath, resources.GetString("btnPath.ToolTip"));
             this.btnPath.UseVisualStyleBackColor = true;
             this.btnPath.Click += new System.EventHandler(this.OpenFolderBrowser);
             // 
@@ -94,6 +103,7 @@ namespace UpdAter
             this.urlTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.urlTextBox.ForeColor = System.Drawing.Color.Black;
             this.urlTextBox.Name = "urlTextBox";
+            this.helpToolTip.SetToolTip(this.urlTextBox, resources.GetString("urlTextBox.ToolTip"));
             this.urlTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             // 
             // iconTextBox
@@ -103,11 +113,13 @@ namespace UpdAter
             this.iconTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.iconTextBox.ForeColor = System.Drawing.Color.Black;
             this.iconTextBox.Name = "iconTextBox";
+            this.helpToolTip.SetToolTip(this.iconTextBox, resources.GetString("iconTextBox.ToolTip"));
             // 
             // btnIcon
             // 
             resources.ApplyResources(this.btnIcon, "btnIcon");
             this.btnIcon.Name = "btnIcon";
+            this.helpToolTip.SetToolTip(this.btnIcon, resources.GetString("btnIcon.ToolTip"));
             this.btnIcon.UseVisualStyleBackColor = true;
             this.btnIcon.Click += new System.EventHandler(this.btnIcon_Click);
             // 
@@ -115,6 +127,7 @@ namespace UpdAter
             // 
             resources.ApplyResources(this.btnBaner, "btnBaner");
             this.btnBaner.Name = "btnBaner";
+            this.helpToolTip.SetToolTip(this.btnBaner, resources.GetString("btnBaner.ToolTip"));
             this.btnBaner.UseVisualStyleBackColor = true;
             this.btnBaner.Click += new System.EventHandler(this.btnBaner_Click);
             // 
@@ -125,6 +138,7 @@ namespace UpdAter
             this.bannerTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.bannerTextBox.ForeColor = System.Drawing.Color.Black;
             this.bannerTextBox.Name = "bannerTextBox";
+            this.helpToolTip.SetToolTip(this.bannerTextBox, resources.GetString("bannerTextBox.ToolTip"));
             // 
             // label1
             // 
@@ -132,6 +146,7 @@ namespace UpdAter
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Name = "label1";
+            this.helpToolTip.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
             // 
             // label2
             // 
@@ -139,6 +154,7 @@ namespace UpdAter
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.ForeColor = System.Drawing.Color.White;
             this.label2.Name = "label2";
+            this.helpToolTip.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
             // 
             // label3
             // 
@@ -146,6 +162,7 @@ namespace UpdAter
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.White;
             this.label3.Name = "label3";
+            this.helpToolTip.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
             // 
             // label4
             // 
@@ -153,6 +170,7 @@ namespace UpdAter
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.ForeColor = System.Drawing.Color.White;
             this.label4.Name = "label4";
+            this.helpToolTip.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
             // 
             // label5
             // 
@@ -160,6 +178,23 @@ namespace UpdAter
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Name = "label5";
+            this.helpToolTip.SetToolTip(this.label5, resources.GetString("label5.ToolTip"));
+            // 
+            // helpUrl
+            // 
+            resources.ApplyResources(this.helpUrl, "helpUrl");
+            this.helpUrl.BackColor = System.Drawing.Color.Transparent;
+            this.helpUrl.ForeColor = System.Drawing.Color.White;
+            this.helpUrl.Name = "helpUrl";
+            this.helpToolTip.SetToolTip(this.helpUrl, resources.GetString("helpUrl.ToolTip"));
+            // 
+            // helpPath
+            // 
+            resources.ApplyResources(this.helpPath, "helpPath");
+            this.helpPath.BackColor = System.Drawing.Color.Transparent;
+            this.helpPath.ForeColor = System.Drawing.Color.White;
+            this.helpPath.Name = "helpPath";
+            this.helpToolTip.SetToolTip(this.helpPath, resources.GetString("helpPath.ToolTip"));
             // 
             // UaForm
             // 
@@ -168,6 +203,8 @@ namespace UpdAter
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::UpdAter.Properties.Resources.forn_bg;
             this.ControlBox = false;
+            this.Controls.Add(this.helpPath);
+            this.Controls.Add(this.helpUrl);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -187,6 +224,7 @@ namespace UpdAter
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "UaForm";
             this.ShowInTaskbar = false;
+            this.helpToolTip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -209,5 +247,8 @@ namespace UpdAter
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label helpUrl;
+        private System.Windows.Forms.ToolTip helpToolTip;
+        private System.Windows.Forms.Label helpPath;
     }
 }
