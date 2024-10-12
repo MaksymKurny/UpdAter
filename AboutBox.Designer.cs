@@ -203,6 +203,7 @@ namespace UpdAter
             this.linkToloka.TabIndex = 32;
             this.linkToloka.TabStop = true;
             this.linkToloka.Text = "https://toloka.to/";
+            this.linkToloka.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.default_LinkClicked);
             // 
             // tbLabel
             // 
@@ -259,10 +260,10 @@ namespace UpdAter
             this.BackgroundImage = global::UpdAter.Properties.Resources.about_bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(650, 618);
-            this.Controls.Add(this.btnOk);
-            this.Controls.Add(this.panel);
-            this.Controls.Add(this.tbLabel);
             this.Controls.Add(this.tbHead);
+            this.Controls.Add(this.tbLabel);
+            this.Controls.Add(this.panel);
+            this.Controls.Add(this.btnOk);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(4);

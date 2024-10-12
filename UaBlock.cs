@@ -19,7 +19,7 @@ namespace UpdAter
         private DateTime LastUpdate;
         private bool newBlock = true;
 
-        public UaBlock((string title, string url, string path, string icon, string banner) data, bool noData)
+        public UaBlock((string, string, string, string, string, DateTime) data, bool noData)
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint, true);
@@ -28,6 +28,7 @@ namespace UpdAter
             if (!noData)
             {
                 SetData(data);
+                UpdateLastUpdate();
             }
 
             resources = new ResourceManager(typeof(UaBlock));
@@ -44,13 +45,17 @@ namespace UpdAter
         {
             return path;
         }
-        public string GetBanner()
+        private string GetBanner()
         {
             return bannerPath;
         }
-        public string GetIcon()
+        private string GetIcon()
         {
             return iconPath;
+        }
+        public DateTime GetLastUpdate()
+        {
+            return LastUpdate;
         }
         public bool IsNew()
         {
@@ -60,9 +65,12 @@ namespace UpdAter
         {
             return (progressBar, txtPercent);
         }
+        public (string, string, string, string, string, DateTime) GetData()
+        {
+            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetLastUpdate());
+        }
 
-        // Метод для встановлення тексту блоку
-        public void SetData((string title, string url, string path, string icon, string banner) data)
+        public void SetData((string title, string url, string path, string icon, string banner, DateTime lastUpdate) data)
         {
             txtTitle.Text = data.title;
             path = data.path;
@@ -70,6 +78,7 @@ namespace UpdAter
             iconPath = data.icon;
             bannerPath = data.banner;
             newBlock = false;
+            LastUpdate = data.lastUpdate;
             if (File.Exists(bannerPath))
             {
                 if (this.BackgroundImage != Image.FromFile(bannerPath))
@@ -181,11 +190,6 @@ namespace UpdAter
             }
         }
 
-        public (string, string, string, string, string) GetData()
-        {
-            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner());
-        }
-
         public void enabledButtons(bool status)
         {
             btnMore.Enabled = status;
@@ -217,9 +221,11 @@ namespace UpdAter
             }
         }
 
-        public void UpdateLastUpdate()
+        public void UpdateLastUpdate(bool update = false)
         {
-            string date = DateTime.Now.ToString("dd.MM.yyyy");
+            if (update) LastUpdate = DateTime.Now;
+            if (LastUpdate == DateTime.MinValue) return;
+            string date = LastUpdate.ToString("dd.MM.yyyy");
             string text = txtLastUpd.Text;
             string prefix = text.Substring(0, text.IndexOf(':'));
             txtLastUpd.Text = $"{prefix}: {date}";

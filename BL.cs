@@ -64,9 +64,13 @@ namespace UpdAter.BL
             List = new List<Ukrainizer>();
         }
 
-        public void UpdateUkrainizer(int index, (string title, string path, string url, string icon, string banner) data)
+        public void UpdateUkrainizer(int index, (string, string, string, string, string, DateTime) data)
         {
             List[index].SetData(data);
+        }
+        public void UpdateUkrainizerDate(int index, DateTime lastUpdate)
+        {
+            List[index].UpdateLastUpdate(lastUpdate);
         }
         public void DellNewUkrainizer()
         {
@@ -91,17 +95,22 @@ namespace UpdAter.BL
 
         public Ukrainizer(){}
 
-        public void SetData((string title, string path, string url, string icon, string banner) data)
+        public void SetData((string title, string path, string url, string icon, string banner, DateTime lastUpdate) data)
         {
             Title = data.title;
             Path = data.path;
             Url = data.url;
             Icon = data.icon;
             Banner = data.banner;
+            LastUpdate = data.lastUpdate;
         }
-        public (string, string, string, string, string) GetData()
+        public void UpdateLastUpdate(DateTime lastUpdate)
         {
-            return (Title, Url, Path, Icon, Banner);
+            LastUpdate = lastUpdate;
+        }
+        public (string, string, string, string, string, DateTime) GetData()
+        {
+            return (Title, Url, Path, Icon, Banner, LastUpdate);
         }
     }
 }

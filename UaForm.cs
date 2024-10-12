@@ -10,7 +10,7 @@ namespace UpdAter
 {
     public partial class UaForm : Form
     {
-        public UaForm((string title, string path, string url, string iconPath, string bannerPath) data)
+        public UaForm((string title, string path, string url, string iconPath, string bannerPath, DateTime lastUpdate) data)
         {
             InitializeComponent();
 
@@ -22,14 +22,15 @@ namespace UpdAter
             helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл");
         }
 
-        public (string, string, string, string, string) GetData()
+        public (string, string, string, string, string, DateTime) GetData()
         {
             return (
                 titleTextBox.Text,
                 urlTextBox.Text, 
                 gamePathTextBox.Text, 
                 iconTextBox.Text, 
-                bannerTextBox.Text
+                bannerTextBox.Text,
+                DateTime.Now
             );
         }
 
@@ -148,7 +149,7 @@ namespace UpdAter
         {
             using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
-                fileDialog.Filter = "Image files(*.png *.jpg)|*.png; *.jpg|Exe files(*.exe)|*.exe|Ico files(*.ico)|*.ico|All files(*.*)|*.*";
+                fileDialog.Filter = "Exe files(*.exe)|*.exe|Image files(*.png *.jpg)|*.png; *.jpg|Ico files(*.ico)|*.ico|All files(*.*)|*.*";
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     iconTextBox.Text = fileDialog.FileName;

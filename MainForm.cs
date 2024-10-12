@@ -113,8 +113,14 @@ namespace UpdAter
                 uaBlock.enabledButtons(false);
                 await GDownloader.DownloadFileAsync(uaBlock.GetUrl(), uaBlock.GetPath(), uaBlock.GetProgressBar());
                 uaBlock.enabledButtons(true);
-                uaBlock.UpdateLastUpdate();
+                uaBlock.UpdateLastUpdate(true);
+
+                int index = uaList.Controls.IndexOf(uaBlock);
+                if (index == -1) return;
+                BL.ukrainizers.UpdateUkrainizerDate(index, uaBlock.GetLastUpdate());
+                BL.saveSettings();
             }
+
         }
 
         private void blockChanged(object sender, EventArgs e)
@@ -124,9 +130,8 @@ namespace UpdAter
                 int index = uaList.Controls.IndexOf(uaBlock);
                 if (index == -1) return;
                 BL.ukrainizers.UpdateUkrainizer(index, uaBlock.GetData());
+                BL.saveSettings();
             }
-
-            BL.saveSettings();
         }
 
         private void blockDeleted(object sender, EventArgs e)
