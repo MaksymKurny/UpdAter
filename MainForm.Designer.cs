@@ -32,6 +32,7 @@ namespace UpdAter
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPanel = new System.Windows.Forms.Panel();
             this.btnExit = new System.Windows.Forms.Button();
+            this.btnMin = new System.Windows.Forms.Button();
             this.listPanel = new UpdAter.ImagePanel();
             this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.btnUpdateList = new UpdAter.FlatNoBorder();
@@ -44,6 +45,7 @@ namespace UpdAter
             // controlPanel
             // 
             this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
+            this.controlPanel.Controls.Add(this.btnMin);
             this.controlPanel.Controls.Add(this.btnUpdateList);
             this.controlPanel.Controls.Add(this.btnAddNew);
             this.controlPanel.Controls.Add(this.btnMoreInfo);
@@ -63,6 +65,17 @@ namespace UpdAter
             this.btnExit.Name = "btnExit";
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.exitButton_Click);
+            // 
+            // btnMin
+            // 
+            this.btnMin.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnMin.FlatAppearance.BorderSize = 0;
+            this.btnMin.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
+            resources.ApplyResources(this.btnMin, "btnMin");
+            this.btnMin.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
+            this.btnMin.Name = "btnMin";
+            this.btnMin.UseVisualStyleBackColor = true;
+            this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
             // 
             // listPanel
             // 
@@ -135,6 +148,7 @@ namespace UpdAter
         private UpdAter.FlatNoBorder btnUpdateList;
         private UpdAter.ImagePanel listPanel;
         private UpdAter.FlatNoBorder btnMoreInfo;
+        private System.Windows.Forms.Button btnMin;
     }
 }
 

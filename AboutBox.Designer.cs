@@ -42,6 +42,7 @@ namespace UpdAter
             this.tbLabel = new UpdAter.TransparentLabel();
             this.tbHead = new UpdAter.TransparentLabel();
             this.btnOk = new UpdAter.FlatNoBorder();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -235,7 +236,7 @@ namespace UpdAter
             this.tbHead.Padding = new System.Windows.Forms.Padding(20);
             this.tbHead.Size = new System.Drawing.Size(409, 124);
             this.tbHead.TabIndex = 25;
-            this.tbHead.Text = "Версія: 1.4.2\r\nАвтор програми: Godless\r\nДизайнер, тестер: ✙ Dragon Kreig ✙\r\n";
+            this.tbHead.Text = "Версія:\r\nАвтор програми: Godless\r\nДизайнер, тестер: ✙ Dragon Kreig ✙\r\n";
             // 
             // btnOk
             // 
@@ -253,13 +254,24 @@ namespace UpdAter
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = false;
             // 
+            // lblVersion
+            // 
+            this.lblVersion.AutoSize = true;
+            this.lblVersion.BackColor = System.Drawing.Color.Transparent;
+            this.lblVersion.Font = new System.Drawing.Font("Inter", 12F);
+            this.lblVersion.Location = new System.Drawing.Point(118, 40);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(55, 28);
+            this.lblVersion.TabIndex = 34;
+            this.lblVersion.Text = "1.0.0";
+            // 
             // AboutBox
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::UpdAter.Properties.Resources.about_bg1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(650, 618);
+            this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.tbHead);
             this.Controls.Add(this.tbLabel);
             this.Controls.Add(this.panel);
@@ -297,5 +309,6 @@ namespace UpdAter
         private System.Windows.Forms.Label lblTg;
         private System.Windows.Forms.Label lblToloka;
         private RoundedPanel panel;
+        private System.Windows.Forms.Label lblVersion;
     }
 }
