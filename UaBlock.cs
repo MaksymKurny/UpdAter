@@ -257,7 +257,6 @@ namespace UpdAter
             if (sender is ToolStripMenuItem button)
             {
                 changeCB?.Invoke(this, new ButtonChangedEventArgs(button.Name));
-                /*changeCB?.Invoke(this, EventArgs.Empty);*/
             }
         }
 

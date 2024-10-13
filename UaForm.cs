@@ -19,8 +19,8 @@ namespace UpdAter
             urlTextBox.Text = data.url;
             iconTextBox.Text = data.iconPath;
             bannerTextBox.Text = data.bannerPath;
-            helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл");
-            helpToolTip.SetToolTip(helpPath, "Тека в яку буде завантажено файли");
+            helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл (Google drive/GitHub)\nПодробиці у README файлі");
+            helpToolTip.SetToolTip(helpPath, "Тека, в яку буде завантажено файли");
 
             this.urlTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             this.titleTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);

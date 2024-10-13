@@ -121,9 +121,6 @@
   <data name="txtPercent.Font" type="System.Drawing.Font, System.Drawing">
     <value>Inter, 12pt</value>
   </data>
-  <data name="txtPercent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 107</value>
-  </data>
   <data name="txtPercent.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 35</value>
   </data>

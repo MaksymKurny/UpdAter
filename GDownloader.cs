@@ -13,18 +13,24 @@ namespace UpdAter
 {
     class GDownloader
     {
+        private UaBlock FindBlockById(TableLayoutPanel uaList, string id)
+        {
+            foreach (Control control in uaList.Controls)
+            {
+                if (control is UaBlock uaBlock && uaBlock.GetId() == id)
+                {
+                    return uaBlock;
+                }
+            }
+            return null;
+        }
+
         public async Task DownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList)
         {
             List<Task> downloadTasks = new List<Task>();
-            int index = 0;
             foreach (var ukrainizer in ukrainizers)
             {   
-                if (!ukrainizer.AddToList)
-                {
-                    index++;
-                    continue;
-                }
-                UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
                 if (uaBlock != null)
                 {
                     uaBlock.enabledButtons(false);
@@ -35,18 +41,14 @@ namespace UpdAter
             try
             {
                 await Task.WhenAll(downloadTasks);
-                index = 0;
                 foreach (var ukrainizer in ukrainizers)
                 {
-                    if (!ukrainizer.AddToList)
-                    {
-                        index++;
-                        continue;
-                    }
-                    UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                    
+                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
                     if (uaBlock != null)
                     {
                         uaBlock.enabledButtons(true);
+                        uaBlock.UpdateLastUpdate(true);
                     }
                 }
                 MessageBox.Show("Оновлення завершено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -61,34 +63,29 @@ namespace UpdAter
         {
             string[] gameNames = gameNamesArray.Split(';');
             List<Task> downloadTasks = new List<Task>();
-            int index = 0;
             foreach (var ukrainizer in ukrainizers)
             {
                 if (gameNames.Contains(ukrainizer.Title))
                 {
-                    UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
                     if (uaBlock != null)
                     {
                         uaBlock.enabledButtons(false);
                         downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
                     }
                 }
-                else
-                {
-                    index++;
-                }  
             }
 
             try
             {
                 await Task.WhenAll(downloadTasks);
-                index = 0;
                 foreach (var ukrainizer in ukrainizers)
                 {
-                    UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
+                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
                     if (uaBlock != null)
                     {
                         uaBlock.enabledButtons(true);
+                        uaBlock.UpdateLastUpdate(true);
                     }
                 }
             }

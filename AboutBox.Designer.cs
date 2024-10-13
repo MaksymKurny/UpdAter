@@ -135,11 +135,11 @@ namespace UpdAter
             // 
             this.lblGit.AutoSize = true;
             this.lblGit.BackColor = System.Drawing.Color.Transparent;
-            this.lblGit.Font = new System.Drawing.Font("Inter", 10.2F);
+            this.lblGit.Font = new System.Drawing.Font("Inter Medium", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblGit.Location = new System.Drawing.Point(20, 10);
             this.lblGit.Margin = new System.Windows.Forms.Padding(0);
             this.lblGit.Name = "lblGit";
-            this.lblGit.Size = new System.Drawing.Size(126, 24);
+            this.lblGit.Size = new System.Drawing.Size(128, 24);
             this.lblGit.TabIndex = 33;
             this.lblGit.Text = "Ми на GitHub:";
             // 
@@ -147,11 +147,11 @@ namespace UpdAter
             // 
             this.lblKuli.AutoSize = true;
             this.lblKuli.BackColor = System.Drawing.Color.Transparent;
-            this.lblKuli.Font = new System.Drawing.Font("Inter", 10.2F);
+            this.lblKuli.Font = new System.Drawing.Font("Inter Medium", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblKuli.Location = new System.Drawing.Point(20, 62);
             this.lblKuli.Margin = new System.Windows.Forms.Padding(0);
             this.lblKuli.Name = "lblKuli";
-            this.lblKuli.Size = new System.Drawing.Size(185, 24);
+            this.lblKuli.Size = new System.Drawing.Size(188, 24);
             this.lblKuli.TabIndex = 34;
             this.lblKuli.Text = "Сайт з перекладами:";
             // 
@@ -159,11 +159,11 @@ namespace UpdAter
             // 
             this.lblUkr.AutoSize = true;
             this.lblUkr.BackColor = System.Drawing.Color.Transparent;
-            this.lblUkr.Font = new System.Drawing.Font("Inter", 10.2F);
+            this.lblUkr.Font = new System.Drawing.Font("Inter Medium", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblUkr.Location = new System.Drawing.Point(20, 114);
             this.lblUkr.Margin = new System.Windows.Forms.Padding(0);
             this.lblUkr.Name = "lblUkr";
-            this.lblUkr.Size = new System.Drawing.Size(202, 24);
+            this.lblUkr.Size = new System.Drawing.Size(205, 24);
             this.lblUkr.TabIndex = 35;
             this.lblUkr.Text = "Посібник з українізації:";
             // 
@@ -171,11 +171,11 @@ namespace UpdAter
             // 
             this.lblTg.AutoSize = true;
             this.lblTg.BackColor = System.Drawing.Color.Transparent;
-            this.lblTg.Font = new System.Drawing.Font("Inter", 10.2F);
+            this.lblTg.Font = new System.Drawing.Font("Inter Medium", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblTg.Location = new System.Drawing.Point(20, 166);
             this.lblTg.Margin = new System.Windows.Forms.Padding(0);
             this.lblTg.Name = "lblTg";
-            this.lblTg.Size = new System.Drawing.Size(262, 24);
+            this.lblTg.Size = new System.Drawing.Size(266, 24);
             this.lblTg.TabIndex = 36;
             this.lblTg.Text = "Телеграм-новини перекладів:";
             // 
@@ -183,11 +183,11 @@ namespace UpdAter
             // 
             this.lblToloka.AutoSize = true;
             this.lblToloka.BackColor = System.Drawing.Color.Transparent;
-            this.lblToloka.Font = new System.Drawing.Font("Inter", 10.2F);
+            this.lblToloka.Font = new System.Drawing.Font("Inter Medium", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lblToloka.Location = new System.Drawing.Point(20, 218);
             this.lblToloka.Margin = new System.Windows.Forms.Padding(0);
             this.lblToloka.Name = "lblToloka";
-            this.lblToloka.Size = new System.Drawing.Size(257, 24);
+            this.lblToloka.Size = new System.Drawing.Size(262, 24);
             this.lblToloka.TabIndex = 37;
             this.lblToloka.Text = "Українські торренти й форум:";
             // 
@@ -229,12 +229,12 @@ namespace UpdAter
             this.tbHead.BackColor = System.Drawing.Color.Transparent;
             this.tbHead.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(178)))), ((int)(((byte)(248)))), ((int)(((byte)(232)))), ((int)(((byte)(199)))));
             this.tbHead.BorderRadius = 12;
-            this.tbHead.Font = new System.Drawing.Font("Inter", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tbHead.Font = new System.Drawing.Font("Inter", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tbHead.Location = new System.Drawing.Point(20, 20);
             this.tbHead.Margin = new System.Windows.Forms.Padding(0);
             this.tbHead.Name = "tbHead";
             this.tbHead.Padding = new System.Windows.Forms.Padding(20);
-            this.tbHead.Size = new System.Drawing.Size(409, 124);
+            this.tbHead.Size = new System.Drawing.Size(485, 145);
             this.tbHead.TabIndex = 25;
             this.tbHead.Text = "Версія:\r\nАвтор програми: Godless\r\nДизайнер, тестер: ✙ Dragon Kreig ✙\r\n";
             // 
@@ -258,10 +258,10 @@ namespace UpdAter
             // 
             this.lblVersion.AutoSize = true;
             this.lblVersion.BackColor = System.Drawing.Color.Transparent;
-            this.lblVersion.Font = new System.Drawing.Font("Inter", 12F);
-            this.lblVersion.Location = new System.Drawing.Point(118, 40);
+            this.lblVersion.Font = new System.Drawing.Font("Inter", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lblVersion.Location = new System.Drawing.Point(132, 40);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(55, 28);
+            this.lblVersion.Size = new System.Drawing.Size(66, 35);
             this.lblVersion.TabIndex = 34;
             this.lblVersion.Text = "1.0.0";
             // 

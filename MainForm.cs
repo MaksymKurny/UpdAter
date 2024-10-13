@@ -58,9 +58,10 @@ namespace UpdAter
 
         private async void AllUpdate(object sender, EventArgs e)
         {
-            if (BL.ukrainizers.List.Count > 0 && BL.ukrainizers.HasUaInList())
+            var list = BL.ukrainizers.GetUaInList();
+            if (list.Count > 0)
             {
-                await GDownloader.DownloadFilesAsync(BL.ukrainizers.List, uaList);
+                await GDownloader.DownloadFilesAsync(list, uaList);
             }
             else
             {

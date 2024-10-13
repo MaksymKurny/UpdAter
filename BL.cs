@@ -71,9 +71,9 @@ namespace UpdAter.BL
                 uaToChange.SetData(data);
             }
         }
-        public bool HasUaInList()
+        public List<Ukrainizer> GetUaInList()
         {
-            return List.Any(u => u.AddToList);
+            return List.Where(u => u.AddToList).ToList();
         }
         public (List<Ukrainizer>, List<Ukrainizer>) GetPinnedList()
         {
