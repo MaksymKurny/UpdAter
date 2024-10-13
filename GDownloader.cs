@@ -18,7 +18,12 @@ namespace UpdAter
             List<Task> downloadTasks = new List<Task>();
             int index = 0;
             foreach (var ukrainizer in ukrainizers)
-            {
+            {   
+                if (!ukrainizer.AddToList)
+                {
+                    index++;
+                    continue;
+                }
                 UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
                 if (uaBlock != null)
                 {
@@ -33,6 +38,11 @@ namespace UpdAter
                 index = 0;
                 foreach (var ukrainizer in ukrainizers)
                 {
+                    if (!ukrainizer.AddToList)
+                    {
+                        index++;
+                        continue;
+                    }
                     UaBlock uaBlock = (UaBlock)uaList.Controls[index++];
                     if (uaBlock != null)
                     {

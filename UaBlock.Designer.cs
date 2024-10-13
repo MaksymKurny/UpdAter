@@ -36,6 +36,8 @@ namespace UpdAter
             this.txtPercent = new System.Windows.Forms.Label();
             this.moreMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuEdit = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuAddToList = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuPin = new System.Windows.Forms.ToolStripMenuItem();
             this.menuOpen = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDell = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMore = new UpdAter.FlatNoBorder();
@@ -73,6 +75,8 @@ namespace UpdAter
             this.moreMenu.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.moreMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuEdit,
+            this.menuAddToList,
+            this.menuPin,
             this.menuOpen,
             this.menuDell});
             this.moreMenu.Name = "moreMenu";
@@ -82,6 +86,20 @@ namespace UpdAter
             resources.ApplyResources(this.menuEdit, "menuEdit");
             this.menuEdit.Name = "menuEdit";
             this.menuEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // menuAddToList
+            // 
+            resources.ApplyResources(this.menuAddToList, "menuAddToList");
+            this.menuAddToList.CheckOnClick = true;
+            this.menuAddToList.Name = "menuAddToList";
+            this.menuAddToList.CheckedChanged += new System.EventHandler(this.menuButton_CheckedChanged);
+            // 
+            // menuPin
+            // 
+            resources.ApplyResources(this.menuPin, "menuPin");
+            this.menuPin.CheckOnClick = true;
+            this.menuPin.Name = "menuPin";
+            this.menuPin.CheckedChanged += new System.EventHandler(this.menuButton_CheckedChanged);
             // 
             // menuOpen
             // 
@@ -169,5 +187,7 @@ namespace UpdAter
         private System.Windows.Forms.ToolStripMenuItem menuOpen;
         private System.Windows.Forms.ToolStripMenuItem menuEdit;
         private FlatNoBorder btnMore;
+        private System.Windows.Forms.ToolStripMenuItem menuAddToList;
+        private System.Windows.Forms.ToolStripMenuItem menuPin;
     }
 }

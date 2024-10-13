@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="updateAll.Text" xml:space="preserve">
-    <value>Оновити все</value>
+  <data name="btnUpdateList.Text" xml:space="preserve">
+    <value>Оновити список</value>
   </data>
-  <data name="addNew.Text" xml:space="preserve">
+  <data name="btnAddNew.Text" xml:space="preserve">
     <value>Додати ще</value>
   </data>
-  <data name="credits.Text" xml:space="preserve">
+  <data name="btnMoreInfo.Text" xml:space="preserve">
     <value>Додатково</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -10955,5 +10955,9 @@
         4e0dTm7rr+mzvruG/9Dhp9r0Y1ooFAqFdYT/DwAA//9F6IHmAAAABklEQVQDAHBmrtVXOstcAAAAAElF
         TkSuQmCC
 </value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>Inherit</value>
   </data>
 </root>

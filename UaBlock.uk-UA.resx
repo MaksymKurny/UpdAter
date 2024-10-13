@@ -118,30 +118,54 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="txtPercent.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Inter, 12pt</value>
+  </data>
+  <data name="txtPercent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>360, 107</value>
+  </data>
+  <data name="txtPercent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 35</value>
+  </data>
   <data name="menuEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 28</value>
+    <value>221, 28</value>
   </data>
   <data name="menuEdit.Text" xml:space="preserve">
     <value>Змінити</value>
   </data>
+  <data name="menuAddToList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 28</value>
+  </data>
+  <data name="menuAddToList.Text" xml:space="preserve">
+    <value>Додати в список</value>
+  </data>
+  <data name="menuPin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>221, 28</value>
+  </data>
+  <data name="menuPin.Text" xml:space="preserve">
+    <value>Закріпити</value>
+  </data>
   <data name="menuOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 28</value>
+    <value>221, 28</value>
   </data>
   <data name="menuOpen.Text" xml:space="preserve">
     <value>Відкрити теку</value>
   </data>
   <data name="menuDell.Size" type="System.Drawing.Size, System.Drawing">
-    <value>194, 28</value>
+    <value>221, 28</value>
   </data>
   <data name="menuDell.Text" xml:space="preserve">
     <value>Видалити</value>
   </data>
   <data name="moreMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>195, 88</value>
+    <value>222, 144</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnMore.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 0, 0, 0</value>
+  </data>
+  <data name="txtLastUpd.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Inter, 13.8pt, style=Bold</value>
   </data>
   <data name="txtLastUpd.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 89</value>
@@ -150,18 +174,18 @@
     <value>0, 0, 0, 10</value>
   </data>
   <data name="txtLastUpd.Size" type="System.Drawing.Size, System.Drawing">
-    <value>280, 33</value>
+    <value>310, 33</value>
   </data>
   <data name="txtLastUpd.Text" xml:space="preserve">
-    <value>Останнє оновлення:</value>
+    <value>Востаннє завантажено:</value>
+  </data>
+  <data name="txtTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Inter, 16.1999989pt, style=Bold</value>
+  </data>
+  <data name="btnUpdate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Inter, 10.2pt</value>
   </data>
   <data name="btnUpdate.Text" xml:space="preserve">
     <value>Оновити</value>
-  </data>
-  <data name="menuDell.Message" xml:space="preserve">
-    <value>Ви впевнені що хочете видалити цей переклад?</value>
-  </data>
-  <data name="menuDell.MessageTitle" xml:space="preserve">
-    <value>Видалити</value>
   </data>
 </root>

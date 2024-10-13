@@ -10,7 +10,7 @@ namespace UpdAter
 {
     public partial class UaForm : Form
     {
-        public UaForm((string title, string path, string url, string iconPath, string bannerPath, DateTime lastUpdate) data)
+        public UaForm((string title, string path, string url, string iconPath, string bannerPath) data)
         {
             InitializeComponent();
 
@@ -20,17 +20,21 @@ namespace UpdAter
             iconTextBox.Text = data.iconPath;
             bannerTextBox.Text = data.bannerPath;
             helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл");
+            helpToolTip.SetToolTip(helpPath, "Тека в яку буде завантажено файли");
+
+            this.urlTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
+            this.titleTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
+            this.gamePathTextBox.TextChanged += new System.EventHandler(this.gamePathTextBox_TextChanged);
         }
 
-        public (string, string, string, string, string, DateTime) GetData()
+        public (string, string, string, string, string) GetData()
         {
             return (
                 titleTextBox.Text,
                 urlTextBox.Text, 
                 gamePathTextBox.Text, 
                 iconTextBox.Text, 
-                bannerTextBox.Text,
-                DateTime.Now
+                bannerTextBox.Text
             );
         }
 
@@ -43,7 +47,6 @@ namespace UpdAter
                 {
                     string selectedPath = folderDialog.SelectedPath;
                     gamePathTextBox.Text = selectedPath;
-                    UpdateGameInfo(selectedPath);
                 }
             }
         }
@@ -172,10 +175,13 @@ namespace UpdAter
         private void gamePathTextBox_TextChanged(object sender, EventArgs e)
         {
             CheckFieldsFilled(sender, e);
-            if (gamePathTextBox.Text != "")
-            {
-                UpdateGameInfo(gamePathTextBox.Text);
-            }
+            string path = gamePathTextBox.Text;
+            btnFillInfo.Enabled = (path.Contains("steamapps") && path.Contains("common") && IsValidPath(path));
+        }
+
+        private void btnFillInfo_Click(object sender, EventArgs e)
+        {
+            UpdateGameInfo(gamePathTextBox.Text);
         }
     }
 }

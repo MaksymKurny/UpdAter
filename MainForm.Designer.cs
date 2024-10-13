@@ -31,12 +31,12 @@ namespace UpdAter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPanel = new System.Windows.Forms.Panel();
-            this.updateAll = new UpdAter.FlatNoBorder();
-            this.addNew = new UpdAter.FlatNoBorder();
-            this.credits = new UpdAter.FlatNoBorder();
-            this.exitButton = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             this.listPanel = new UpdAter.ImagePanel();
             this.uaList = new System.Windows.Forms.TableLayoutPanel();
+            this.btnUpdateList = new UpdAter.FlatNoBorder();
+            this.btnAddNew = new UpdAter.FlatNoBorder();
+            this.btnMoreInfo = new UpdAter.FlatNoBorder();
             this.controlPanel.SuspendLayout();
             this.listPanel.SuspendLayout();
             this.SuspendLayout();
@@ -44,58 +44,25 @@ namespace UpdAter
             // controlPanel
             // 
             this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
-            this.controlPanel.Controls.Add(this.updateAll);
-            this.controlPanel.Controls.Add(this.addNew);
-            this.controlPanel.Controls.Add(this.credits);
-            this.controlPanel.Controls.Add(this.exitButton);
+            this.controlPanel.Controls.Add(this.btnUpdateList);
+            this.controlPanel.Controls.Add(this.btnAddNew);
+            this.controlPanel.Controls.Add(this.btnMoreInfo);
+            this.controlPanel.Controls.Add(this.btnExit);
             this.controlPanel.Cursor = System.Windows.Forms.Cursors.SizeAll;
             resources.ApplyResources(this.controlPanel, "controlPanel");
             this.controlPanel.Name = "controlPanel";
             this.controlPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             // 
-            // updateAll
+            // btnExit
             // 
-            this.updateAll.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.updateAll.BorderRadius = 4;
-            this.updateAll.Cursor = System.Windows.Forms.Cursors.Default;
-            this.updateAll.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.updateAll, "updateAll");
-            this.updateAll.Name = "updateAll";
-            this.updateAll.UseVisualStyleBackColor = false;
-            this.updateAll.Click += new System.EventHandler(this.AllUpdate);
-            // 
-            // addNew
-            // 
-            this.addNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.addNew.BorderRadius = 4;
-            this.addNew.Cursor = System.Windows.Forms.Cursors.Default;
-            this.addNew.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.addNew, "addNew");
-            this.addNew.Name = "addNew";
-            this.addNew.UseVisualStyleBackColor = false;
-            this.addNew.Click += new System.EventHandler(this.btn_addNew_Click);
-            // 
-            // credits
-            // 
-            this.credits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
-            this.credits.BorderRadius = 4;
-            this.credits.Cursor = System.Windows.Forms.Cursors.Default;
-            this.credits.FlatAppearance.BorderSize = 0;
-            resources.ApplyResources(this.credits, "credits");
-            this.credits.Name = "credits";
-            this.credits.UseVisualStyleBackColor = false;
-            this.credits.Click += new System.EventHandler(this.credits_Click);
-            // 
-            // exitButton
-            // 
-            this.exitButton.Cursor = System.Windows.Forms.Cursors.Default;
-            this.exitButton.FlatAppearance.BorderSize = 0;
-            this.exitButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
-            resources.ApplyResources(this.exitButton, "exitButton");
-            this.exitButton.ForeColor = System.Drawing.Color.White;
-            this.exitButton.Name = "exitButton";
-            this.exitButton.UseVisualStyleBackColor = true;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.btnExit, "btnExit");
+            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
+            this.btnExit.Name = "btnExit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // listPanel
             // 
@@ -109,10 +76,43 @@ namespace UpdAter
             resources.ApplyResources(this.uaList, "uaList");
             this.uaList.Name = "uaList";
             // 
+            // btnUpdateList
+            // 
+            this.btnUpdateList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.btnUpdateList.BorderRadius = 4;
+            this.btnUpdateList.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnUpdateList.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.btnUpdateList, "btnUpdateList");
+            this.btnUpdateList.Name = "btnUpdateList";
+            this.btnUpdateList.UseVisualStyleBackColor = false;
+            this.btnUpdateList.Click += new System.EventHandler(this.AllUpdate);
+            // 
+            // btnAddNew
+            // 
+            this.btnAddNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.btnAddNew.BorderRadius = 4;
+            this.btnAddNew.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnAddNew.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.btnAddNew, "btnAddNew");
+            this.btnAddNew.Name = "btnAddNew";
+            this.btnAddNew.UseVisualStyleBackColor = false;
+            this.btnAddNew.Click += new System.EventHandler(this.btn_addNew_Click);
+            // 
+            // btnMoreInfo
+            // 
+            this.btnMoreInfo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(193)))), ((int)(((byte)(74)))));
+            this.btnMoreInfo.BorderRadius = 4;
+            this.btnMoreInfo.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnMoreInfo.FlatAppearance.BorderSize = 0;
+            resources.ApplyResources(this.btnMoreInfo, "btnMoreInfo");
+            this.btnMoreInfo.Name = "btnMoreInfo";
+            this.btnMoreInfo.UseVisualStyleBackColor = false;
+            this.btnMoreInfo.Click += new System.EventHandler(this.credits_Click);
+            // 
             // MainForm
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(40)))), ((int)(((byte)(56)))));
             this.Controls.Add(this.listPanel);
             this.Controls.Add(this.controlPanel);
@@ -129,12 +129,12 @@ namespace UpdAter
 
         #endregion
         private System.Windows.Forms.TableLayoutPanel uaList;
-        private UpdAter.FlatNoBorder addNew;
+        private UpdAter.FlatNoBorder btnAddNew;
         private System.Windows.Forms.Panel controlPanel;
-        private System.Windows.Forms.Button exitButton;
-        private UpdAter.FlatNoBorder updateAll;
+        private System.Windows.Forms.Button btnExit;
+        private UpdAter.FlatNoBorder btnUpdateList;
         private UpdAter.ImagePanel listPanel;
-        private UpdAter.FlatNoBorder credits;
+        private UpdAter.FlatNoBorder btnMoreInfo;
     }
 }
 

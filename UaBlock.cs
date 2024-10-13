@@ -1,25 +1,22 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
-using System.Resources;
 using System.Windows.Forms;
 
 namespace UpdAter
 {
     public partial class UaBlock : UserControl
     {
-        public event EventHandler blockDeleted, blockChanged, needUpdate;
-        private ResourceManager resources;
-        private string path, iconPath, bannerPath, url;
+        public event EventHandler blockDeleted, blockChanged, needUpdate, changeCB;
+        private string id, path, iconPath, bannerPath, url;
         private Image deffBannerImage = null;
         private int borderRadius = 10;
         private DateTime LastUpdate;
         private bool newBlock = true;
 
-        public UaBlock((string, string, string, string, string, DateTime) data, bool noData)
+        public UaBlock((string id, string, string, string, string, string, DateTime, bool, bool) data, bool noData)
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint, true);
@@ -29,9 +26,14 @@ namespace UpdAter
             {
                 SetData(data);
                 UpdateLastUpdate();
+            } else
+            {
+                id = data.id;
             }
-
-            resources = new ResourceManager(typeof(UaBlock));
+        }
+        public string GetId()
+        {
+            return id;
         }
         public string GetTitle()
         {
@@ -57,6 +59,14 @@ namespace UpdAter
         {
             return LastUpdate;
         }
+        public bool GetListCheckbox()
+        {
+            return menuAddToList.Checked;
+        }
+        public bool GetPinCheckbox()
+        {
+            return menuPin.Checked;
+        }
         public bool IsNew()
         {
             return newBlock;
@@ -65,13 +75,25 @@ namespace UpdAter
         {
             return (progressBar, txtPercent);
         }
-        public (string, string, string, string, string, DateTime) GetData()
+        public (string, string, string, string, string, DateTime, bool, bool) GetFullData()
         {
-            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetLastUpdate());
+            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetLastUpdate(), GetListCheckbox(), GetPinCheckbox());
         }
 
-        public void SetData((string title, string url, string path, string icon, string banner, DateTime lastUpdate) data)
+        public (string, string, string, string, string) GetData()
         {
+            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner());
+        }
+
+        public void SetShortData((string title, string url, string path, string icon, string banner) data)
+        {
+            SetData((id, data.title, data.url, data.path, data.icon, data.banner, LastUpdate, GetListCheckbox(), GetPinCheckbox()));
+        }
+
+        public void SetData((string id, string title, string url, string path, 
+            string icon, string banner, DateTime lastUpdate, bool updateAll, bool pinnedState) data)
+        {
+            id = data.id;
             txtTitle.Text = data.title;
             path = data.path;
             url = data.url;
@@ -79,6 +101,9 @@ namespace UpdAter
             bannerPath = data.banner;
             newBlock = false;
             LastUpdate = data.lastUpdate;
+            menuAddToList.Checked = data.updateAll;
+            menuPin.Checked = data.pinnedState;
+
             if (File.Exists(bannerPath))
             {
                 if (this.BackgroundImage != Image.FromFile(bannerPath))
@@ -198,22 +223,18 @@ namespace UpdAter
 
         private void btnDell_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show(resources.GetString("menuDell.Message"), resources.GetString("menuDell.MessageTitle"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Ви спевнені що бажаєте видалити переклад?", "Видалити", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
                 blockDeleted?.Invoke(this, EventArgs.Empty);
         }
 
         public void btnEdit_Click(object sender, EventArgs e)
         {
-            // Створення нової форми для редагування
             UaForm editForm = new UaForm(GetData());
-
-            // Показати форму редагування модально
             DialogResult result = editForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                // Оновити нотатку в NoteBlock
-                this.SetData(editForm.GetData());
+                this.SetShortData(editForm.GetData());
                 blockChanged?.Invoke(this, EventArgs.Empty);
             } else if (result == DialogResult.Cancel && newBlock)
             {
@@ -231,9 +252,27 @@ namespace UpdAter
             txtLastUpd.Text = $"{prefix}: {date}";
         }
 
+        private void menuButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender is ToolStripMenuItem button)
+            {
+                changeCB?.Invoke(this, new ButtonChangedEventArgs(button.Name));
+                /*changeCB?.Invoke(this, EventArgs.Empty);*/
+            }
+        }
+
         private void btnUpdate_Click(object sender, EventArgs e)
         {
             needUpdate?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public class ButtonChangedEventArgs : EventArgs
+    {
+        public string ButtonName { get; }
+        public ButtonChangedEventArgs(string buttonName)
+        {
+            ButtonName = buttonName;
         }
     }
 }

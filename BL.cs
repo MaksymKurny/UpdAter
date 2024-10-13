@@ -45,7 +45,6 @@ namespace UpdAter.BL
         {
             try
             {
-                // Виклик методу з FileHandler для відкриття простору за вказаним шляхом
                 ukrainizers = FileHandler.OpenSettingsFromFile(filePath);
             }
             catch (Exception ex)
@@ -64,53 +63,100 @@ namespace UpdAter.BL
             List = new List<Ukrainizer>();
         }
 
-        public void UpdateUkrainizer(int index, (string, string, string, string, string, DateTime) data)
+        public void UpdateUkrainizer(string id, (string, string, string, string, string, DateTime, bool, bool) data)
         {
-            List[index].SetData(data);
+            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
+            if (uaToChange != null)
+            {
+                uaToChange.SetData(data);
+            }
         }
-        public void UpdateUkrainizerDate(int index, DateTime lastUpdate)
+        public bool HasUaInList()
         {
-            List[index].UpdateLastUpdate(lastUpdate);
+            return List.Any(u => u.AddToList);
         }
-        public void DellNewUkrainizer()
+        public (List<Ukrainizer>, List<Ukrainizer>) GetPinnedList()
         {
-            List.Remove(List[0]);
+            var pinnedUkrainizers = List.Where(u => u.PinnedState).ToList();
+            var unpinnedUkrainizers = List.Where(u => !u.PinnedState).ToList();
+            return (pinnedUkrainizers, unpinnedUkrainizers);
         }
-        public void DellUkrainizer(string title, string url)
+        public void UpdateUkrainizerDate(string id, DateTime lastUpdate)
         {
-            Ukrainizer uaToRemove = List.FirstOrDefault(n => n.Title == title && n.Url == url);
+            Ukrainizer uaToChange = List.FirstOrDefault(n => n.Id == id);
+            if (uaToChange != null)
+            {
+                uaToChange.UpdateLastUpdate(lastUpdate);
+            }
+        }
+        public void ChangeAddToList(string id, bool isChecked)
+        {
+            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
+            if (uaToChange != null)
+            {
+                uaToChange.ChangeAddToList(isChecked);
+            }
+        }
+        public void DellUkrainizer(string id)
+        {
+            Ukrainizer uaToRemove = List.FirstOrDefault(u => u.Id == id);
             if (uaToRemove != null) List.Remove(uaToRemove);
+        }
+
+        public void ChangePinnedState(string id, bool isChecked)
+        {
+            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
+            if (uaToChange != null)
+            {
+                uaToChange.ChangePinnedState(isChecked);
+            }
         }
     }
 
     public class Ukrainizer
     {
+        public string Id { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
         public string Path { get; set; }
         public string Icon { get; set; }
         public string Banner { get; set; }
-        public string MetaInfo { get; set; }
         public DateTime LastUpdate { get; set; }
+        public bool AddToList { get; set; }
+        public bool PinnedState { get; set; }
+        public string MetaInfo { get; set; }
 
-        public Ukrainizer(){}
+        public Ukrainizer() {
+            Id = Guid.NewGuid().ToString();
+        }
 
-        public void SetData((string title, string path, string url, string icon, string banner, DateTime lastUpdate) data)
+        public void SetData((string title, string path, string url, 
+            string icon, string banner, DateTime lastUpdate, bool addToList, bool pinnedState) data)
         {
             Title = data.title;
-            Path = data.path;
             Url = data.url;
+            Path = data.path;
             Icon = data.icon;
             Banner = data.banner;
             LastUpdate = data.lastUpdate;
+            AddToList = data.addToList;
+            PinnedState = data.pinnedState;
         }
         public void UpdateLastUpdate(DateTime lastUpdate)
         {
             LastUpdate = lastUpdate;
         }
-        public (string, string, string, string, string, DateTime) GetData()
+        public void ChangeAddToList(bool isChecked)
         {
-            return (Title, Url, Path, Icon, Banner, LastUpdate);
+            AddToList = isChecked;
+        }
+        internal void ChangePinnedState(bool isChecked)
+        {
+            PinnedState = isChecked;
+        }
+        public (string, string, string, string, string, string, DateTime, bool, bool) GetData()
+        {
+            return (Id, Title, Url, Path, Icon, Banner, LastUpdate, AddToList, PinnedState);
         }
     }
 }

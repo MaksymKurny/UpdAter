@@ -12,9 +12,10 @@ namespace UpdAter
         private Bl BL;
         private int borderRadius = 8; // Рівень заокруглення
         private GDownloader GDownloader;
+        private int pinnedCount;
 
-        //Пересування форми
-        [System.Runtime.InteropServices.DllImport("User32.dll")]
+       //Пересування форми
+       [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern bool ReleaseCapture();
         [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -47,6 +48,7 @@ namespace UpdAter
             UpdateStyles();
             BL = new Bl();
             GDownloader = new GDownloader();
+            pinnedCount = 0;
             UpdateList();
             if( args.Length > 0)
             {
@@ -56,13 +58,13 @@ namespace UpdAter
 
         private async void AllUpdate(object sender, EventArgs e)
         {
-            if (BL.ukrainizers.List.Count > 0)
+            if (BL.ukrainizers.List.Count > 0 && BL.ukrainizers.HasUaInList())
             {
                 await GDownloader.DownloadFilesAsync(BL.ukrainizers.List, uaList);
             }
             else
             {
-                MessageBox.Show($"Немає чого оновлювати!", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Спершу додайте переклади у список!", "Попередження", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -95,12 +97,13 @@ namespace UpdAter
             uaBlock.blockDeleted += blockDeleted;
             uaBlock.needUpdate += blockUpdate;
             uaBlock.blockChanged += blockChanged;
+            uaBlock.changeCB += blockChangeCb;
 
             uaList.Controls.Add(uaBlock);
 
             if (newBlock)
             {
-                uaList.Controls.SetChildIndex(uaBlock, 0);
+                uaList.Controls.SetChildIndex(uaBlock, pinnedCount);
                 BL.ukrainizers.List.Insert(0, block);
                 uaBlock.btnEdit_Click(this, EventArgs.Empty);
             }
@@ -115,10 +118,43 @@ namespace UpdAter
                 uaBlock.enabledButtons(true);
                 uaBlock.UpdateLastUpdate(true);
 
-                int index = uaList.Controls.IndexOf(uaBlock);
-                if (index == -1) return;
-                BL.ukrainizers.UpdateUkrainizerDate(index, uaBlock.GetLastUpdate());
+                BL.ukrainizers.UpdateUkrainizerDate(uaBlock.GetId(), uaBlock.GetLastUpdate());
                 BL.saveSettings();
+            }
+        }
+
+        private void blockChangeCb(object sender, EventArgs e)
+        {
+            if (e is ButtonChangedEventArgs buttonArgs)
+            {
+                if (sender is UaBlock uaBlock)
+                {
+                    if (buttonArgs.ButtonName == "menuPin")
+                    {
+                        string id = uaBlock.GetId();
+                        bool isCheked = uaBlock.GetPinCheckbox();
+                        BL.ukrainizers.ChangePinnedState(id, isCheked);
+                        var (pinned, unpinned) = BL.ukrainizers.GetPinnedList();
+                        if (isCheked)
+                        {
+                            pinnedCount++;
+                            int i = pinned.FindIndex(u => u.Id == id);
+                            uaList.Controls.SetChildIndex(uaBlock, i != -1 ? i : 0);
+                            
+                        }
+                        else if (!isCheked)
+                        {
+                            pinnedCount--;
+                            int i = unpinned.FindIndex(u => u.Id == id);
+                            uaList.Controls.SetChildIndex(uaBlock, pinnedCount + (i != -1 ? i : 0));
+                        }
+                    }
+                    else if (buttonArgs.ButtonName == "menuAddToList")
+                    {
+                        BL.ukrainizers.ChangeAddToList(uaBlock.GetId(), uaBlock.GetListCheckbox());
+                    }
+                    BL.saveSettings();
+                }
             }
 
         }
@@ -127,9 +163,7 @@ namespace UpdAter
         {
             if (sender is UaBlock uaBlock)
             {
-                int index = uaList.Controls.IndexOf(uaBlock);
-                if (index == -1) return;
-                BL.ukrainizers.UpdateUkrainizer(index, uaBlock.GetData());
+                BL.ukrainizers.UpdateUkrainizer(uaBlock.GetId(), uaBlock.GetFullData());
                 BL.saveSettings();
             }
         }
@@ -138,11 +172,7 @@ namespace UpdAter
         {
             if (sender is UaBlock uaBlock)
             {
-                if (uaBlock.IsNew())
-                {
-                    BL.ukrainizers.DellNewUkrainizer();
-                }
-                BL.ukrainizers.DellUkrainizer(uaBlock.GetTitle(), uaBlock.GetUrl());
+                BL.ukrainizers.DellUkrainizer(uaBlock.GetId());
                 uaList.Controls.Remove(uaBlock);
                 BL.saveSettings();
             }
@@ -152,7 +182,13 @@ namespace UpdAter
         {
             uaList.Controls.Clear();
 
-            foreach (var ukrainizer in BL.ukrainizers.List)
+            var (pinned, unpinned) = BL.ukrainizers.GetPinnedList();
+            pinnedCount = pinned.Count;
+
+            foreach (var ukrainizer in pinned)
+                AddNewBlock(ukrainizer, false);
+
+            foreach (var ukrainizer in unpinned)
                 AddNewBlock(ukrainizer, false);
         }
 

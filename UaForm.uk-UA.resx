@@ -117,112 +117,67 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="titleTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 217</value>
-  </data>
-  <data name="titleTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>649, 32</value>
-  </data>
-  <data name="btnOk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>439, 423</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="btnOk.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 20, 0</value>
-  </data>
-  <data name="btnOk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 34</value>
+  <data name="titleTextBox.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="btnOk.Text" xml:space="preserve">
     <value>Зберегти</value>
   </data>
-  <data name="btnCancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>559, 423</value>
-  </data>
-  <data name="btnCancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 34</value>
+  <data name="btnOk.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="btnCancel.Text" xml:space="preserve">
     <value>Скасувати</value>
   </data>
-  <data name="gamePathTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 126</value>
+  <data name="btnCancel.ToolTip" xml:space="preserve">
+    <value />
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="gamePathTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 2, 3, 2</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="gamePathTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>529, 32</value>
+    <value>498, 32</value>
   </data>
-  <data name="btnPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>559, 124</value>
-  </data>
-  <data name="btnPath.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 2, 3, 2</value>
-  </data>
-  <data name="btnPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 34</value>
+  <data name="gamePathTextBox.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="btnPath.Text" xml:space="preserve">
-    <value>Відкрити</value>
+    <value>Вибрати теку</value>
   </data>
-  <data name="urlTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 55</value>
+  <data name="btnPath.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="urlTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 2, 3, 2</value>
   </data>
-  <data name="urlTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>646, 32</value>
-  </data>
-  <data name="iconTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 283</value>
+  <data name="urlTextBox.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="iconTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 2, 3, 2</value>
   </data>
-  <data name="iconTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>529, 32</value>
-  </data>
-  <data name="btnIcon.Location" type="System.Drawing.Point, System.Drawing">
-    <value>559, 282</value>
-  </data>
-  <data name="btnIcon.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 2, 3, 2</value>
-  </data>
-  <data name="btnIcon.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 34</value>
+  <data name="iconTextBox.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="btnIcon.Text" xml:space="preserve">
-    <value>Відкрити</value>
+    <value>Вибрати</value>
   </data>
-  <data name="btnBaner.Location" type="System.Drawing.Point, System.Drawing">
-    <value>559, 352</value>
-  </data>
-  <data name="btnBaner.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 2, 3, 2</value>
-  </data>
-  <data name="btnBaner.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 34</value>
+  <data name="btnIcon.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="btnBaner.Text" xml:space="preserve">
-    <value>Відкрити</value>
+    <value>Вибрати</value>
   </data>
-  <data name="bannerTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 353</value>
+  <data name="btnBaner.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="bannerTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>3, 2, 3, 2</value>
   </data>
-  <data name="bannerTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>529, 32</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 188</value>
-  </data>
-  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 32, 0, 0</value>
+  <data name="bannerTextBox.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>119, 28</value>
@@ -230,11 +185,8 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Назва гри*</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 252</value>
-  </data>
-  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 7, 0, 0</value>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 28</value>
@@ -242,11 +194,8 @@
   <data name="label2.Text" xml:space="preserve">
     <value>Шлях до іконки</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 94</value>
-  </data>
-  <data name="label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 7, 0, 0</value>
+  <data name="label2.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>365, 28</value>
@@ -254,11 +203,8 @@
   <data name="label3.Text" xml:space="preserve">
     <value>Тека для завантаження перекладу*</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 322</value>
-  </data>
-  <data name="label4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 7, 0, 0</value>
+  <data name="label3.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>171, 28</value>
@@ -266,11 +212,8 @@
   <data name="label4.Text" xml:space="preserve">
     <value>Шлях до банера</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 25</value>
-  </data>
-  <data name="label5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 7, 0, 0</value>
+  <data name="label4.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>325, 28</value>
@@ -278,23 +221,20 @@
   <data name="label5.Text" xml:space="preserve">
     <value>Посилання на файл перекладу*</value>
   </data>
-  <data name="helpUrl.Location" type="System.Drawing.Point, System.Drawing">
-    <value>635, 25</value>
+  <data name="label5.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="helpUrl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 28</value>
+  <data name="helpUrl.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="helpPath.Location" type="System.Drawing.Point, System.Drawing">
-    <value>635, 94</value>
+  <data name="helpPath.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="helpPath.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 28</value>
+  <data name="btnFillInfo.Text" xml:space="preserve">
+    <value>Заповнити інше</value>
   </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>8, 16</value>
-  </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>689, 478</value>
+  <data name="btnFillInfo.ToolTip" xml:space="preserve">
+    <value />
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -11125,16 +11065,10 @@
         TkSuQmCC
 </value>
   </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 2, 3, 2</value>
-  </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>451, 350</value>
-  </data>
-  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>20, 20, 20, 20</value>
-  </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Редагувати інформацію</value>
+  </data>
+  <data name="$this.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>
