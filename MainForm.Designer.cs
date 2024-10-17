@@ -31,8 +31,8 @@ namespace UpdAter
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPanel = new System.Windows.Forms.Panel();
-            this.btnExit = new System.Windows.Forms.Button();
             this.btnMin = new System.Windows.Forms.Button();
+            this.btnExit = new System.Windows.Forms.Button();
             this.listPanel = new UpdAter.ImagePanel();
             this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.btnUpdateList = new UpdAter.FlatNoBorder();
@@ -55,17 +55,6 @@ namespace UpdAter
             this.controlPanel.Name = "controlPanel";
             this.controlPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             // 
-            // btnExit
-            // 
-            this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
-            resources.ApplyResources(this.btnExit, "btnExit");
-            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
-            this.btnExit.Name = "btnExit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.exitButton_Click);
-            // 
             // btnMin
             // 
             this.btnMin.Cursor = System.Windows.Forms.Cursors.Default;
@@ -76,6 +65,17 @@ namespace UpdAter
             this.btnMin.Name = "btnMin";
             this.btnMin.UseVisualStyleBackColor = true;
             this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.btnExit, "btnExit");
+            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
+            this.btnExit.Name = "btnExit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.exitButton_Click);
             // 
             // listPanel
             // 

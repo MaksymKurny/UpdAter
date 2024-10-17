@@ -223,7 +223,7 @@ namespace UpdAter
 
         private void btnDell_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Ви спевнені що бажаєте видалити переклад?", "Видалити", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("Ви спевнені, що бажаєте видалити переклад?", "Видалити", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
                 blockDeleted?.Invoke(this, EventArgs.Empty);
         }
