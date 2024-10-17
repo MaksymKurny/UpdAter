@@ -7,6 +7,11 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SharpCompress.Archives;
+using SharpCompress.Archives.Rar;
+using SharpCompress.Archives.SevenZip;
+using SharpCompress.Archives.Zip;
+using SharpCompress.Common;
 using UpdAter.BL;
 
 namespace UpdAter
@@ -170,9 +175,16 @@ namespace UpdAter
                         while (isMoreToRead);
                     }
 
-                    if (fileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+                    string fileExtension = Path.GetExtension(fileName).ToLowerInvariant();
+                    switch (fileExtension)
                     {
-                        ExtractZipFile(fullPath, path);
+                        case ".zip":
+                        case ".rar":
+                        case ".7z":
+                        case ".tar":
+                        case ".gz":
+                            ExtractArchiveFile(fullPath, path);
+                            break;
                     }
                 }
             }
@@ -213,37 +225,28 @@ namespace UpdAter
             return fileName;
         }
 
-        private void ExtractZipFile(string zipFilePath, string extractPath)
+        private void ExtractArchiveFile(string archiveFilePath, string extractPath)
         {
             try
             {
-                using (ZipArchive archive = ZipFile.OpenRead(zipFilePath))
+                using (var archive = ArchiveFactory.Open(archiveFilePath))
                 {
-                    foreach (ZipArchiveEntry entry in archive.Entries)
+                    foreach (var entry in archive.Entries)
                     {
-                        string destinationPath = Path.Combine(extractPath, entry.FullName);
+                        if (!entry.IsDirectory)
+                        {
+                            string destinationPath = Path.Combine(extractPath, entry.Key);
+                            if (File.Exists(destinationPath))
+                            {
+                                File.Delete(destinationPath);
+                            }
 
-                        // Перевіряємо чи файл вже існує
-                        if (File.Exists(destinationPath))
-                        {
-                            File.Delete(destinationPath); // Видаляємо існуючий файл перед розпаковкою
-                        }
-
-                        // Якщо це директорія, то створюємо її, інакше - розпаковуємо файл
-                        if (entry.Name == "")
-                        {
-                            Directory.CreateDirectory(destinationPath);
-                        }
-                        else
-                        {
-                            // Створюємо директорію, якщо її ще немає
                             Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
-
-                            entry.ExtractToFile(destinationPath);
+                            entry.WriteToFile(destinationPath, new ExtractionOptions { ExtractFullPath = true, Overwrite = true });
                         }
                     }
                 }
-                File.Delete(zipFilePath);
+                File.Delete(archiveFilePath);
             }
             catch (Exception ex)
             {
