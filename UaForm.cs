@@ -43,6 +43,12 @@ namespace UpdAter
             using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
             {
                 folderDialog.Description = "Оберіть папку з грою";
+
+                if (!string.IsNullOrEmpty(gamePathTextBox.Text) && Directory.Exists(gamePathTextBox.Text))
+                {
+                    folderDialog.SelectedPath = gamePathTextBox.Text;
+                }
+
                 if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
                     string selectedPath = folderDialog.SelectedPath;
@@ -152,6 +158,10 @@ namespace UpdAter
         {
             using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
+                if (!string.IsNullOrEmpty(iconTextBox.Text) && File.Exists(iconTextBox.Text))
+                {
+                    fileDialog.InitialDirectory = Path.GetDirectoryName(iconTextBox.Text);
+                }
                 fileDialog.Filter = "Exe files(*.exe)|*.exe|Image files(*.png *.jpg)|*.png; *.jpg|Ico files(*.ico)|*.ico|All files(*.*)|*.*";
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -164,6 +174,11 @@ namespace UpdAter
         {
             using (OpenFileDialog fileDialog = new OpenFileDialog())
             {
+                if (!string.IsNullOrEmpty(bannerTextBox.Text) && File.Exists(bannerTextBox.Text))
+                {
+                    fileDialog.InitialDirectory = Path.GetDirectoryName(bannerTextBox.Text);
+                }
+
                 fileDialog.Filter = "Image files(*.png *.jpg)|*.png; *.jpg|All files(*.*)|*.*";
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
