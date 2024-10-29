@@ -4,19 +4,21 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
+using UpdAter.BL;
 
 namespace UpdAter
 {
     public partial class UaBlock : UserControl
     {
         public event EventHandler blockDeleted, blockChanged, needUpdate, changeCB;
-        private string id, path, iconPath, bannerPath, url;
+        private string id, path, iconPath, bannerPath, url, guideUrl, metaInfo;
         private Image deffBannerImage = null;
         private int borderRadius = 10;
         private DateTime LastUpdate;
         private bool newBlock = true;
+        public Ukrainizer UK;
 
-        public UaBlock((string id, string, string, string, string, string, DateTime, bool, bool) data, bool noData)
+        public UaBlock((string id, string, string, string, string, string, string, string, DateTime, bool, bool) data, bool noData)
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint, true);
@@ -55,6 +57,14 @@ namespace UpdAter
         {
             return iconPath;
         }
+        private string GetGuide()
+        {
+            return guideUrl;
+        }
+        public string GetMeta()
+        {
+            return metaInfo;
+        }
         public DateTime GetLastUpdate()
         {
             return LastUpdate;
@@ -75,23 +85,23 @@ namespace UpdAter
         {
             return (progressBar, txtPercent);
         }
-        public (string, string, string, string, string, DateTime, bool, bool) GetFullData()
+        public (string, string, string, string, string, string, string, DateTime, bool, bool) GetFullData()
         {
-            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetLastUpdate(), GetListCheckbox(), GetPinCheckbox());
+            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetGuide(), GetMeta(), GetLastUpdate(), GetListCheckbox(), GetPinCheckbox());
         }
 
-        public (string, string, string, string, string) GetData()
+        public (string, string, string, string, string, string) GetData()
         {
-            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner());
+            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetGuide());
         }
 
-        public void SetShortData((string title, string url, string path, string icon, string banner) data)
+        public void SetShortData((string title, string url, string path, string icon, string banner, string guide) data)
         {
-            SetData((id, data.title, data.url, data.path, data.icon, data.banner, LastUpdate, GetListCheckbox(), GetPinCheckbox()));
+            SetData((id, data.title, data.url, data.path, data.icon, data.banner, data.guide, metaInfo, LastUpdate, GetListCheckbox(), GetPinCheckbox()));
         }
 
         public void SetData((string id, string title, string url, string path, 
-            string icon, string banner, DateTime lastUpdate, bool updateAll, bool pinnedState) data)
+            string icon, string banner, string guide, string metaInfo, DateTime lastUpdate, bool updateAll, bool pinnedState) data)
         {
             id = data.id;
             txtTitle.Text = data.title;
@@ -99,6 +109,9 @@ namespace UpdAter
             url = data.url;
             iconPath = data.icon;
             bannerPath = data.banner;
+            guideUrl = data.guide;
+            menuGuide.Visible = !String.IsNullOrWhiteSpace(guideUrl);
+            metaInfo = data.metaInfo;
             newBlock = false;
             LastUpdate = data.lastUpdate;
             menuAddToList.Checked = data.updateAll;
@@ -201,6 +214,18 @@ namespace UpdAter
         private void btnMore_Click(object sender, EventArgs e)
         {
             moreMenu.Show(Cursor.Position);
+        }
+
+        private void menuGuide_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(guideUrl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не вдалося відкрити посилання: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void menuOpen_Click(object sender, EventArgs e)

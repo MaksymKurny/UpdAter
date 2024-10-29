@@ -10,7 +10,7 @@ namespace UpdAter
 {
     public partial class UaForm : Form
     {
-        public UaForm((string title, string path, string url, string iconPath, string bannerPath) data)
+        public UaForm((string title, string path, string url, string iconPath, string bannerPath, string guideUrl) data)
         {
             InitializeComponent();
 
@@ -19,22 +19,29 @@ namespace UpdAter
             urlTextBox.Text = data.url;
             iconTextBox.Text = data.iconPath;
             bannerTextBox.Text = data.bannerPath;
+            guideTextBox.Text = data.guideUrl;
+
             helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл (Google drive/GitHub)\nПодробиці у README файлі");
             helpToolTip.SetToolTip(helpPath, "Тека, в яку буде завантажено файли");
+            helpToolTip.SetToolTip(helpGuide, "Посилання на посібник для швидкого відкривання");
 
             this.urlTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             this.titleTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
+            this.iconTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
+            this.bannerTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
+            this.guideTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             this.gamePathTextBox.TextChanged += new System.EventHandler(this.gamePathTextBox_TextChanged);
         }
 
-        public (string, string, string, string, string) GetData()
+        public (string, string, string, string, string, string) GetData()
         {
             return (
                 titleTextBox.Text,
                 urlTextBox.Text, 
                 gamePathTextBox.Text, 
                 iconTextBox.Text, 
-                bannerTextBox.Text
+                bannerTextBox.Text,
+                guideTextBox.Text
             );
         }
 

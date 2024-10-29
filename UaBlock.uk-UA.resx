@@ -124,38 +124,47 @@
   <data name="txtPercent.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 35</value>
   </data>
+  <data name="moreMenu.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Inter, 9pt</value>
+  </data>
+  <data name="moreMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>216, 160</value>
+  </data>
   <data name="menuEdit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 28</value>
+    <value>215, 26</value>
   </data>
   <data name="menuEdit.Text" xml:space="preserve">
     <value>Змінити</value>
   </data>
   <data name="menuAddToList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 28</value>
+    <value>215, 26</value>
   </data>
   <data name="menuAddToList.Text" xml:space="preserve">
     <value>Додати в список</value>
   </data>
   <data name="menuPin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 28</value>
+    <value>215, 26</value>
   </data>
   <data name="menuPin.Text" xml:space="preserve">
     <value>Закріпити</value>
   </data>
   <data name="menuOpen.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 28</value>
+    <value>215, 26</value>
   </data>
   <data name="menuOpen.Text" xml:space="preserve">
     <value>Відкрити теку</value>
   </data>
+  <data name="menuGuide.Size" type="System.Drawing.Size, System.Drawing">
+    <value>215, 26</value>
+  </data>
+  <data name="menuGuide.Text" xml:space="preserve">
+    <value>Відкрити посібник</value>
+  </data>
   <data name="menuDell.Size" type="System.Drawing.Size, System.Drawing">
-    <value>221, 28</value>
+    <value>215, 26</value>
   </data>
   <data name="menuDell.Text" xml:space="preserve">
     <value>Видалити</value>
-  </data>
-  <data name="moreMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>222, 144</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnMore.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">

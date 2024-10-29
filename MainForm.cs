@@ -115,11 +115,11 @@ namespace UpdAter
             if (sender is UaBlock uaBlock)
             {
                 uaBlock.enabledButtons(false);
-                await GDownloader.DownloadFileAsync(uaBlock.GetUrl(), uaBlock.GetPath(), uaBlock.GetProgressBar());
+                await GDownloader.DownloadFileAsync(uaBlock.GetUrl(), uaBlock.GetPath(), uaBlock.GetMeta(), uaBlock.GetProgressBar());
                 uaBlock.enabledButtons(true);
                 uaBlock.UpdateLastUpdate(true);
 
-                BL.ukrainizers.UpdateUkrainizerDate(uaBlock.GetId(), uaBlock.GetLastUpdate());
+                BL.ukrainizers.UpdateUkrainizerDate(uaBlock.GetId(), uaBlock.GetLastUpdate(), uaBlock.GetMeta());
                 BL.saveSettings();
             }
         }

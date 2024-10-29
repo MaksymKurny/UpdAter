@@ -39,6 +39,7 @@ namespace UpdAter
             this.menuAddToList = new System.Windows.Forms.ToolStripMenuItem();
             this.menuPin = new System.Windows.Forms.ToolStripMenuItem();
             this.menuOpen = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuGuide = new System.Windows.Forms.ToolStripMenuItem();
             this.menuDell = new System.Windows.Forms.ToolStripMenuItem();
             this.btnMore = new UpdAter.FlatNoBorder();
             this.txtLastUpd = new UpdAter.TransparentLabel();
@@ -78,6 +79,7 @@ namespace UpdAter
             this.menuAddToList,
             this.menuPin,
             this.menuOpen,
+            this.menuGuide,
             this.menuDell});
             this.moreMenu.Name = "moreMenu";
             // 
@@ -107,10 +109,15 @@ namespace UpdAter
             this.menuOpen.Name = "menuOpen";
             this.menuOpen.Click += new System.EventHandler(this.menuOpen_Click);
             // 
+            // menuGuide
+            // 
+            resources.ApplyResources(this.menuGuide, "menuGuide");
+            this.menuGuide.Name = "menuGuide";
+            this.menuGuide.Click += new System.EventHandler(this.menuGuide_Click);
+            // 
             // menuDell
             // 
             resources.ApplyResources(this.menuDell, "menuDell");
-            this.menuDell.BackColor = System.Drawing.SystemColors.Control;
             this.menuDell.ForeColor = System.Drawing.Color.Red;
             this.menuDell.Name = "menuDell";
             this.menuDell.Click += new System.EventHandler(this.btnDell_Click);
@@ -189,5 +196,6 @@ namespace UpdAter
         private FlatNoBorder btnMore;
         private System.Windows.Forms.ToolStripMenuItem menuAddToList;
         private System.Windows.Forms.ToolStripMenuItem menuPin;
+        private System.Windows.Forms.ToolStripMenuItem menuGuide;
     }
 }

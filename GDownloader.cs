@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using SharpCompress.Archives;
 using SharpCompress.Common;
 using UpdAter.BL;
@@ -35,7 +36,7 @@ namespace UpdAter
                 if (uaBlock != null)
                 {
                     uaBlock.enabledButtons(false);
-                    downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
+                    downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, ukrainizer.MetaInfo, uaBlock.GetProgressBar()));
                 }
             }
 
@@ -72,7 +73,7 @@ namespace UpdAter
                     if (uaBlock != null)
                     {
                         uaBlock.enabledButtons(false);
-                        downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
+                        downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, ukrainizer.MetaInfo, uaBlock.GetProgressBar()));
                     }
                 }
             }
@@ -96,10 +97,105 @@ namespace UpdAter
             }
         }
 
-        public async Task DownloadFileAsync(string url, string path, (ProgressBar progressBar, Label percentLabel) block)
+
+        private string GetCurrentVersionFromLocalFile(string path)
+        {
+            // Припустимо, що версія міститься в імені файлу або в метаданих
+            // Реалізуйте свою логіку для отримання поточної версії
+            //string[] files = Directory.GetFiles(path);
+            // Логіка для знаходження актуальної версії
+            // Повертаємо версію, наприклад, "1.0.0"
+            return "1.0.0"; // Замініть на вашу логіку
+        }
+
+        private async Task<DateTime> GetLatestCommitDateFromGitHub(string url)
+        {
+            (string repoName, string branchName) = ExtractRepoNameFromUrl(url);
+            string commitsUrl = $"https://api.github.com/repos/{repoName}/commits?sha={branchName}&per_page=1";
+
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
+
+                HttpResponseMessage response = await client.GetAsync(commitsUrl);
+                response.EnsureSuccessStatusCode();
+
+                string json = response.Content.ReadAsStringAsync().Result;
+                dynamic commits = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                if (commits == null || commits.Count == 0)
+                {
+                    throw new Exception("Не вдалося знайти коміти у вказаній гілці.");
+                }
+                return DateTime.Parse(commits[0].commit.committer.date.ToString());
+            }
+        }
+
+        private (string, string) ExtractRepoNameFromUrl(string url)
+        {
+            var segments = new Uri(url).Segments;
+            if (segments.Length >= 6)
+            {
+                return ($"{segments[1]}{segments[2].TrimEnd('/')}", segments[6].TrimEnd('.', 'z', 'i', 'p'));
+            }
+            throw new ArgumentException("Недійсний URL для GitHub.");
+        }
+
+        private async Task<string> GetLatestVersionFromGoogleDrive(string url)
+        {
+            // Логіка для отримання метаданих з Google Drive
+            // В залежності від структури вашого файлу на Google Drive
+            using (HttpClient client = new HttpClient())
+            {
+                // Потрібно реалізувати логіку для отримання версії
+                // Можливо, вам знадобиться API Google Drive
+
+                // Це просто приклад. Налаштуйте відповідно до вашого випадку
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                // Логіка для парсингу версії з контенту
+                return ParseVersionFromGoogleDriveContent(content);
+            }
+        }
+
+        // Метод для парсингу версії з контенту Google Drive
+        private string ParseVersionFromGoogleDriveContent(string content)
+        {
+            // Реалізуйте свою логіку для отримання версії
+            return "1.0.0"; // Змініть на фактичну реалізацію
+        }
+
+        private async Task<bool> GetLatestVersionFromSource(string url, string metaInfo)
+        {
+            if (url.Contains("github.com"))
+            {
+                return await GetLatestCommitDateFromGitHub(url) > DateTime.Parse(metaInfo);
+            }
+            else if (url.Contains("drive.google.com"))
+            {
+                return true;//await GetLatestVersionFromGoogleDrive(url);
+            }
+            return true;
+        }
+
+        public async Task DownloadFileAsync(string url, string path, string metaInfo, (ProgressBar progressBar, Label percentLabel) block)
         {
             try
             {
+                if (url.Contains("github.com") && metaInfo != null && !(await GetLatestCommitDateFromGitHub(url) > DateTime.Parse(metaInfo)))
+                {
+                    MessageBox.Show("Зараз актуальний переклад.", "Оновлення", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                else if (url.Contains("drive.google.com") && metaInfo != null)
+                {
+                    MessageBox.Show("Зараз актуальний переклад.", "Оновлення", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
                 url = ProcessGoogleDriveUrl(url);
 
                 using (HttpClient client = new HttpClient())
@@ -248,6 +344,7 @@ namespace UpdAter
                 if (File.Exists(settingsFilePath))
                 {
                     ProcessSettingsFile(settingsFilePath, extractPath);
+                    File.Delete(settingsFilePath);
                 }
             }
             catch (Exception ex)

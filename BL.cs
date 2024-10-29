@@ -63,7 +63,7 @@ namespace UpdAter.BL
             List = new List<Ukrainizer>();
         }
 
-        public void UpdateUkrainizer(string id, (string, string, string, string, string, DateTime, bool, bool) data)
+        public void UpdateUkrainizer(string id, (string, string, string, string, string, string, string, DateTime, bool, bool) data)
         {
             Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
             if (uaToChange != null)
@@ -81,12 +81,12 @@ namespace UpdAter.BL
             var unpinnedUkrainizers = List.Where(u => !u.PinnedState).ToList();
             return (pinnedUkrainizers, unpinnedUkrainizers);
         }
-        public void UpdateUkrainizerDate(string id, DateTime lastUpdate)
+        public void UpdateUkrainizerDate(string id, DateTime lastUpdate, string metaInfo)
         {
             Ukrainizer uaToChange = List.FirstOrDefault(n => n.Id == id);
             if (uaToChange != null)
             {
-                uaToChange.UpdateLastUpdate(lastUpdate);
+                uaToChange.UpdateLastUpdate(lastUpdate, metaInfo);
             }
         }
         public void ChangeAddToList(string id, bool isChecked)
@@ -118,6 +118,7 @@ namespace UpdAter.BL
         public string Id { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
+        public string GuideUrl { get; set; }
         public string Path { get; set; }
         public string Icon { get; set; }
         public string Banner { get; set; }
@@ -131,20 +132,23 @@ namespace UpdAter.BL
         }
 
         public void SetData((string title, string path, string url, 
-            string icon, string banner, DateTime lastUpdate, bool addToList, bool pinnedState) data)
+            string icon, string banner, string guideUrl, string metaInfo, DateTime lastUpdate, bool addToList, bool pinnedState) data)
         {
             Title = data.title;
             Url = data.url;
             Path = data.path;
             Icon = data.icon;
             Banner = data.banner;
+            GuideUrl = data.guideUrl;
+            MetaInfo = data.metaInfo;
             LastUpdate = data.lastUpdate;
             AddToList = data.addToList;
             PinnedState = data.pinnedState;
         }
-        public void UpdateLastUpdate(DateTime lastUpdate)
+        public void UpdateLastUpdate(DateTime lastUpdate, string metaInfo)
         {
             LastUpdate = lastUpdate;
+            MetaInfo = metaInfo;
         }
         public void ChangeAddToList(bool isChecked)
         {
@@ -154,9 +158,9 @@ namespace UpdAter.BL
         {
             PinnedState = isChecked;
         }
-        public (string, string, string, string, string, string, DateTime, bool, bool) GetData()
+        public (string, string, string, string, string, string, string, string, DateTime, bool, bool) GetData()
         {
-            return (Id, Title, Url, Path, Icon, Banner, LastUpdate, AddToList, PinnedState);
+            return (Id, Title, Url, Path, Icon, Banner, GuideUrl, MetaInfo, LastUpdate, AddToList, PinnedState);
         }
     }
 }
