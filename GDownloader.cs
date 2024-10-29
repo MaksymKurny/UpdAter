@@ -243,10 +243,60 @@ namespace UpdAter
                     }
                 }
                 File.Delete(archiveFilePath);
+
+                string settingsFilePath = Path.Combine(extractPath, "Updater.txt");
+                if (File.Exists(settingsFilePath))
+                {
+                    ProcessSettingsFile(settingsFilePath, extractPath);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Помилка під час розпакування архіву: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ProcessSettingsFile(string settingsFilePath, string baseExtractPath)
+        {
+            try
+            {
+                var settings = File.ReadAllLines(settingsFilePath);
+
+                foreach (var line in settings)
+                {
+                    if (string.IsNullOrWhiteSpace(line) || !line.Contains(":"))
+                        continue;
+
+                    string[] parts = line.Split(new[] { ':' }, 2);
+                    string sourceFile = parts[0].Trim();
+                    string destinationFolder = parts[1].Trim().Trim('"', '\'');
+
+                    string sourcePath = Path.Combine(baseExtractPath, sourceFile);
+                    string destinationPath = Path.GetFullPath(Path.Combine(baseExtractPath, destinationFolder));
+                    if (!Directory.Exists(destinationPath))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+
+                    if (File.Exists(sourcePath))
+                    {
+                        destinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+                        if (File.Exists(destinationPath))
+                        {
+                            File.Delete(destinationPath);
+                        }
+                        File.Move(sourcePath, destinationPath);
+                    }
+                    else if (Directory.Exists(sourcePath))
+                    {
+                        destinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+                        Directory.Move(sourcePath, destinationPath);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка під час обробки файлу налаштувань: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
