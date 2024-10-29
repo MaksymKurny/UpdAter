@@ -28,6 +28,29 @@ namespace UpdAter
             }
         }
 
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            this.PerformLayout(); // Актуалізує компонування
+            this.Refresh(); // Оновлює інтерфейс
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_NCHITTEST = 0x84;
+            const int HTBOTTOM = 15;
+
+            if (m.Msg == WM_NCHITTEST)
+            {
+                var pos = this.PointToClient(new Point(m.LParam.ToInt32()));
+                if (pos.Y >= this.ClientSize.Height - 5)
+                {
+                    m.Result = (IntPtr)HTBOTTOM;
+                    return;
+                }
+            }
+            base.WndProc(ref m);
+        }
+
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
             Graphics g = pevent.Graphics;
@@ -44,7 +67,9 @@ namespace UpdAter
         public MainForm(string[] args)
         {
             InitializeComponent();
-            SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            this.MaximumSize = new Size(700, Screen.PrimaryScreen.WorkingArea.Height);
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
             BL = new Bl();
             GDownloader = new GDownloader();
@@ -93,7 +118,7 @@ namespace UpdAter
 
         private void AddNewBlock(Ukrainizer block, bool newBlock = true)
         {
-            UaBlock uaBlock = new UaBlock(block.GetData(), newBlock);
+            UaBlock uaBlock = new UaBlock(block, newBlock);
             uaBlock.Dock = DockStyle.Top;
             uaBlock.blockDeleted += blockDeleted;
             uaBlock.needUpdate += blockUpdate;
@@ -115,11 +140,10 @@ namespace UpdAter
             if (sender is UaBlock uaBlock)
             {
                 uaBlock.enabledButtons(false);
-                await GDownloader.DownloadFileAsync(uaBlock.GetUrl(), uaBlock.GetPath(), uaBlock.GetMeta(), uaBlock.GetProgressBar());
+                await GDownloader.DownloadFileAsync(uaBlock.GetUkrainizer(), uaBlock.GetProgressBar());
                 uaBlock.enabledButtons(true);
                 uaBlock.UpdateLastUpdate(true);
 
-                BL.ukrainizers.UpdateUkrainizerDate(uaBlock.GetId(), uaBlock.GetLastUpdate(), uaBlock.GetMeta());
                 BL.saveSettings();
             }
         }
@@ -164,7 +188,6 @@ namespace UpdAter
         {
             if (sender is UaBlock uaBlock)
             {
-                BL.ukrainizers.UpdateUkrainizer(uaBlock.GetId(), uaBlock.GetFullData());
                 BL.saveSettings();
             }
         }

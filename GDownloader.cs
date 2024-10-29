@@ -36,7 +36,7 @@ namespace UpdAter
                 if (uaBlock != null)
                 {
                     uaBlock.enabledButtons(false);
-                    downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, ukrainizer.MetaInfo, uaBlock.GetProgressBar()));
+                    downloadTasks.Add(DownloadFileAsync(ukrainizer, uaBlock.GetProgressBar()));
                 }
             }
 
@@ -73,7 +73,7 @@ namespace UpdAter
                     if (uaBlock != null)
                     {
                         uaBlock.enabledButtons(false);
-                        downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, ukrainizer.MetaInfo, uaBlock.GetProgressBar()));
+                        downloadTasks.Add(DownloadFileAsync(ukrainizer, uaBlock.GetProgressBar()));
                     }
                 }
             }
@@ -141,59 +141,23 @@ namespace UpdAter
             throw new ArgumentException("Недійсний URL для GitHub.");
         }
 
-        private async Task<string> GetLatestVersionFromGoogleDrive(string url)
+        public async Task DownloadFileAsync(Ukrainizer _ukrainizer, (ProgressBar progressBar, Label percentLabel) block)
         {
-            // Логіка для отримання метаданих з Google Drive
-            // В залежності від структури вашого файлу на Google Drive
-            using (HttpClient client = new HttpClient())
-            {
-                // Потрібно реалізувати логіку для отримання версії
-                // Можливо, вам знадобиться API Google Drive
-
-                // Це просто приклад. Налаштуйте відповідно до вашого випадку
-                HttpResponseMessage response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-
-                string content = await response.Content.ReadAsStringAsync();
-
-                // Логіка для парсингу версії з контенту
-                return ParseVersionFromGoogleDriveContent(content);
-            }
-        }
-
-        // Метод для парсингу версії з контенту Google Drive
-        private string ParseVersionFromGoogleDriveContent(string content)
-        {
-            // Реалізуйте свою логіку для отримання версії
-            return "1.0.0"; // Змініть на фактичну реалізацію
-        }
-
-        private async Task<bool> GetLatestVersionFromSource(string url, string metaInfo)
-        {
-            if (url.Contains("github.com"))
-            {
-                return await GetLatestCommitDateFromGitHub(url) > DateTime.Parse(metaInfo);
-            }
-            else if (url.Contains("drive.google.com"))
-            {
-                return true;//await GetLatestVersionFromGoogleDrive(url);
-            }
-            return true;
-        }
-
-        public async Task DownloadFileAsync(string url, string path, string metaInfo, (ProgressBar progressBar, Label percentLabel) block)
-        {
+            (string url, string path, string metaInfo, DateTime Last) = _ukrainizer.GetUpdateInfo();
             try
             {
-                if (url.Contains("github.com") && metaInfo != null && !(await GetLatestCommitDateFromGitHub(url) > DateTime.Parse(metaInfo)))
+                if (url.Contains("github.com"))
                 {
-                    MessageBox.Show("Зараз актуальний переклад.", "Оновлення", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-                else if (url.Contains("drive.google.com") && metaInfo != null)
-                {
-                    MessageBox.Show("Зараз актуальний переклад.", "Оновлення", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
+                    DateTime newMetaInfo = await GetLatestCommitDateFromGitHub(url);
+                    if (string.IsNullOrEmpty(metaInfo))
+                    {
+                        _ukrainizer.MetaInfo = newMetaInfo.ToString();
+                    }
+                    else if (!(newMetaInfo > DateTime.Parse(metaInfo)))
+                    {
+                        MessageBox.Show("Зараз актуальний переклад.", "Оновлення", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
                 }
 
                 url = ProcessGoogleDriveUrl(url);
@@ -378,6 +342,7 @@ namespace UpdAter
                     if (File.Exists(sourcePath))
                     {
                         destinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+
                         if (File.Exists(destinationPath))
                         {
                             File.Delete(destinationPath);
@@ -387,13 +352,31 @@ namespace UpdAter
                     else if (Directory.Exists(sourcePath))
                     {
                         destinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
-                        Directory.Move(sourcePath, destinationPath);
+                        CopyDirectoryWithReplace(sourcePath, destinationPath);
+                        Directory.Delete(sourcePath, true);
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Помилка під час обробки файлу налаштувань: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CopyDirectoryWithReplace(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (string filePath in Directory.GetFiles(sourceDir))
+            {
+                string targetFilePath = Path.Combine(targetDir, Path.GetFileName(filePath));
+                File.Copy(filePath, targetFilePath, true); // true дозволяє заміну існуючих файлів
+            }
+
+            foreach (string directoryPath in Directory.GetDirectories(sourceDir))
+            {
+                string targetDirectoryPath = Path.Combine(targetDir, Path.GetFileName(directoryPath));
+                CopyDirectoryWithReplace(directoryPath, targetDirectoryPath); // рекурсивно копіюємо підпапки
             }
         }
 

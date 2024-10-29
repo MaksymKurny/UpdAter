@@ -10,6 +10,20 @@ namespace UpdAter
 {
     public partial class UaForm : Form
     {
+        //Пересування форми
+        [System.Runtime.InteropServices.DllImport("User32.dll")]
+        public static extern bool ReleaseCapture();
+        [System.Runtime.InteropServices.DllImport("User32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        private void UaForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(this.Handle, 0x112, 0xf012, 0);
+            }
+        }
+
         public UaForm((string title, string path, string url, string iconPath, string bannerPath, string guideUrl) data)
         {
             InitializeComponent();
