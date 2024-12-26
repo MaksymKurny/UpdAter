@@ -133,7 +133,6 @@ namespace UpdAter
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.Name = "MainForm";
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.controlPanel.ResumeLayout(false);
             this.listPanel.ResumeLayout(false);
             this.listPanel.PerformLayout();

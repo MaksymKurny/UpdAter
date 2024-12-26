@@ -24,7 +24,7 @@ namespace UpdAter
             }
         }
 
-        public UaForm((string title, string path, string url, string iconPath, string bannerPath, string guideUrl) data)
+        public UaForm((string url, string path, string title, string iconPath, string bannerPath, string guideUrl) data)
         {
             InitializeComponent();
 
@@ -50,10 +50,10 @@ namespace UpdAter
         public (string, string, string, string, string, string) GetData()
         {
             return (
+                urlTextBox.Text,
+                gamePathTextBox.Text,
                 titleTextBox.Text,
-                urlTextBox.Text, 
-                gamePathTextBox.Text, 
-                iconTextBox.Text, 
+                iconTextBox.Text,
                 bannerTextBox.Text,
                 guideTextBox.Text
             );
@@ -98,7 +98,8 @@ namespace UpdAter
             int index = Array.IndexOf(pathParts, searchDirectory);
             int parrentIndex = Array.IndexOf(pathParts, parrentGameDirectory);
 
-            if (index == -1 || parrentIndex == -1 || parrentIndex + 1 >= pathParts.Length) {
+            if (index == -1 || parrentIndex == -1 || parrentIndex + 1 >= pathParts.Length)
+            {
                 return (string.Empty, string.Empty);
             }
             return (string.Join(Path.DirectorySeparatorChar.ToString(), pathParts.Take(index + 1)), pathParts[parrentIndex + 1]);
@@ -151,7 +152,7 @@ namespace UpdAter
                     }
                 }
             }
-            
+
             return (null, null, null);
         }
 

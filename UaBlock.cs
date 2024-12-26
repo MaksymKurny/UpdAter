@@ -29,33 +29,13 @@ namespace UpdAter
                 UpdateLastUpdate();
             }
         }
-        public string GetId()
-        {
-            return _ukrainizer.Id;
-        }
-        public string GetUrl()
-        {
-            return _ukrainizer.Url;
-        }        
         public Ukrainizer GetUkrainizer()
         {
             return _ukrainizer;
         }
-        public string GetPath()
+        public string GetId()
         {
-            return _ukrainizer.Path;
-        }
-        public string GetMeta()
-        {
-            return _ukrainizer.MetaInfo;
-        }
-        public DateTime GetLastUpdate()
-        {
-            return _ukrainizer.LastUpdate;
-        }
-        public bool GetListCheckbox()
-        {
-            return menuAddToList.Checked;
+            return _ukrainizer.Id;
         }
         public bool GetPinCheckbox()
         {
@@ -64,18 +44,6 @@ namespace UpdAter
         public (ProgressBar, Label) GetProgressBar()
         {
             return (progressBar, txtPercent);
-        }
-
-        public (string, string, string, string, string, string) GetData()
-        {
-            return (
-                _ukrainizer.Title,
-                _ukrainizer.Path,
-                _ukrainizer.Url,
-                _ukrainizer.Icon,
-                _ukrainizer.Banner, 
-                _ukrainizer.GuideUrl
-            );
         }
 
         public void SetData()
@@ -103,6 +71,7 @@ namespace UpdAter
                 this.BackgroundImage = deffBannerImage;
                 this.Invalidate();
             }
+
             if (File.Exists(_ukrainizer.Icon))
             {
                 string extension = Path.GetExtension(_ukrainizer.Icon).ToLower();
@@ -224,11 +193,11 @@ namespace UpdAter
 
         public void btnEdit_Click(object sender, EventArgs e)
         {
-            UaForm editForm = new UaForm(GetData());
+            UaForm editForm = new UaForm(_ukrainizer.GetEditedData());
             DialogResult result = editForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                _ukrainizer.SetShortData(editForm.GetData());
+                _ukrainizer.SetEditedData(editForm.GetData());
                 SetData();
                 blockChanged?.Invoke(this, EventArgs.Empty);
             } else if (result == DialogResult.Cancel && newBlock)
@@ -245,13 +214,20 @@ namespace UpdAter
             string text = txtLastUpd.Text;
             string prefix = text.Substring(0, text.IndexOf(':'));
             txtLastUpd.Text = $"{prefix}: {date}";
-
         }
 
         private void menuButton_CheckedChanged(object sender, EventArgs e)
         {
             if (sender is ToolStripMenuItem button)
             {
+                if (button == menuPin)
+                {
+                    _ukrainizer.ChangePinnedState(button.Checked);
+                }
+                else if (button == menuAddToList)
+                {
+                    _ukrainizer.ChangeAddToList(button.Checked);
+                }
                 changeCB?.Invoke(this, new ButtonChangedEventArgs(button.Name));
             }
         }

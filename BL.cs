@@ -62,7 +62,7 @@ namespace UpdAter.BL
         {
             List = new List<Ukrainizer>();
         }
-        public List<Ukrainizer> GetUaInList()
+        public List<Ukrainizer> GetAddedToList()
         {
             return List.Where(u => u.AddToList).ToList();
         }
@@ -72,27 +72,15 @@ namespace UpdAter.BL
             var unpinnedUkrainizers = List.Where(u => !u.PinnedState).ToList();
             return (pinnedUkrainizers, unpinnedUkrainizers);
         }
-        public void ChangeAddToList(string id, bool isChecked)
-        {
-            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
-            if (uaToChange != null)
-            {
-                uaToChange.ChangeAddToList(isChecked);
-            }
-        }
         public void DellUkrainizer(string id)
         {
             Ukrainizer uaToRemove = List.FirstOrDefault(u => u.Id == id);
             if (uaToRemove != null) List.Remove(uaToRemove);
         }
 
-        public void ChangePinnedState(string id, bool isChecked)
+        public void DellUkrainizer(Ukrainizer ukrainizer)
         {
-            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
-            if (uaToChange != null)
-            {
-                uaToChange.ChangePinnedState(isChecked);
-            }
+            List.Remove(ukrainizer);
         }
     }
 
@@ -128,11 +116,11 @@ namespace UpdAter.BL
             AddToList = data.addToList;
             PinnedState = data.pinnedState;
         }
-        public void SetShortData((string title, string url, string path, string icon, string banner, string guideUrl) data)
+        public void SetEditedData((string url, string path, string title, string icon, string banner, string guideUrl) data)
         {
-            Title = data.title;
             Url = data.url;
             Path = data.path;
+            Title = data.title;
             Icon = data.icon;
             Banner = data.banner;
             GuideUrl = data.guideUrl;
@@ -152,6 +140,10 @@ namespace UpdAter.BL
         public (string, string, string, DateTime) GetUpdateInfo()
         {
             return (Url, Path, MetaInfo, LastUpdate);
+        }
+        public (string, string, string, string, string, string) GetEditedData()
+        {
+            return (Url, Path, Title, Icon, Banner, GuideUrl);
         }
         public (string, string, string, string, string, string, string, string, DateTime, bool, bool) GetFullData()
         {

@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Newtonsoft.Json.Linq;
 using SharpCompress.Archives;
 using SharpCompress.Common;
 using UpdAter.BL;
@@ -25,87 +24,6 @@ namespace UpdAter
                 }
             }
             return null;
-        }
-
-        public async Task DownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList)
-        {
-            List<Task> downloadTasks = new List<Task>();
-            foreach (var ukrainizer in ukrainizers)
-            {   
-                UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
-                if (uaBlock != null)
-                {
-                    uaBlock.enabledButtons(false);
-                    downloadTasks.Add(DownloadFileAsync(ukrainizer, uaBlock.GetProgressBar()));
-                }
-            }
-
-            try
-            {
-                await Task.WhenAll(downloadTasks);
-                foreach (var ukrainizer in ukrainizers)
-                {
-                    
-                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
-                    if (uaBlock != null)
-                    {
-                        uaBlock.enabledButtons(true);
-                        uaBlock.UpdateLastUpdate(true);
-                    }
-                }
-                MessageBox.Show("Оновлення завершено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public async Task AutoDownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList, string gameNamesArray)
-        {
-            string[] gameNames = gameNamesArray.Split(';');
-            List<Task> downloadTasks = new List<Task>();
-            foreach (var ukrainizer in ukrainizers)
-            {
-                if (gameNames.Contains(ukrainizer.Title))
-                {
-                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
-                    if (uaBlock != null)
-                    {
-                        uaBlock.enabledButtons(false);
-                        downloadTasks.Add(DownloadFileAsync(ukrainizer, uaBlock.GetProgressBar()));
-                    }
-                }
-            }
-
-            try
-            {
-                await Task.WhenAll(downloadTasks);
-                foreach (var ukrainizer in ukrainizers)
-                {
-                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
-                    if (uaBlock != null)
-                    {
-                        uaBlock.enabledButtons(true);
-                        uaBlock.UpdateLastUpdate(true);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
-        private string GetCurrentVersionFromLocalFile(string path)
-        {
-            // Припустимо, що версія міститься в імені файлу або в метаданих
-            // Реалізуйте свою логіку для отримання поточної версії
-            //string[] files = Directory.GetFiles(path);
-            // Логіка для знаходження актуальної версії
-            // Повертаємо версію, наприклад, "1.0.0"
-            return "1.0.0"; // Замініть на вашу логіку
         }
 
         private async Task<DateTime> GetLatestCommitDateFromGitHub(string url)
@@ -139,6 +57,46 @@ namespace UpdAter
                 return ($"{segments[1]}{segments[2].TrimEnd('/')}", segments[6].TrimEnd('.', 'z', 'i', 'p'));
             }
             throw new ArgumentException("Недійсний URL для GitHub.");
+        }
+
+        public async Task DownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList, string gameNamesArray = null)
+        {
+            string[] gameNames = gameNamesArray.Split(';');
+            List<Task> downloadTasks = new List<Task>();
+            foreach (var ukrainizer in ukrainizers)
+            {
+                if (gameNamesArray == null || gameNames.Contains(ukrainizer.Title))
+                {
+                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
+                    if (uaBlock != null)
+                    {
+                        uaBlock.enabledButtons(false);
+                        downloadTasks.Add(DownloadFileAsync(ukrainizer, uaBlock.GetProgressBar()));
+                    }
+                }
+            }
+
+            try
+            {
+                await Task.WhenAll(downloadTasks);
+                foreach (var ukrainizer in ukrainizers)
+                {
+                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
+                    if (uaBlock != null)
+                    {
+                        uaBlock.enabledButtons(true);
+                        uaBlock.UpdateLastUpdate(true);
+                    }
+                }
+                if (gameNamesArray == null)
+                {
+                    MessageBox.Show("Оновлення завершено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public async Task DownloadFileAsync(Ukrainizer _ukrainizer, (ProgressBar progressBar, Label percentLabel) block)
@@ -199,6 +157,7 @@ namespace UpdAter
                     string fileName = GetFileNameFromUrlOrResponse(url, response);
                     string fullPath = Path.Combine(path, fileName);
 
+                    // візуалізація завантаження
                     using (var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
                     using (var contentStream = await response.Content.ReadAsStreamAsync())
                     {
@@ -250,6 +209,17 @@ namespace UpdAter
             }
         }
 
+        private string ProcessGoogleDriveUrl(string url)
+        {
+            var match = Regex.Match(url, @"https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view");
+            if (match.Success)
+            {
+                string fileId = match.Groups[1].Value;
+                url = $"https://drive.google.com/uc?export=download&id={fileId}";
+            }
+            return url;
+        }
+
         private string ExtractConfirmLink(string htmlContent)
         {
             string uuid = Regex.Match(htmlContent, "name=\"uuid\" value=\"([^\"]+)\"").Groups[1].Value;
@@ -266,7 +236,6 @@ namespace UpdAter
         private string GetFileNameFromUrlOrResponse(string url, HttpResponseMessage response)
         {
             string fileName = Path.GetFileName(new Uri(url).AbsolutePath);
-            System.Console.WriteLine(response);
             if (string.IsNullOrEmpty(fileName) || fileName == "uc")
             {
                 if (response.Content.Headers.ContentDisposition != null)
@@ -370,25 +339,14 @@ namespace UpdAter
             foreach (string filePath in Directory.GetFiles(sourceDir))
             {
                 string targetFilePath = Path.Combine(targetDir, Path.GetFileName(filePath));
-                File.Copy(filePath, targetFilePath, true); // true дозволяє заміну існуючих файлів
+                File.Copy(filePath, targetFilePath, true);
             }
 
             foreach (string directoryPath in Directory.GetDirectories(sourceDir))
             {
                 string targetDirectoryPath = Path.Combine(targetDir, Path.GetFileName(directoryPath));
-                CopyDirectoryWithReplace(directoryPath, targetDirectoryPath); // рекурсивно копіюємо підпапки
+                CopyDirectoryWithReplace(directoryPath, targetDirectoryPath);
             }
-        }
-
-        private string ProcessGoogleDriveUrl(string url)
-        {
-            var match = Regex.Match(url, @"https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view");
-            if (match.Success)
-            {
-                string fileId = match.Groups[1].Value;
-                url = $"https://drive.google.com/uc?export=download&id={fileId}";
-            }
-            return url;
         }
     }
 }
