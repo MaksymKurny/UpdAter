@@ -62,16 +62,7 @@ namespace UpdAter.BL
         {
             List = new List<Ukrainizer>();
         }
-
-        public void UpdateUkrainizer(string id, (string, string, string, string, string, DateTime, bool, bool) data)
-        {
-            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
-            if (uaToChange != null)
-            {
-                uaToChange.SetData(data);
-            }
-        }
-        public List<Ukrainizer> GetUaInList()
+        public List<Ukrainizer> GetAddedToList()
         {
             return List.Where(u => u.AddToList).ToList();
         }
@@ -81,35 +72,15 @@ namespace UpdAter.BL
             var unpinnedUkrainizers = List.Where(u => !u.PinnedState).ToList();
             return (pinnedUkrainizers, unpinnedUkrainizers);
         }
-        public void UpdateUkrainizerDate(string id, DateTime lastUpdate)
-        {
-            Ukrainizer uaToChange = List.FirstOrDefault(n => n.Id == id);
-            if (uaToChange != null)
-            {
-                uaToChange.UpdateLastUpdate(lastUpdate);
-            }
-        }
-        public void ChangeAddToList(string id, bool isChecked)
-        {
-            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
-            if (uaToChange != null)
-            {
-                uaToChange.ChangeAddToList(isChecked);
-            }
-        }
         public void DellUkrainizer(string id)
         {
             Ukrainizer uaToRemove = List.FirstOrDefault(u => u.Id == id);
             if (uaToRemove != null) List.Remove(uaToRemove);
         }
 
-        public void ChangePinnedState(string id, bool isChecked)
+        public void DellUkrainizer(Ukrainizer ukrainizer)
         {
-            Ukrainizer uaToChange = List.FirstOrDefault(u => u.Id == id);
-            if (uaToChange != null)
-            {
-                uaToChange.ChangePinnedState(isChecked);
-            }
+            List.Remove(ukrainizer);
         }
     }
 
@@ -118,6 +89,7 @@ namespace UpdAter.BL
         public string Id { get; set; }
         public string Title { get; set; }
         public string Url { get; set; }
+        public string GuideUrl { get; set; }
         public string Path { get; set; }
         public string Icon { get; set; }
         public string Banner { get; set; }
@@ -131,16 +103,27 @@ namespace UpdAter.BL
         }
 
         public void SetData((string title, string path, string url, 
-            string icon, string banner, DateTime lastUpdate, bool addToList, bool pinnedState) data)
+            string icon, string banner, string guideUrl, string metaInfo, DateTime lastUpdate, bool addToList, bool pinnedState) data)
         {
             Title = data.title;
             Url = data.url;
             Path = data.path;
             Icon = data.icon;
             Banner = data.banner;
+            GuideUrl = data.guideUrl;
+            MetaInfo = data.metaInfo;
             LastUpdate = data.lastUpdate;
             AddToList = data.addToList;
             PinnedState = data.pinnedState;
+        }
+        public void SetEditedData((string url, string path, string title, string icon, string banner, string guideUrl) data)
+        {
+            Url = data.url;
+            Path = data.path;
+            Title = data.title;
+            Icon = data.icon;
+            Banner = data.banner;
+            GuideUrl = data.guideUrl;
         }
         public void UpdateLastUpdate(DateTime lastUpdate)
         {
@@ -154,9 +137,17 @@ namespace UpdAter.BL
         {
             PinnedState = isChecked;
         }
-        public (string, string, string, string, string, string, DateTime, bool, bool) GetData()
+        public (string, string, string, DateTime) GetUpdateInfo()
         {
-            return (Id, Title, Url, Path, Icon, Banner, LastUpdate, AddToList, PinnedState);
+            return (Url, Path, MetaInfo, LastUpdate);
+        }
+        public (string, string, string, string, string, string) GetEditedData()
+        {
+            return (Url, Path, Title, Icon, Banner, GuideUrl);
+        }
+        public (string, string, string, string, string, string, string, string, DateTime, bool, bool) GetFullData()
+        {
+            return (Id, Title, Url, Path, Icon, Banner, GuideUrl, MetaInfo, LastUpdate, AddToList, PinnedState);
         }
     }
 }

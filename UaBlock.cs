@@ -4,111 +4,61 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Windows.Forms;
+using UpdAter.BL;
 
 namespace UpdAter
 {
     public partial class UaBlock : UserControl
     {
         public event EventHandler blockDeleted, blockChanged, needUpdate, changeCB;
-        private string id, path, iconPath, bannerPath, url;
         private Image deffBannerImage = null;
         private int borderRadius = 10;
-        private DateTime LastUpdate;
         private bool newBlock = true;
+        private Ukrainizer _ukrainizer;
 
-        public UaBlock((string id, string, string, string, string, string, DateTime, bool, bool) data, bool noData)
+        public UaBlock(Ukrainizer ukrainizer, bool noData)
         {
             InitializeComponent();
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.SupportsTransparentBackColor | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
             deffBannerImage = this.BackgroundImage;
+            _ukrainizer = ukrainizer;
             if (!noData)
             {
-                SetData(data);
+                SetData();
                 UpdateLastUpdate();
-            } else
-            {
-                id = data.id;
             }
+        }
+        public Ukrainizer GetUkrainizer()
+        {
+            return _ukrainizer;
         }
         public string GetId()
         {
-            return id;
-        }
-        public string GetTitle()
-        {
-            return txtTitle.Text;
-        }
-        public string GetUrl()
-        {
-            return url;
-        }
-        public string GetPath()
-        {
-            return path;
-        }
-        private string GetBanner()
-        {
-            return bannerPath;
-        }
-        private string GetIcon()
-        {
-            return iconPath;
-        }
-        public DateTime GetLastUpdate()
-        {
-            return LastUpdate;
-        }
-        public bool GetListCheckbox()
-        {
-            return menuAddToList.Checked;
+            return _ukrainizer.Id;
         }
         public bool GetPinCheckbox()
         {
             return menuPin.Checked;
         }
-        public bool IsNew()
-        {
-            return newBlock;
-        }
         public (ProgressBar, Label) GetProgressBar()
         {
             return (progressBar, txtPercent);
         }
-        public (string, string, string, string, string, DateTime, bool, bool) GetFullData()
-        {
-            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner(), GetLastUpdate(), GetListCheckbox(), GetPinCheckbox());
-        }
 
-        public (string, string, string, string, string) GetData()
+        public void SetData()
         {
-            return (GetTitle(), GetPath(), GetUrl(), GetIcon(), GetBanner());
-        }
-
-        public void SetShortData((string title, string url, string path, string icon, string banner) data)
-        {
-            SetData((id, data.title, data.url, data.path, data.icon, data.banner, LastUpdate, GetListCheckbox(), GetPinCheckbox()));
-        }
-
-        public void SetData((string id, string title, string url, string path, 
-            string icon, string banner, DateTime lastUpdate, bool updateAll, bool pinnedState) data)
-        {
-            id = data.id;
-            txtTitle.Text = data.title;
-            path = data.path;
-            url = data.url;
-            iconPath = data.icon;
-            bannerPath = data.banner;
+            txtTitle.Text = _ukrainizer.Title;
+            menuGuide.Visible = !String.IsNullOrWhiteSpace(_ukrainizer.GuideUrl);
             newBlock = false;
-            LastUpdate = data.lastUpdate;
-            menuAddToList.Checked = data.updateAll;
-            menuPin.Checked = data.pinnedState;
+            menuAddToList.Checked = _ukrainizer.AddToList;
+            menuPin.Checked = _ukrainizer.PinnedState;
 
-            if (File.Exists(bannerPath))
+            if (File.Exists(_ukrainizer.Banner))
             {
-                if (this.BackgroundImage != Image.FromFile(bannerPath))
+                if (this.BackgroundImage != Image.FromFile(_ukrainizer.Banner))
                 {
-                    this.BackgroundImage = Image.FromFile(bannerPath);
+                    this.BackgroundImage = Image.FromFile(_ukrainizer.Banner);
                     txtTitle.BackgroundColor = Color.FromArgb(89, 0, 0, 0);
                     txtLastUpd.BackgroundColor = Color.FromArgb(89, 0, 0, 0);
                     this.Invalidate();
@@ -121,16 +71,17 @@ namespace UpdAter
                 this.BackgroundImage = deffBannerImage;
                 this.Invalidate();
             }
-            if (File.Exists(iconPath))
+
+            if (File.Exists(_ukrainizer.Icon))
             {
-                string extension = Path.GetExtension(iconPath).ToLower();
+                string extension = Path.GetExtension(_ukrainizer.Icon).ToLower();
                 if (extension == ".jpg" || extension == ".jpeg" || extension == ".png")
                 {
-                    gameIcon.Image = Image.FromFile(iconPath);
+                    gameIcon.Image = Image.FromFile(_ukrainizer.Icon);
                 }
                 else
                 {
-                    gameIcon.Image = Icon.ExtractAssociatedIcon(iconPath).ToBitmap();
+                    gameIcon.Image = Icon.ExtractAssociatedIcon(_ukrainizer.Icon).ToBitmap();
                 }
                 gameIcon.Visible = true;
                 txtTitle.Location = new Point(gameIcon.Right + 10, 12);
@@ -203,11 +154,23 @@ namespace UpdAter
             moreMenu.Show(Cursor.Position);
         }
 
+        private void menuGuide_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(_ukrainizer.GuideUrl);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не вдалося відкрити посилання: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void menuOpen_Click(object sender, EventArgs e)
         {
             try
             {
-                Process.Start("explorer.exe", path);
+                Process.Start("explorer.exe", _ukrainizer.Path);
             }
             catch (Exception ex)
             {
@@ -230,11 +193,12 @@ namespace UpdAter
 
         public void btnEdit_Click(object sender, EventArgs e)
         {
-            UaForm editForm = new UaForm(GetData());
+            UaForm editForm = new UaForm(_ukrainizer.GetEditedData());
             DialogResult result = editForm.ShowDialog();
             if (result == DialogResult.OK)
             {
-                this.SetShortData(editForm.GetData());
+                _ukrainizer.SetEditedData(editForm.GetData());
+                SetData();
                 blockChanged?.Invoke(this, EventArgs.Empty);
             } else if (result == DialogResult.Cancel && newBlock)
             {
@@ -244,9 +208,9 @@ namespace UpdAter
 
         public void UpdateLastUpdate(bool update = false)
         {
-            if (update) LastUpdate = DateTime.Now;
-            if (LastUpdate == DateTime.MinValue) return;
-            string date = LastUpdate.ToString("dd.MM.yyyy");
+            if (update) _ukrainizer.UpdateLastUpdate(DateTime.Now);
+            if (_ukrainizer.LastUpdate == DateTime.MinValue) return;
+            string date = _ukrainizer.LastUpdate.ToString("dd.MM.yyyy");
             string text = txtLastUpd.Text;
             string prefix = text.Substring(0, text.IndexOf(':'));
             txtLastUpd.Text = $"{prefix}: {date}";
@@ -256,6 +220,14 @@ namespace UpdAter
         {
             if (sender is ToolStripMenuItem button)
             {
+                if (button == menuPin)
+                {
+                    _ukrainizer.ChangePinnedState(button.Checked);
+                }
+                else if (button == menuAddToList)
+                {
+                    _ukrainizer.ChangeAddToList(button.Checked);
+                }
                 changeCB?.Invoke(this, new ButtonChangedEventArgs(button.Name));
             }
         }

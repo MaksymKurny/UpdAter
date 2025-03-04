@@ -10,12 +10,12 @@ namespace UpdAter
     public partial class MainForm : Form
     {
         private Bl BL;
-        private int borderRadius = 8; // Рівень заокруглення
+        private int borderRadius = 8;
         private GDownloader GDownloader;
         private int pinnedCount;
 
-       //Пересування форми
-       [System.Runtime.InteropServices.DllImport("User32.dll")]
+        // Пересування форми
+        [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern bool ReleaseCapture();
         [System.Runtime.InteropServices.DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -26,6 +26,24 @@ namespace UpdAter
                 ReleaseCapture();
                 SendMessage(this.Handle, 0x112, 0xf012, 0);
             }
+        }
+
+        // Ресайз форми
+        protected override void WndProc(ref Message m)
+        {
+            const int WM_NCHITTEST = 0x84;
+            const int HTBOTTOM = 15;
+
+            if (m.Msg == WM_NCHITTEST)
+            {
+                var pos = this.PointToClient(new Point(m.LParam.ToInt32()));
+                if (pos.Y >= this.ClientSize.Height - 5)
+                {
+                    m.Result = (IntPtr)HTBOTTOM;
+                    return;
+                }
+            }
+            base.WndProc(ref m);
         }
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -39,18 +57,19 @@ namespace UpdAter
                 g.FillPath(new SolidBrush(this.BackColor), path);
                 this.Region = new Region(path);
             }
-         }
+        }
 
         public MainForm(string[] args)
         {
             InitializeComponent();
-            SetStyle(ControlStyles.DoubleBuffer | ControlStyles.UserPaint | ControlStyles.AllPaintingInWmPaint, true);
+            this.MaximumSize = new Size(700, Screen.PrimaryScreen.WorkingArea.Height);
+            SetStyle(ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.AllPaintingInWmPaint, true);
             UpdateStyles();
             BL = new Bl();
             GDownloader = new GDownloader();
             pinnedCount = 0;
             UpdateList();
-            if( args.Length > 0)
+            if (args.Length > 0)
             {
                 AutoUpdate(args);
             }
@@ -58,7 +77,7 @@ namespace UpdAter
 
         private async void AllUpdate(object sender, EventArgs e)
         {
-            var list = BL.ukrainizers.GetUaInList();
+            var list = BL.ukrainizers.GetAddedToList();
             if (list.Count > 0)
             {
                 await GDownloader.DownloadFilesAsync(list, uaList);
@@ -76,7 +95,7 @@ namespace UpdAter
                 if (arg.StartsWith("--game="))
                 {
                     string gameTitles = arg.Substring(7).Trim('"');
-                    await GDownloader.AutoDownloadFilesAsync(BL.ukrainizers.List, uaList, gameTitles);
+                    await GDownloader.DownloadFilesAsync(BL.ukrainizers.List, uaList, gameTitles);
                     if (this.ShowInTaskbar == false)
                     {
                         await Task.Delay(1000);
@@ -93,7 +112,7 @@ namespace UpdAter
 
         private void AddNewBlock(Ukrainizer block, bool newBlock = true)
         {
-            UaBlock uaBlock = new UaBlock(block.GetData(), newBlock);
+            UaBlock uaBlock = new UaBlock(block, newBlock);
             uaBlock.Dock = DockStyle.Top;
             uaBlock.blockDeleted += blockDeleted;
             uaBlock.needUpdate += blockUpdate;
@@ -115,11 +134,10 @@ namespace UpdAter
             if (sender is UaBlock uaBlock)
             {
                 uaBlock.enabledButtons(false);
-                await GDownloader.DownloadFileAsync(uaBlock.GetUrl(), uaBlock.GetPath(), uaBlock.GetProgressBar());
+                await GDownloader.DownloadFileAsync(uaBlock.GetUkrainizer(), uaBlock.GetProgressBar());
                 uaBlock.enabledButtons(true);
                 uaBlock.UpdateLastUpdate(true);
 
-                BL.ukrainizers.UpdateUkrainizerDate(uaBlock.GetId(), uaBlock.GetLastUpdate());
                 BL.saveSettings();
             }
         }
@@ -133,26 +151,19 @@ namespace UpdAter
                     if (buttonArgs.ButtonName == "menuPin")
                     {
                         string id = uaBlock.GetId();
-                        bool isCheked = uaBlock.GetPinCheckbox();
-                        BL.ukrainizers.ChangePinnedState(id, isCheked);
                         var (pinned, unpinned) = BL.ukrainizers.GetPinnedList();
-                        if (isCheked)
+                        if (uaBlock.GetPinCheckbox())
                         {
                             pinnedCount++;
                             int i = pinned.FindIndex(u => u.Id == id);
                             uaList.Controls.SetChildIndex(uaBlock, i != -1 ? i : 0);
-                            
                         }
-                        else if (!isCheked)
+                        else
                         {
                             pinnedCount--;
                             int i = unpinned.FindIndex(u => u.Id == id);
                             uaList.Controls.SetChildIndex(uaBlock, pinnedCount + (i != -1 ? i : 0));
                         }
-                    }
-                    else if (buttonArgs.ButtonName == "menuAddToList")
-                    {
-                        BL.ukrainizers.ChangeAddToList(uaBlock.GetId(), uaBlock.GetListCheckbox());
                     }
                     BL.saveSettings();
                 }
@@ -164,7 +175,6 @@ namespace UpdAter
         {
             if (sender is UaBlock uaBlock)
             {
-                BL.ukrainizers.UpdateUkrainizer(uaBlock.GetId(), uaBlock.GetFullData());
                 BL.saveSettings();
             }
         }
@@ -173,7 +183,7 @@ namespace UpdAter
         {
             if (sender is UaBlock uaBlock)
             {
-                BL.ukrainizers.DellUkrainizer(uaBlock.GetId());
+                BL.ukrainizers.DellUkrainizer(uaBlock.GetUkrainizer());
                 uaList.Controls.Remove(uaBlock);
                 BL.saveSettings();
             }

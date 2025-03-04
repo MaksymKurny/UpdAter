@@ -304,7 +304,7 @@
     <value>Top</value>
   </data>
   <data name="controlPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+    <value>0, 1</value>
   </data>
   <data name="controlPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -382,16 +382,16 @@
     <value>Fill</value>
   </data>
   <data name="listPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 65</value>
+    <value>0, 66</value>
   </data>
   <data name="listPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
+    <value>0, 0, 0, 50</value>
   </data>
   <data name="listPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>22, 12, 22, 12</value>
   </data>
   <data name="listPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>700, 785</value>
+    <value>700, 583</value>
   </data>
   <data name="listPanel.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -415,7 +415,7 @@
     <value>120, 120</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>700, 850</value>
+    <value>700, 650</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -11251,6 +11251,9 @@
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>700, 600</value>
+  </data>
+  <data name="$this.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 1, 0, 1</value>
   </data>
   <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
     <value>CenterScreen</value>

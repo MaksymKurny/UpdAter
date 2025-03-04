@@ -32,12 +32,12 @@ namespace UpdAter
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPanel = new System.Windows.Forms.Panel();
             this.btnMin = new System.Windows.Forms.Button();
-            this.btnExit = new System.Windows.Forms.Button();
-            this.listPanel = new UpdAter.ImagePanel();
-            this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.btnUpdateList = new UpdAter.FlatNoBorder();
             this.btnAddNew = new UpdAter.FlatNoBorder();
             this.btnMoreInfo = new UpdAter.FlatNoBorder();
+            this.btnExit = new System.Windows.Forms.Button();
+            this.listPanel = new UpdAter.ImagePanel();
+            this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.controlPanel.SuspendLayout();
             this.listPanel.SuspendLayout();
             this.SuspendLayout();
@@ -65,29 +65,6 @@ namespace UpdAter
             this.btnMin.Name = "btnMin";
             this.btnMin.UseVisualStyleBackColor = true;
             this.btnMin.Click += new System.EventHandler(this.btnMin_Click);
-            // 
-            // btnExit
-            // 
-            this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnExit.FlatAppearance.BorderSize = 0;
-            this.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
-            resources.ApplyResources(this.btnExit, "btnExit");
-            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
-            this.btnExit.Name = "btnExit";
-            this.btnExit.UseVisualStyleBackColor = true;
-            this.btnExit.Click += new System.EventHandler(this.exitButton_Click);
-            // 
-            // listPanel
-            // 
-            resources.ApplyResources(this.listPanel, "listPanel");
-            this.listPanel.BackColor = System.Drawing.Color.Transparent;
-            this.listPanel.Controls.Add(this.uaList);
-            this.listPanel.Name = "listPanel";
-            // 
-            // uaList
-            // 
-            resources.ApplyResources(this.uaList, "uaList");
-            this.uaList.Name = "uaList";
             // 
             // btnUpdateList
             // 
@@ -121,6 +98,29 @@ namespace UpdAter
             this.btnMoreInfo.Name = "btnMoreInfo";
             this.btnMoreInfo.UseVisualStyleBackColor = false;
             this.btnMoreInfo.Click += new System.EventHandler(this.credits_Click);
+            // 
+            // btnExit
+            // 
+            this.btnExit.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExit.FlatAppearance.BorderSize = 0;
+            this.btnExit.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.btnExit, "btnExit");
+            this.btnExit.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
+            this.btnExit.Name = "btnExit";
+            this.btnExit.UseVisualStyleBackColor = true;
+            this.btnExit.Click += new System.EventHandler(this.exitButton_Click);
+            // 
+            // listPanel
+            // 
+            resources.ApplyResources(this.listPanel, "listPanel");
+            this.listPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(40)))), ((int)(((byte)(56)))));
+            this.listPanel.Controls.Add(this.uaList);
+            this.listPanel.Name = "listPanel";
+            // 
+            // uaList
+            // 
+            resources.ApplyResources(this.uaList, "uaList");
+            this.uaList.Name = "uaList";
             // 
             // MainForm
             // 

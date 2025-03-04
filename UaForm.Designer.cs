@@ -52,6 +52,10 @@ namespace UpdAter
             this.helpPath = new System.Windows.Forms.Label();
             this.btnFillInfo = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
+            this.guideTextBox = new System.Windows.Forms.TextBox();
+            this.helpGuide = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // titleTextBox
@@ -197,6 +201,36 @@ namespace UpdAter
             this.btnExit.Name = "btnExit";
             this.btnExit.UseVisualStyleBackColor = false;
             // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.ForeColor = System.Drawing.Color.White;
+            this.label6.Name = "label6";
+            // 
+            // guideTextBox
+            // 
+            resources.ApplyResources(this.guideTextBox, "guideTextBox");
+            this.guideTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(217)))), ((int)(((byte)(217)))), ((int)(((byte)(217)))));
+            this.guideTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.guideTextBox.ForeColor = System.Drawing.Color.Black;
+            this.guideTextBox.Name = "guideTextBox";
+            // 
+            // helpGuide
+            // 
+            resources.ApplyResources(this.helpGuide, "helpGuide");
+            this.helpGuide.BackColor = System.Drawing.Color.Transparent;
+            this.helpGuide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
+            this.helpGuide.Name = "helpGuide";
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
+            this.panel1.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.panel1.Name = "panel1";
+            this.panel1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UaForm_MouseDown);
+            // 
             // UaForm
             // 
             resources.ApplyResources(this, "$this");
@@ -204,10 +238,14 @@ namespace UpdAter
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = global::UpdAter.Properties.Resources.forn_bg;
             this.ControlBox = false;
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.helpGuide);
+            this.Controls.Add(this.guideTextBox);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.btnFillInfo);
             this.Controls.Add(this.helpPath);
             this.Controls.Add(this.helpUrl);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -227,6 +265,7 @@ namespace UpdAter
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "UaForm";
             this.ShowInTaskbar = false;
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UaForm_MouseDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,5 +293,9 @@ namespace UpdAter
         private System.Windows.Forms.Label helpPath;
         private System.Windows.Forms.Button btnFillInfo;
         private System.Windows.Forms.Button btnExit;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox guideTextBox;
+        private System.Windows.Forms.Label helpGuide;
+        private System.Windows.Forms.Panel panel1;
     }
 }

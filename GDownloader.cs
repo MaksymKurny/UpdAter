@@ -26,53 +26,52 @@ namespace UpdAter
             return null;
         }
 
-        public async Task DownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList)
+        private async Task<DateTime> GetLatestCommitDateFromGitHub(string url)
         {
-            List<Task> downloadTasks = new List<Task>();
-            foreach (var ukrainizer in ukrainizers)
-            {   
-                UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
-                if (uaBlock != null)
-                {
-                    uaBlock.enabledButtons(false);
-                    downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
-                }
-            }
+            (string repoName, string branchName) = ExtractRepoNameFromUrl(url);
+            string commitsUrl = $"https://api.github.com/repos/{repoName}/commits?sha={branchName}&per_page=1";
 
-            try
+            using (HttpClient client = new HttpClient())
             {
-                await Task.WhenAll(downloadTasks);
-                foreach (var ukrainizer in ukrainizers)
+                client.DefaultRequestHeaders.UserAgent.TryParseAdd("request");
+
+                HttpResponseMessage response = await client.GetAsync(commitsUrl);
+                response.EnsureSuccessStatusCode();
+
+                string json = response.Content.ReadAsStringAsync().Result;
+                dynamic commits = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
+
+                if (commits == null || commits.Count == 0)
                 {
-                    
-                    UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
-                    if (uaBlock != null)
-                    {
-                        uaBlock.enabledButtons(true);
-                        uaBlock.UpdateLastUpdate(true);
-                    }
+                    throw new Exception("Не вдалося знайти коміти у вказаній гілці.");
                 }
-                MessageBox.Show("Оновлення завершено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Помилка під час оновлення перекладу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return DateTime.Parse(commits[0].commit.committer.date.ToString());
             }
         }
 
-        public async Task AutoDownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList, string gameNamesArray)
+        private (string, string) ExtractRepoNameFromUrl(string url)
+        {
+            var segments = new Uri(url).Segments;
+            if (segments.Length >= 6)
+            {
+                return ($"{segments[1]}{segments[2].TrimEnd('/')}", segments[6].TrimEnd('.', 'z', 'i', 'p'));
+            }
+            throw new ArgumentException("Недійсний URL для GitHub.");
+        }
+
+        public async Task DownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList, string gameNamesArray = null)
         {
             string[] gameNames = gameNamesArray.Split(';');
             List<Task> downloadTasks = new List<Task>();
             foreach (var ukrainizer in ukrainizers)
             {
-                if (gameNames.Contains(ukrainizer.Title))
+                if (gameNamesArray == null || gameNames.Contains(ukrainizer.Title))
                 {
                     UaBlock uaBlock = FindBlockById(uaList, ukrainizer.Id);
                     if (uaBlock != null)
                     {
                         uaBlock.enabledButtons(false);
-                        downloadTasks.Add(DownloadFileAsync(ukrainizer.Url, ukrainizer.Path, uaBlock.GetProgressBar()));
+                        downloadTasks.Add(DownloadFileAsync(ukrainizer, uaBlock.GetProgressBar()));
                     }
                 }
             }
@@ -89,6 +88,10 @@ namespace UpdAter
                         uaBlock.UpdateLastUpdate(true);
                     }
                 }
+                if (gameNamesArray == null)
+                {
+                    MessageBox.Show("Оновлення завершено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -96,10 +99,25 @@ namespace UpdAter
             }
         }
 
-        public async Task DownloadFileAsync(string url, string path, (ProgressBar progressBar, Label percentLabel) block)
+        public async Task DownloadFileAsync(Ukrainizer _ukrainizer, (ProgressBar progressBar, Label percentLabel) block)
         {
+            (string url, string path, string metaInfo, DateTime Last) = _ukrainizer.GetUpdateInfo();
             try
             {
+                if (url.Contains("github.com"))
+                {
+                    DateTime newMetaInfo = await GetLatestCommitDateFromGitHub(url);
+                    if (string.IsNullOrEmpty(metaInfo))
+                    {
+                        _ukrainizer.MetaInfo = newMetaInfo.ToString();
+                    }
+                    else if (!(newMetaInfo > DateTime.Parse(metaInfo)))
+                    {
+                        MessageBox.Show("Зараз актуальний переклад.", "Оновлення", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                }
+
                 url = ProcessGoogleDriveUrl(url);
 
                 using (HttpClient client = new HttpClient())
@@ -139,6 +157,7 @@ namespace UpdAter
                     string fileName = GetFileNameFromUrlOrResponse(url, response);
                     string fullPath = Path.Combine(path, fileName);
 
+                    // візуалізація завантаження
                     using (var fileStream = new FileStream(fullPath, FileMode.Create, FileAccess.Write, FileShare.None))
                     using (var contentStream = await response.Content.ReadAsStreamAsync())
                     {
@@ -190,6 +209,17 @@ namespace UpdAter
             }
         }
 
+        private string ProcessGoogleDriveUrl(string url)
+        {
+            var match = Regex.Match(url, @"https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view");
+            if (match.Success)
+            {
+                string fileId = match.Groups[1].Value;
+                url = $"https://drive.google.com/uc?export=download&id={fileId}";
+            }
+            return url;
+        }
+
         private string ExtractConfirmLink(string htmlContent)
         {
             string uuid = Regex.Match(htmlContent, "name=\"uuid\" value=\"([^\"]+)\"").Groups[1].Value;
@@ -206,7 +236,6 @@ namespace UpdAter
         private string GetFileNameFromUrlOrResponse(string url, HttpResponseMessage response)
         {
             string fileName = Path.GetFileName(new Uri(url).AbsolutePath);
-            System.Console.WriteLine(response);
             if (string.IsNullOrEmpty(fileName) || fileName == "uc")
             {
                 if (response.Content.Headers.ContentDisposition != null)
@@ -243,6 +272,13 @@ namespace UpdAter
                     }
                 }
                 File.Delete(archiveFilePath);
+
+                string settingsFilePath = Path.Combine(extractPath, "Updater.txt");
+                if (File.Exists(settingsFilePath))
+                {
+                    ProcessSettingsFile(settingsFilePath, extractPath);
+                    File.Delete(settingsFilePath);
+                }
             }
             catch (Exception ex)
             {
@@ -250,15 +286,67 @@ namespace UpdAter
             }
         }
 
-        private string ProcessGoogleDriveUrl(string url)
+        private void ProcessSettingsFile(string settingsFilePath, string baseExtractPath)
         {
-            var match = Regex.Match(url, @"https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view");
-            if (match.Success)
+            try
             {
-                string fileId = match.Groups[1].Value;
-                url = $"https://drive.google.com/uc?export=download&id={fileId}";
+                var settings = File.ReadAllLines(settingsFilePath);
+
+                foreach (var line in settings)
+                {
+                    if (string.IsNullOrWhiteSpace(line) || !line.Contains(":"))
+                        continue;
+
+                    string[] parts = line.Split(new[] { ':' }, 2);
+                    string sourceFile = parts[0].Trim();
+                    string destinationFolder = parts[1].Trim().Trim('"', '\'');
+
+                    string sourcePath = Path.Combine(baseExtractPath, sourceFile);
+                    string destinationPath = Path.GetFullPath(Path.Combine(baseExtractPath, destinationFolder));
+                    if (!Directory.Exists(destinationPath))
+                    {
+                        Directory.CreateDirectory(destinationPath);
+                    }
+
+                    if (File.Exists(sourcePath))
+                    {
+                        destinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+
+                        if (File.Exists(destinationPath))
+                        {
+                            File.Delete(destinationPath);
+                        }
+                        File.Move(sourcePath, destinationPath);
+                    }
+                    else if (Directory.Exists(sourcePath))
+                    {
+                        destinationPath = Path.Combine(destinationPath, Path.GetFileName(sourcePath));
+                        CopyDirectoryWithReplace(sourcePath, destinationPath);
+                        Directory.Delete(sourcePath, true);
+                    }
+                }
             }
-            return url;
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка під час обробки файлу налаштувань: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void CopyDirectoryWithReplace(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (string filePath in Directory.GetFiles(sourceDir))
+            {
+                string targetFilePath = Path.Combine(targetDir, Path.GetFileName(filePath));
+                File.Copy(filePath, targetFilePath, true);
+            }
+
+            foreach (string directoryPath in Directory.GetDirectories(sourceDir))
+            {
+                string targetDirectoryPath = Path.Combine(targetDir, Path.GetFileName(directoryPath));
+                CopyDirectoryWithReplace(directoryPath, targetDirectoryPath);
+            }
         }
     }
 }
