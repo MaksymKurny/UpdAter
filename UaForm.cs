@@ -37,7 +37,7 @@ namespace UpdAter
 
             helpToolTip.SetToolTip(helpUrl, "Пряме посилання на файл (Google drive/GitHub)\nПодробиці у README файлі");
             helpToolTip.SetToolTip(helpPath, "Тека, в яку буде завантажено файли");
-            helpToolTip.SetToolTip(helpGuide, "Посилання на посібник для швидкого відкривання");
+            helpToolTip.SetToolTip(helpGuide, "Посилання на посібник для швидкого відкриття");
 
             this.urlTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             this.titleTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
@@ -45,6 +45,8 @@ namespace UpdAter
             this.bannerTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             this.guideTextBox.TextChanged += new System.EventHandler(this.CheckFieldsFilled);
             this.gamePathTextBox.TextChanged += new System.EventHandler(this.gamePathTextBox_TextChanged);
+
+            gamePathTextBox_TextChanged(this, EventArgs.Empty);
         }
 
         public (string, string, string, string, string, string) GetData()
@@ -107,21 +109,30 @@ namespace UpdAter
 
         private (string, string) GetSteamMedia(string currentPath, string searchDirectory, string id)
         {
+
             string[] pathParts = currentPath.Split(Path.DirectorySeparatorChar);
             int index = Array.IndexOf(pathParts, searchDirectory);
 
             if (index == -1) return (null, null);
             string libPath = string.Join(Path.DirectorySeparatorChar.ToString(), pathParts.Take(index + 1));
-            libPath += "\\appcache\\librarycache\\";
-            string bannerPath = libPath + $"{id}_library_hero.jpg";
-            string iconPath = libPath + $"{id}_icon.jpg";
-            if (!bannerPath.Contains(@":\"))
+            libPath = Path.Combine(libPath, "appcache", "librarycache", id);
+
+            // Шлях до банера
+            string bannerPath = Path.Combine(libPath, "library_hero.jpg");
+            if (!File.Exists(bannerPath))
             {
-                bannerPath = bannerPath.Replace(":", @":\");
-                iconPath = iconPath.Replace(":", @":\");
+                // Якщо банер не знайдено, шукаємо у підкаталогах
+                var bannerDirs = Directory.GetDirectories(libPath);
+                bannerPath = bannerDirs
+                    .Select(dir => Path.Combine(dir, "library_hero.jpg"))
+                    .FirstOrDefault(File.Exists);
             }
-            return (File.Exists(bannerPath) ? bannerPath : null,
-                File.Exists(iconPath) ? iconPath : null);
+
+            // Пошук іконки
+            string iconFile = Directory.GetFiles(libPath, "*.jpg")
+                                        .FirstOrDefault(file => Path.GetFileNameWithoutExtension(file).Length == 40);
+
+            return (bannerPath, iconFile);
         }
 
         private (string, string, string) GetAppInfoFromACFFile(string directoryPath, string targetDir)
@@ -129,7 +140,7 @@ namespace UpdAter
             if (directoryPath != "")
             {
                 // Рекурсивно проходимо всі файли в директорії
-                foreach (string filePath in Directory.GetFiles(directoryPath, "*.acf", SearchOption.AllDirectories))
+                foreach (string filePath in Directory.GetFiles(directoryPath, "appmanifest_*.acf"))
                 {
                     string fileContent = File.ReadAllText(filePath);
 
@@ -184,7 +195,7 @@ namespace UpdAter
                 {
                     fileDialog.InitialDirectory = Path.GetDirectoryName(iconTextBox.Text);
                 }
-                fileDialog.Filter = "Exe files(*.exe)|*.exe|Image files(*.png *.jpg)|*.png; *.jpg|Ico files(*.ico)|*.ico|All files(*.*)|*.*";
+                fileDialog.Filter = "Піктограма файли(*.ico *.icl *.exe *.dll)|*.ico; *.icl; *.exe; *.dll|Зображення(*.png *.jpg)|*.png; *.jpg|Всі файли(*.*)|*.*";
                 if (fileDialog.ShowDialog() == DialogResult.OK)
                 {
                     iconTextBox.Text = fileDialog.FileName;
