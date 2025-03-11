@@ -37,6 +37,10 @@ namespace UpdAter
         {
             return _ukrainizer.Id;
         }
+        public string GetTitle()
+        {
+            return _ukrainizer.Title;
+        }
         public bool GetPinCheckbox()
         {
             return menuPin.Checked;

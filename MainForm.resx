@@ -118,10 +118,44 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="searchTextBox.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="searchTextBox.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Inter, 12pt</value>
+  </data>
+  <data name="searchTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 16</value>
+  </data>
+  <data name="searchTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 0</value>
+  </data>
+  <data name="searchTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 32</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="searchTextBox.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="searchTextBox.Text" xml:space="preserve">
+    <value>Search...</value>
+  </data>
+  <data name="&gt;&gt;searchTextBox.Name" xml:space="preserve">
+    <value>searchTextBox</value>
+  </data>
+  <data name="&gt;&gt;searchTextBox.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;searchTextBox.Parent" xml:space="preserve">
+    <value>controlPanel</value>
+  </data>
+  <data name="&gt;&gt;searchTextBox.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="btnMin.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnMin.Font" type="System.Drawing.Font, System.Drawing">
     <value>Inter Medium, 10.2pt, style=Bold</value>
   </data>
@@ -137,7 +171,6 @@
   <data name="btnMin.Size" type="System.Drawing.Size, System.Drawing">
     <value>50, 35</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="btnMin.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
@@ -154,7 +187,7 @@
     <value>controlPanel</value>
   </data>
   <data name="&gt;&gt;btnMin.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="btnUpdateList.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -166,31 +199,34 @@
     <value>NoControl</value>
   </data>
   <data name="btnUpdateList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>24, 15</value>
+    <value>199, 15</value>
   </data>
   <data name="btnUpdateList.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>15, 15, 15, 15</value>
   </data>
   <data name="btnUpdateList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 35</value>
+    <value>35, 35</value>
   </data>
   <data name="btnUpdateList.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
-  <data name="btnUpdateList.Text" xml:space="preserve">
+  <metadata name="helpToolTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="btnUpdateList.ToolTip" xml:space="preserve">
     <value>Update List</value>
   </data>
   <data name="&gt;&gt;btnUpdateList.Name" xml:space="preserve">
     <value>btnUpdateList</value>
   </data>
   <data name="&gt;&gt;btnUpdateList.Type" xml:space="preserve">
-    <value>UpdAter.FlatNoBorder, UpdAter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>UpdAter.FlatNoBorder, UpdAter, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnUpdateList.Parent" xml:space="preserve">
     <value>controlPanel</value>
   </data>
   <data name="&gt;&gt;btnUpdateList.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="btnAddNew.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -202,7 +238,7 @@
     <value>NoControl</value>
   </data>
   <data name="btnAddNew.Location" type="System.Drawing.Point, System.Drawing">
-    <value>199, 15</value>
+    <value>24, 15</value>
   </data>
   <data name="btnAddNew.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 15, 15, 15</value>
@@ -220,13 +256,13 @@
     <value>btnAddNew</value>
   </data>
   <data name="&gt;&gt;btnAddNew.Type" xml:space="preserve">
-    <value>UpdAter.FlatNoBorder, UpdAter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>UpdAter.FlatNoBorder, UpdAter, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnAddNew.Parent" xml:space="preserve">
     <value>controlPanel</value>
   </data>
   <data name="&gt;&gt;btnAddNew.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="btnMoreInfo.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -238,31 +274,31 @@
     <value>NoControl</value>
   </data>
   <data name="btnMoreInfo.Location" type="System.Drawing.Point, System.Drawing">
-    <value>374, 15</value>
+    <value>249, 15</value>
   </data>
   <data name="btnMoreInfo.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 15, 15, 15</value>
   </data>
   <data name="btnMoreInfo.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 35</value>
+    <value>35, 35</value>
   </data>
   <data name="btnMoreInfo.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="btnMoreInfo.Text" xml:space="preserve">
+  <data name="btnMoreInfo.ToolTip" xml:space="preserve">
     <value>More Info</value>
   </data>
   <data name="&gt;&gt;btnMoreInfo.Name" xml:space="preserve">
     <value>btnMoreInfo</value>
   </data>
   <data name="&gt;&gt;btnMoreInfo.Type" xml:space="preserve">
-    <value>UpdAter.FlatNoBorder, UpdAter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>UpdAter.FlatNoBorder, UpdAter, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;btnMoreInfo.Parent" xml:space="preserve">
     <value>controlPanel</value>
   </data>
   <data name="&gt;&gt;btnMoreInfo.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="btnExit.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
     <value>Flat</value>
@@ -298,7 +334,7 @@
     <value>controlPanel</value>
   </data>
   <data name="&gt;&gt;btnExit.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="controlPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Top</value>
@@ -400,7 +436,7 @@
     <value>listPanel</value>
   </data>
   <data name="&gt;&gt;listPanel.Type" xml:space="preserve">
-    <value>UpdAter.ImagePanel, UpdAter, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>UpdAter.ImagePanel, UpdAter, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;listPanel.Parent" xml:space="preserve">
     <value>$this</value>
@@ -11260,6 +11296,12 @@
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>UpdAter</value>
+  </data>
+  <data name="&gt;&gt;helpToolTip.Name" xml:space="preserve">
+    <value>helpToolTip</value>
+  </data>
+  <data name="&gt;&gt;helpToolTip.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainForm</value>
