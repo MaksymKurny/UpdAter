@@ -176,8 +176,21 @@
   <data name="label5.Text" xml:space="preserve">
     <value>Посилання на файл перекладу*</value>
   </data>
+  <data name="helpUrl.ToolTip" xml:space="preserve">
+    <value>Пряме посилання на файл (Google drive/GitHub)
+Подробиці у README файлі</value>
+  </data>
+  <data name="helpPath.ToolTip" xml:space="preserve">
+    <value>Тека, в яку буде завантажено файли</value>
+  </data>
+  <data name="helpGuide.ToolTip" xml:space="preserve">
+    <value>Посилання на посібник для швидкого відкриття</value>
+  </data>
   <data name="btnFillInfo.Text" xml:space="preserve">
     <value>Заповнити інше</value>
+  </data>
+  <data name="btnFillInfo.ToolTip" xml:space="preserve">
+    <value>Працює тільки для steam ігор</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 28</value>

@@ -61,7 +61,7 @@ namespace UpdAter
 
         public async Task DownloadFilesAsync(List<Ukrainizer> ukrainizers, TableLayoutPanel uaList, string gameNamesArray = null)
         {
-            string[] gameNames = gameNamesArray.Split(';');
+            string[] gameNames = gameNamesArray?.Split(';');
             List<Task> downloadTasks = new List<Task>();
             foreach (var ukrainizer in ukrainizers)
             {

@@ -343,6 +343,9 @@
     <None Include="Resources\about_bg.png" />
     <None Include="Resources\forn_bg.png" />
     <None Include="Resources\about_bg.jpg" />
+    <None Include="Resources\info.png" />
+    <None Include="Resources\update.png" />
+    <None Include="Resources\search.png" />
     <Content Include="UpdAter16.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
