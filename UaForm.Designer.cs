@@ -50,11 +50,11 @@ namespace UpdAter
             this.helpUrl = new System.Windows.Forms.Label();
             this.helpToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.helpPath = new System.Windows.Forms.Label();
+            this.helpGuide = new System.Windows.Forms.Label();
             this.btnFillInfo = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.guideTextBox = new System.Windows.Forms.TextBox();
-            this.helpGuide = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
@@ -174,6 +174,7 @@ namespace UpdAter
             this.helpUrl.BackColor = System.Drawing.Color.Transparent;
             this.helpUrl.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
             this.helpUrl.Name = "helpUrl";
+            this.helpToolTip.SetToolTip(this.helpUrl, resources.GetString("helpUrl.ToolTip"));
             // 
             // helpPath
             // 
@@ -181,11 +182,21 @@ namespace UpdAter
             this.helpPath.BackColor = System.Drawing.Color.Transparent;
             this.helpPath.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
             this.helpPath.Name = "helpPath";
+            this.helpToolTip.SetToolTip(this.helpPath, resources.GetString("helpPath.ToolTip"));
+            // 
+            // helpGuide
+            // 
+            resources.ApplyResources(this.helpGuide, "helpGuide");
+            this.helpGuide.BackColor = System.Drawing.Color.Transparent;
+            this.helpGuide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
+            this.helpGuide.Name = "helpGuide";
+            this.helpToolTip.SetToolTip(this.helpGuide, resources.GetString("helpGuide.ToolTip"));
             // 
             // btnFillInfo
             // 
             resources.ApplyResources(this.btnFillInfo, "btnFillInfo");
             this.btnFillInfo.Name = "btnFillInfo";
+            this.helpToolTip.SetToolTip(this.btnFillInfo, resources.GetString("btnFillInfo.ToolTip"));
             this.btnFillInfo.UseVisualStyleBackColor = true;
             this.btnFillInfo.Click += new System.EventHandler(this.btnFillInfo_Click);
             // 
@@ -215,13 +226,6 @@ namespace UpdAter
             this.guideTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.guideTextBox.ForeColor = System.Drawing.Color.Black;
             this.guideTextBox.Name = "guideTextBox";
-            // 
-            // helpGuide
-            // 
-            resources.ApplyResources(this.helpGuide, "helpGuide");
-            this.helpGuide.BackColor = System.Drawing.Color.Transparent;
-            this.helpGuide.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(195)))), ((int)(((byte)(78)))));
-            this.helpGuide.Name = "helpGuide";
             // 
             // panel1
             // 

@@ -29,13 +29,16 @@ namespace UpdAter
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.controlPanel = new System.Windows.Forms.Panel();
+            this.searchTextBox = new System.Windows.Forms.TextBox();
             this.btnMin = new System.Windows.Forms.Button();
             this.btnUpdateList = new UpdAter.FlatNoBorder();
             this.btnAddNew = new UpdAter.FlatNoBorder();
             this.btnMoreInfo = new UpdAter.FlatNoBorder();
             this.btnExit = new System.Windows.Forms.Button();
+            this.helpToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.listPanel = new UpdAter.ImagePanel();
             this.uaList = new System.Windows.Forms.TableLayoutPanel();
             this.controlPanel.SuspendLayout();
@@ -45,6 +48,7 @@ namespace UpdAter
             // controlPanel
             // 
             this.controlPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
+            this.controlPanel.Controls.Add(this.searchTextBox);
             this.controlPanel.Controls.Add(this.btnMin);
             this.controlPanel.Controls.Add(this.btnUpdateList);
             this.controlPanel.Controls.Add(this.btnAddNew);
@@ -54,6 +58,17 @@ namespace UpdAter
             resources.ApplyResources(this.controlPanel, "controlPanel");
             this.controlPanel.Name = "controlPanel";
             this.controlPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
+            // 
+            // searchTextBox
+            // 
+            resources.ApplyResources(this.searchTextBox, "searchTextBox");
+            this.searchTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(29)))), ((int)(((byte)(37)))));
+            this.searchTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.searchTextBox.ForeColor = System.Drawing.Color.White;
+            this.searchTextBox.Name = "searchTextBox";
+            this.searchTextBox.TextChanged += new System.EventHandler(this.searchTextBox_TextChanged);
+            this.searchTextBox.Enter += new System.EventHandler(this.searchTextBox_Enter);
+            this.searchTextBox.Leave += new System.EventHandler(this.searchTextBox_Leave);
             // 
             // btnMin
             // 
@@ -73,7 +88,9 @@ namespace UpdAter
             this.btnUpdateList.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnUpdateList.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnUpdateList, "btnUpdateList");
+            this.btnUpdateList.Image = global::UpdAter.Properties.Resources.update;
             this.btnUpdateList.Name = "btnUpdateList";
+            this.helpToolTip.SetToolTip(this.btnUpdateList, resources.GetString("btnUpdateList.ToolTip"));
             this.btnUpdateList.UseVisualStyleBackColor = false;
             this.btnUpdateList.Click += new System.EventHandler(this.AllUpdate);
             // 
@@ -95,7 +112,9 @@ namespace UpdAter
             this.btnMoreInfo.Cursor = System.Windows.Forms.Cursors.Default;
             this.btnMoreInfo.FlatAppearance.BorderSize = 0;
             resources.ApplyResources(this.btnMoreInfo, "btnMoreInfo");
+            this.btnMoreInfo.Image = global::UpdAter.Properties.Resources.info;
             this.btnMoreInfo.Name = "btnMoreInfo";
+            this.helpToolTip.SetToolTip(this.btnMoreInfo, resources.GetString("btnMoreInfo.ToolTip"));
             this.btnMoreInfo.UseVisualStyleBackColor = false;
             this.btnMoreInfo.Click += new System.EventHandler(this.credits_Click);
             // 
@@ -134,6 +153,7 @@ namespace UpdAter
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.controlPanel.ResumeLayout(false);
+            this.controlPanel.PerformLayout();
             this.listPanel.ResumeLayout(false);
             this.listPanel.PerformLayout();
             this.ResumeLayout(false);
@@ -149,6 +169,8 @@ namespace UpdAter
         private UpdAter.ImagePanel listPanel;
         private UpdAter.FlatNoBorder btnMoreInfo;
         private System.Windows.Forms.Button btnMin;
+        private System.Windows.Forms.ToolTip helpToolTip;
+        private System.Windows.Forms.TextBox searchTextBox;
     }
 }
 

@@ -13,6 +13,7 @@ namespace UpdAter
         private int borderRadius = 8;
         private GDownloader GDownloader;
         private int pinnedCount;
+        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 
         // Пересування форми
         [System.Runtime.InteropServices.DllImport("User32.dll")]
@@ -217,6 +218,39 @@ namespace UpdAter
         private void btnMin_Click(object sender, EventArgs e)
         {
             this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void searchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (searchTextBox.Text == resources.GetString("searchTextBox.Text"))
+            {
+                return;
+            }
+            string query = searchTextBox.Text.Trim().ToLower();
+
+            foreach (Control control in uaList.Controls)
+            {
+                if (control is UaBlock uaBlock)
+                {
+                    bool matches = uaBlock.GetTitle().ToLower().Contains(query);
+                    uaBlock.Visible = string.IsNullOrEmpty(query) || matches;
+                }
+            }
+        }
+        private void searchTextBox_Enter(object sender, EventArgs e)
+        {
+            if (searchTextBox.Text == resources.GetString("searchTextBox.Text"))
+            {
+                searchTextBox.Text = "";
+            }
+        }
+
+        private void searchTextBox_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(searchTextBox.Text))
+            {
+                searchTextBox.Text = resources.GetString("searchTextBox.Text");
+            }
         }
     }
 }
