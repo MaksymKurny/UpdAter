@@ -1,0 +1,8 @@
+﻿node_modules
+dist
+out
+release
+.vite
+*.log
+*.tsbuildinfo
+.DS_Store
