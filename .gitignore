@@ -1,4 +1,4 @@
-﻿node_modules
+node_modules
 dist
 out
 release
@@ -6,3 +6,6 @@ release
 *.log
 *.tsbuildinfo
 .DS_Store
+src-tauri/target
+src-tauri/gen/schemas
+src-tauri/resources/7z

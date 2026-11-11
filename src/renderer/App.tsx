@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import AddTranslationModal from "./components/AddTranslationModal";
 import ErrorBanner from "./components/feedback/ErrorBanner";
+import UpdateBanner from "./components/feedback/UpdateBanner";
+import { useAppUpdater } from "./hooks/useAppUpdater";
+import { ask } from "@tauri-apps/plugin-dialog";
 import SearchRow from "./components/layout/SearchRow";
 import TopBar from "./components/layout/TopBar";
 import TranslationList from "./components/list/TranslationList";
@@ -25,6 +28,7 @@ export default function App() {
   );
   const [busyIds, setBusyIds] = useState<Record<string, boolean>>({});
   const [error, setError] = useState<string | null>(null);
+  const appUpdater = useAppUpdater();
 
   const loadTranslations = async () => {
     const list = await window.updater.getTranslations();
@@ -80,7 +84,12 @@ export default function App() {
   };
 
   const handleRemove = async (id: string) => {
-    const confirmed = window.confirm("Видалити переклад зі списку?");
+    const confirmed = await ask("Видалити переклад зі списку?", {
+      title: "UpdAter",
+      kind: "warning",
+      okLabel: "Видалити",
+      cancelLabel: "Скасувати",
+    });
     if (!confirmed) return;
     await window.updater.removeTranslation(id);
     await loadTranslations();
@@ -141,6 +150,12 @@ export default function App() {
         query={query}
         count={filtered.length}
         onQueryChange={setQuery}
+      />
+
+      <UpdateBanner
+        state={appUpdater.state}
+        onInstall={appUpdater.install}
+        onDismiss={appUpdater.dismiss}
       />
 
       {error && <ErrorBanner message={error} />}

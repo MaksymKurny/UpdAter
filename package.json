@@ -1,36 +1,39 @@
 {
-    "name": "updater",
-    "productName": "UpdAter",
-    "version": "0.1.0",
-    "description": "UpdAter - інструмент для автоматичного оновлення українізаторів.",
-    "main": "out/main/index.js",
-    "author": "UpdAter",
-    "scripts": {
-        "dev": "electron-vite dev",
-        "build": "electron-vite build && electron-builder",
-        "preview": "electron-vite preview"
-    },
-    "dependencies": {
-        "7zip-bin-full": "^25.1.2",
-        "@fontsource/russo-one": "^5.0.8",
-        "@fontsource/ubuntu": "^5.0.8",
-        "electron-store": "^9.0.0",
-        "framer-motion": "^11.0.0",
-        "lucide-react": "^0.470.0",
-        "node-7z": "^3.0.0",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
-    },
-    "devDependencies": {
-        "@types/node": "^20.10.0",
-        "@types/react": "^18.2.0",
-        "@types/react-dom": "^18.2.0",
-        "@vitejs/plugin-react": "^4.2.0",
-        "electron": "^40.1.0",
-        "electron-builder": "^24.12.0",
-        "electron-vite": "^2.1.0",
-        "typescript": "^5.3.3",
-        "vite": "^5.0.10"
-    },
-    "packageManager": "pnpm@9.12.0"
+  "name": "updater",
+  "productName": "UpdAter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "UpdAter - інструмент для автоматичного оновлення українізаторів.",
+  "author": "UpdAter",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "dev:web": "vite",
+    "build:web": "vite build",
+    "prepare:7z": "node scripts/prepare-7z.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@fontsource/russo-one": "^5.0.8",
+    "@fontsource/ubuntu": "^5.0.8",
+    "@tauri-apps/api": "^2.0.0",
+    "@tauri-apps/plugin-dialog": "^2.0.0",
+    "@tauri-apps/plugin-process": "^2.0.0",
+    "@tauri-apps/plugin-updater": "^2.0.0",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.470.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "7zip-bin-full": "^25.1.2",
+    "@tauri-apps/cli": "^2.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  },
+  "packageManager": "pnpm@9.12.0"
 }
