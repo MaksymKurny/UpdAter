@@ -308,7 +308,7 @@ async fn download_file(
     }
 
     let file_name = sanitize_file_name(&file_name_from_response(&response, &resolved.url));
-    let file_path = dest_dir.join(format!("{}-{}", now_millis(), file_name));
+    let file_path = dest_dir.join(&file_name);
 
     let total = response.content_length().filter(|len| *len > 0);
     let mut received: u64 = 0;
@@ -399,6 +399,48 @@ fn extract_archive_blocking(seven_zip: PathBuf, archive: PathBuf, dest: PathBuf)
 }
 
 // ---------------------------------------------------------------------------
+// Перенесення з тимчасової теки
+// ---------------------------------------------------------------------------
+
+/// Переносить вміст `src` у `dest`, замінюючи наявні файли; теки зливаються.
+fn merge_move(src: &Path, dest: &Path) -> Result<(), String> {
+    std::fs::create_dir_all(dest).map_err(|e| format!("Не вдалося створити теку {}: {e}", dest.display()))?;
+    let entries = std::fs::read_dir(src).map_err(|e| format!("Не вдалося прочитати {}: {e}", src.display()))?;
+    for entry in entries {
+        let entry = entry.map_err(|e| e.to_string())?;
+        let from = entry.path();
+        let to = dest.join(entry.file_name());
+        let is_dir = entry.file_type().map_err(|e| e.to_string())?.is_dir();
+
+        if is_dir {
+            if to.exists() && !to.is_dir() {
+                std::fs::remove_file(&to).map_err(|e| format!("Не вдалося замінити {}: {e}", to.display()))?;
+            }
+            merge_move(&from, &to)?;
+        } else {
+            if to.is_dir() {
+                std::fs::remove_dir_all(&to).map_err(|e| format!("Не вдалося замінити {}: {e}", to.display()))?;
+            }
+            if std::fs::rename(&from, &to).is_err() {
+                // Резерв: інший диск або зайнятий файл - пробуємо копіювання.
+                std::fs::copy(&from, &to)
+                    .map_err(|e| format!("Не вдалося перенести {} (можливо, файл зайнятий): {e}", to.display()))?;
+            }
+        }
+    }
+    Ok(())
+}
+
+/// Видаляє тимчасову теку при виході зі сценарію - і після успіху, і після помилки.
+struct TempDirGuard(PathBuf);
+
+impl Drop for TempDirGuard {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Основний сценарій
 // ---------------------------------------------------------------------------
 
@@ -408,14 +450,17 @@ pub async fn download_and_install(app: AppHandle, store: &Store, id: &str) -> Re
         return Err("Не вказано шлях встановлення.".into());
     }
 
-    let download_dir = store.dir().join("downloads").join(id);
-    tokio::fs::create_dir_all(&download_dir)
+    let target_dir = PathBuf::from(&item.path);
+    // Тимчасова тека - всередині цільової, щоб перенесення було швидким і на тому ж диску.
+    let temp_dir = target_dir.join(format!(".updater-tmp-{}", now_millis()));
+    tokio::fs::create_dir_all(&temp_dir)
         .await
-        .map_err(|e| format!("Не вдалося створити теку завантажень: {e}"))?;
+        .map_err(|e| format!("Не вдалося створити тимчасову теку {}: {e}", temp_dir.display()))?;
+    let _guard = TempDirGuard(temp_dir.clone());
 
     let progress_app = app.clone();
     let progress_id = id.to_string();
-    let downloaded = download_file(&item.url, &download_dir, move |received, total| {
+    let downloaded = download_file(&item.url, &temp_dir, move |received, total| {
         let percent = total.map(|t| ((received as f64 / t as f64) * 100.0).round().min(100.0) as u8);
         let _ = progress_app.emit(
             "download-progress",
@@ -424,29 +469,39 @@ pub async fn download_and_install(app: AppHandle, store: &Store, id: &str) -> Re
     })
     .await?;
 
-    let file_path_str = downloaded.file_path.to_string_lossy().to_string();
-    let exe = is_exe(&file_path_str);
+    let exe = is_exe(&downloaded.file_name);
     let mut extracted = false;
     let mut copied = false;
+    let mut final_path = target_dir.join(&downloaded.file_name);
 
-    if is_archive(&file_path_str) {
+    if is_archive(&downloaded.file_name) {
         let seven_zip = find_seven_zip(&app)?;
         let archive = downloaded.file_path.clone();
-        let dest = PathBuf::from(&item.path);
-        tokio::task::spawn_blocking(move || extract_archive_blocking(seven_zip, archive, dest))
-            .await
-            .map_err(|e| e.to_string())??;
+        let unpack_dir = temp_dir.join("content");
+        let target = target_dir.clone();
+        tokio::task::spawn_blocking(move || {
+            extract_archive_blocking(seven_zip, archive, unpack_dir.clone())?;
+            merge_move(&unpack_dir, &target)
+        })
+        .await
+        .map_err(|e| e.to_string())??;
         extracted = true;
-    } else if !exe {
-        let dest_dir = PathBuf::from(&item.path);
-        tokio::fs::create_dir_all(&dest_dir)
-            .await
-            .map_err(|e| format!("Не вдалося створити теку {}: {e}", dest_dir.display()))?;
-        tokio::fs::copy(&downloaded.file_path, dest_dir.join(&downloaded.file_name))
-            .await
-            .map_err(|e| format!("Не вдалося скопіювати файл: {e}"))?;
-        copied = true;
+        final_path = target_dir.clone();
+    } else {
+        let from = downloaded.file_path.clone();
+        let target = target_dir.clone();
+        let name = downloaded.file_name.clone();
+        let staging = temp_dir.join("content");
+        tokio::task::spawn_blocking(move || {
+            std::fs::create_dir_all(&staging).map_err(|e| e.to_string())?;
+            std::fs::rename(&from, staging.join(&name)).map_err(|e| e.to_string())?;
+            merge_move(&staging, &target)
+        })
+        .await
+        .map_err(|e| e.to_string())??;
+        copied = !exe;
     }
+    let file_path_str = final_path.to_string_lossy().to_string();
 
     let mut patch = serde_json::Map::new();
     patch.insert(
@@ -512,6 +567,26 @@ mod tests {
         assert!(!is_archive("patch.exe"));
         assert!(is_exe("Setup.EXE"));
         assert_eq!(sanitize_file_name("a:b/c?.zip"), "a_b_c_.zip");
+    }
+
+    #[test]
+    fn merge_move_replaces_files_and_merges_dirs() {
+        let root = std::env::temp_dir().join(format!("updater-merge-{}", now_millis()));
+        let src = root.join("src");
+        let dest = root.join("dest");
+        std::fs::create_dir_all(src.join("sub")).unwrap();
+        std::fs::create_dir_all(dest.join("sub")).unwrap();
+        std::fs::write(src.join("a.txt"), "new").unwrap();
+        std::fs::write(src.join("sub").join("b.txt"), "new-b").unwrap();
+        std::fs::write(dest.join("a.txt"), "old").unwrap();
+        std::fs::write(dest.join("sub").join("keep.txt"), "keep").unwrap();
+
+        merge_move(&src, &dest).expect("merge");
+
+        assert_eq!(std::fs::read_to_string(dest.join("a.txt")).unwrap(), "new");
+        assert_eq!(std::fs::read_to_string(dest.join("sub").join("b.txt")).unwrap(), "new-b");
+        assert_eq!(std::fs::read_to_string(dest.join("sub").join("keep.txt")).unwrap(), "keep");
+        let _ = std::fs::remove_dir_all(&root);
     }
 
     #[tokio::test]

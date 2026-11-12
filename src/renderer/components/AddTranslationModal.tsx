@@ -1,5 +1,5 @@
 ﻿import { AnimatePresence, motion } from 'framer-motion';
-import { FolderOpen, Star, X } from 'lucide-react';
+import { FolderOpen, Image as ImageIcon, Star, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { TranslationInput } from '../../shared/types';
 
@@ -41,6 +41,11 @@ export default function AddTranslationModal({ open, mode, initial, onClose, onSu
   const handleChooseFolder = async () => {
     const path = await window.updater.selectFolder();
     if (path) update({ Path: path });
+  };
+
+  const handleChooseImage = async (field: 'Banner' | 'Icon') => {
+    const path = await window.updater.selectImage();
+    if (path) update({ [field]: path });
   };
 
   const handleSubmit = () => {
@@ -118,19 +123,41 @@ export default function AddTranslationModal({ open, mode, initial, onClose, onSu
               </label>
               <label>
                 Банер (необов'язково)
-                <input
-                  value={form.Banner}
-                  onChange={(event) => update({ Banner: event.target.value })}
-                  placeholder="https://.../banner.jpg"
-                />
+                <div className="inline-input">
+                  <input
+                    value={form.Banner}
+                    onChange={(event) => update({ Banner: event.target.value })}
+                    placeholder="https://.../banner.jpg"
+                  />
+                  <button
+                    className="btn ghost"
+                    onClick={() => handleChooseImage('Banner')}
+                    type="button"
+                    title="Обрати файл зображення"
+                  >
+                    <ImageIcon size={16} />
+                    Обрати
+                  </button>
+                </div>
               </label>
               <label>
                 Іконка (необов'язково)
-                <input
-                  value={form.Icon}
-                  onChange={(event) => update({ Icon: event.target.value })}
-                  placeholder="https://.../icon.jpg"
-                />
+                <div className="inline-input">
+                  <input
+                    value={form.Icon}
+                    onChange={(event) => update({ Icon: event.target.value })}
+                    placeholder="https://.../icon.jpg"
+                  />
+                  <button
+                    className="btn ghost"
+                    onClick={() => handleChooseImage('Icon')}
+                    type="button"
+                    title="Обрати файл зображення"
+                  >
+                    <ImageIcon size={16} />
+                    Обрати
+                  </button>
+                </div>
               </label>
               <label>
                 Посилання на гайд (необов'язково)

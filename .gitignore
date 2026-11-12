@@ -6,6 +6,6 @@ release
 *.log
 *.tsbuildinfo
 .DS_Store
-src-tauri/target
-src-tauri/gen/schemas
+test-data/run
+src-tauri/targetsrc-tauri/gen/schemas
 src-tauri/resources/7z

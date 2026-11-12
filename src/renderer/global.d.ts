@@ -9,6 +9,7 @@ declare global {
       removeTranslation: (id: string) => Promise<boolean>;
       toggleFavorite: (id: string) => Promise<TranslationEntry | null>;
       selectFolder: () => Promise<string | null>;
+      selectImage: () => Promise<string | null>;
       downloadAndInstall: (id: string) => Promise<DownloadResult>;
       runExe: (filePath: string) => Promise<boolean>;
       openStoreFolder: () => Promise<void>;

@@ -37,6 +37,13 @@ export const updater: Window["updater"] = {
     const selected = await open({ directory: true, multiple: false });
     return typeof selected === "string" ? selected : null;
   },
+  selectImage: async () => {
+    const selected = await open({
+      multiple: false,
+      filters: [{ name: "Зображення", extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp", "ico"] }],
+    });
+    return typeof selected === "string" ? selected : null;
+  },
   downloadAndInstall: (id) => call<DownloadResult>("download_and_install", { id }),
   runExe: (filePath) => call<boolean>("run_exe", { filePath }),
   openStoreFolder: () => call<void>("open_store_folder"),

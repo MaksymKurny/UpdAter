@@ -103,6 +103,44 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
+.btn.danger {
+  background: linear-gradient(120deg, #f25c5c, #d93f3f);
+  color: #fff;
+}
+
+.confirm-modal {
+  width: min(420px, 100%);
+  text-align: center;
+}
+
+.confirm-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: rgba(248, 88, 88, 0.18);
+  color: #ff9d9d;
+}
+
+.confirm-modal h2 {
+  margin: 0;
+}
+
+.confirm-message {
+  margin: 8px 0 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.confirm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
 .btn.subtle {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -155,13 +193,13 @@ body {
 }
 
 .list {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 18px;
   flex: 1;
   overflow-y: auto;
   padding-right: 6px;
   min-height: 0;
-  align-items: start;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
   scrollbar-color: rgba(245, 176, 37, 0.7) rgba(255, 255, 255, 0.08);
@@ -191,10 +229,10 @@ body {
 
 .card {
   position: relative;
+  flex-shrink: 0;
   border-radius: 18px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  min-height: 170px;
   box-shadow: var(--shadow);
   background: var(--panel-2);
 }
@@ -264,8 +302,13 @@ body {
   background: rgba(0, 0, 0, 0.2);
 }
 
+.card-header > div:first-child {
+  min-width: 0;
+}
+
 .card-header h3 {
   margin: 0 0 6px;
+  overflow-wrap: anywhere;
   font-size: 22px;
   font-family: "Russo One", sans-serif;
 }

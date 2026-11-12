@@ -7,6 +7,7 @@
   "author": "UpdAter",
   "scripts": {
     "dev": "tauri dev",
+    "dev:sample": "node scripts/dev-sample.mjs",
     "build": "tauri build",
     "dev:web": "vite",
     "build:web": "vite build",

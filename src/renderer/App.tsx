@@ -3,7 +3,7 @@ import AddTranslationModal from "./components/AddTranslationModal";
 import ErrorBanner from "./components/feedback/ErrorBanner";
 import UpdateBanner from "./components/feedback/UpdateBanner";
 import { useAppUpdater } from "./hooks/useAppUpdater";
-import { ask } from "@tauri-apps/plugin-dialog";
+import ConfirmModal from "./components/ConfirmModal";
 import SearchRow from "./components/layout/SearchRow";
 import TopBar from "./components/layout/TopBar";
 import TranslationList from "./components/list/TranslationList";
@@ -20,6 +20,7 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<TranslationEntry | null>(null);
+  const [removing, setRemoving] = useState<TranslationEntry | null>(null);
   const [progressById, setProgressById] = useState<
     Record<string, DownloadProgress>
   >({});
@@ -83,15 +84,11 @@ export default function App() {
     await loadTranslations();
   };
 
-  const handleRemove = async (id: string) => {
-    const confirmed = await ask("Видалити переклад зі списку?", {
-      title: "UpdAter",
-      kind: "warning",
-      okLabel: "Видалити",
-      cancelLabel: "Скасувати",
-    });
-    if (!confirmed) return;
-    await window.updater.removeTranslation(id);
+  const confirmRemove = async () => {
+    if (!removing) return;
+    const { Id } = removing;
+    setRemoving(null);
+    await window.updater.removeTranslation(Id);
     await loadTranslations();
   };
 
@@ -167,11 +164,25 @@ export default function App() {
         busyIds={busyIds}
         onFavorite={handleFavorite}
         onEdit={handleEdit}
-        onRemove={handleRemove}
+        onRemove={(id) =>
+          setRemoving(translations.find((t) => t.Id === id) ?? null)
+        }
         onUpdate={handleUpdate}
         onRunExe={handleRunExe}
         onOpenPath={(path) => window.updater.openPath(path)}
         onOpenGuide={handleOpenGuide}
+      />
+
+      <ConfirmModal
+        open={removing !== null}
+        title="Видалити переклад?"
+        message={
+          removing
+            ? `«${removing.Title}» буде прибрано зі списку. Файли гри не змінюються.`
+            : ""
+        }
+        onConfirm={confirmRemove}
+        onCancel={() => setRemoving(null)}
       />
 
       <AddTranslationModal

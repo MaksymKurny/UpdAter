@@ -1,0 +1,90 @@
+{
+  "List": [
+    {
+      "Id": "00000000-0000-4000-8000-000000000001",
+      "Title": "Мінімальний запис (лише обов'язкові поля)",
+      "Url": "https://example.com/files/minimal.zip",
+      "Path": "{{DATA}}/games/minimal"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000002",
+      "Title": "Повний запис: закріплений, з гайдом і метаданими",
+      "Url": "https://example.com/files/full-ua.7z",
+      "GuideUrl": "https://example.com/guide",
+      "Path": "{{DATA}}/games/full",
+      "LastUpdate": "2026-11-01T12:30:00.000Z",
+      "AddToList": true,
+      "PinnedState": true,
+      "MetaInfo": "Версія 1.2, Steam, ключові слова: rpg, відкритий світ"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000003",
+      "Title": "Google Drive: посилання виду /file/d/ID/view",
+      "Url": "https://drive.google.com/file/d/1AbCdEfGhIjKlMnOpQrStUvWxYz/view?usp=sharing",
+      "GuideUrl": "",
+      "Path": "{{DATA}}/games/drive-view",
+      "PinnedState": false,
+      "MetaInfo": "Перевірка розбору Drive-посилання та сторінки підтвердження"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000004",
+      "Title": "Google Drive: посилання виду uc?export=download",
+      "Url": "https://drive.google.com/uc?export=download&id=1AbCdEfGhIjKlMnOpQrStUvWxYz",
+      "Path": "{{DATA}}/games/drive-uc"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000005",
+      "Title": "Інсталятор .exe (лишається в папці, кнопка запуску)",
+      "Url": "https://example.com/files/installer_ua.exe",
+      "Path": "{{DATA}}/games/exe-installer",
+      "MetaInfo": "Після завантаження має з'явитися кнопка запуску"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000006",
+      "Title": "Звичайний файл (не архів, не exe)",
+      "Url": "https://example.com/files/localization.pak",
+      "Path": "{{DATA}}/games/plain-file"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000007",
+      "Title": "Порожній шлях встановлення (має бути помилка)",
+      "Url": "https://example.com/files/nopath.zip",
+      "Path": ""
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000008",
+      "Title": "Битий URL (помилка завантаження)",
+      "Url": "https://localhost:1/does-not-exist.zip",
+      "Path": "{{DATA}}/games/broken-url"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-000000000009",
+      "Title": "Дуже довга назва для перевірки обрізання тексту в картці: The Chronicles of Extraordinarily Long Game Titles — Ukrainian Localization Definitive Edition",
+      "Url": "https://example.com/files/long.zip",
+      "Path": "{{DATA}}/games/very/deep/nested/folder/structure/for/long/paths/check",
+      "MetaInfo": "Довгий опис. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+    },
+    {
+      "Id": "00000000-0000-4000-8000-00000000000a",
+      "Title": "Іконка та банер вказують на неіснуючі файли",
+      "Url": "https://example.com/files/missing-media.zip",
+      "Path": "{{DATA}}/games/missing-media",
+      "Icon": "{{DATA}}/no-such-icon.png",
+      "Banner": "{{DATA}}/no-such-banner.jpg"
+    },
+    {
+      "Id": "00000000-0000-4000-8000-00000000000b",
+      "Title": "Ніколи не оновлювався, закріплений",
+      "Url": "https://example.com/files/pinned.zip",
+      "Path": "{{DATA}}/games/pinned",
+      "PinnedState": true
+    },
+    {
+      "Id": "00000000-0000-4000-8000-00000000000c",
+      "Title": "Спецсимволи: ёъ ґєії <b>&amp;</b> \"лапки\"",
+      "Url": "https://example.com/files/special%20chars.zip",
+      "Path": "{{DATA}}/games/special chars & unicode ґєії",
+      "MetaInfo": "Перевірка екранування та пробілів у шляху"
+    }
+  ]
+}

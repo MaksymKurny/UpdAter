@@ -21,13 +21,30 @@ fn updater_pubkey_configured(app: &tauri::App) -> bool {
         .unwrap_or(false)
 }
 
+/// Тека для `settings.json`. Застосунок портативний, тому дані лежать поруч з exe.
+/// Порядок: змінна `UPDATER_DATA_DIR` (для тестів) -> тека exe -> `AppData`, якщо в теку exe
+/// писати не можна (наприклад, `Program Files`).
+fn resolve_data_dir(app: &tauri::App) -> Result<std::path::PathBuf, Box<dyn std::error::Error>> {
+    if let Some(custom) = std::env::var_os("UPDATER_DATA_DIR").filter(|v| !v.is_empty()) {
+        return Ok(custom.into());
+    }
+    if let Some(exe_dir) = std::env::current_exe().ok().and_then(|exe| exe.parent().map(|p| p.to_path_buf())) {
+        let probe = exe_dir.join(".updater-write-test");
+        if std::fs::write(&probe, b"").is_ok() {
+            let _ = std::fs::remove_file(&probe);
+            return Ok(exe_dir);
+        }
+    }
+    Ok(app.path().app_data_dir()?)
+}
+
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_process::init())
         .setup(|app| {
-            let data_dir = app.path().app_data_dir()?;
+            let data_dir = resolve_data_dir(app)?;
             app.manage(store::Store::load(&data_dir));
 
             if updater_pubkey_configured(app) {
